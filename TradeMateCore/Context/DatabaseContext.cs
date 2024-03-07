@@ -6,7 +6,7 @@ namespace TradeMateCore.Context;
 
 public class DatabaseContext : DbContext
 {
-    public DatabaseContext() : base("DatabaseContext")
+    public DatabaseContext() : base("Server=tcp:504234.database.windows.net,1433; Initial Catalog=TradeMate; Persist Security Info=False; User ID=CloudSA75d3553e; Password=Database123; MultipleActiveResultSets=False; Encrypt=True; TrustServerCertificate=False; Connection Timeout=30;")
     {
         
     }

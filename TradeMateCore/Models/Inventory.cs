@@ -3,8 +3,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TradeMateCore.Models;
 
-public class Inventory(string name)
+public class Inventory
 {
+    public Inventory()
+    {
+    }
+
+    public Inventory(string name)
+    {
+        Name = name;
+    }
+
     #region Attributes
 
     [Key]
@@ -12,7 +21,7 @@ public class Inventory(string name)
     public int Id { get; init; }
 
     [StringLength(255)] 
-    public string Name { get; private set; } = name;
+    public string Name { get; private set; }
 
     protected virtual List<StockItem> StockItems { get; } = [];
 
