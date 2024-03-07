@@ -10,22 +10,17 @@ public class HomeController : Controller
 
     public HomeController(ILogger<HomeController> logger)
     {
-            _logger = logger;
-        }
+        _logger = logger;
+    }
 
     public IActionResult Index()
     {
-            return View();
-        }
-
-    public IActionResult Privacy()
-    {
-            return View();
-        }
+        return View();
+    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
 }
