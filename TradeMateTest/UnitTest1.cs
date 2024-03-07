@@ -1,5 +1,3 @@
-using TradeMateCore.Models;
-
 namespace TradeMateTest;
 
 public class Tests
@@ -12,6 +10,6 @@ public class Tests
     [Test]
     public void Test1()
     {
-        
+
     }
 }
