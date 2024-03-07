@@ -1,10 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TradeMateCore.Models;
 
-public class Category(string name)
+public class Category
 {
-    public int Id { get; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
 
-    public string Name { get; set; } = name;
+    [StringLength(255)]
+    public string Name { get; set; }
 }

@@ -1,12 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TradeMateCore.Models;
 
-public class StockItem(string name, IEnumerable<Category>? categories)
+public class StockItem(int id, string name, IEnumerable<Category>? categories)
 {
-    public int Id { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    public int Id { get; set; } = id;
 
+    [StringLength(255)]
     public string Name { get; set; } = name;
 
-    public IEnumerable<Category> Categories { get; } = categories ?? [];
+    public virtual IEnumerable<Category> Categories { get; } = categories ?? [];
 }

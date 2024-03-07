@@ -1,20 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using TradeMateApp.Models;
+using TradeMateCore.Models;
 
 namespace TradeMateApp.Controllers;
 
-public class HomeController : Controller
+public class HomeController(ILogger<HomeController> logger) : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
+    public ILogger<HomeController> Logger { get; } = logger;
 
     public IActionResult Index()
     {
+        _ = Inventory.GetAllInventories();
         return View();
     }
 

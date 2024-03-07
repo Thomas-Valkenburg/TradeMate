@@ -1,17 +1,23 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using TradeMateCore.Context;
 
 namespace TradeMateCore;
 
 internal static class Database
 {
-    private static SqlConnection? _connection = null;
+    private static DatabaseContext? Context { get; set; }
 
-    internal static SqlConnection GetConnection()
+    internal static DatabaseContext GetContext()
     {
-        if (_connection != null) return _connection;
+        Context ??= new DatabaseContext();
 
-        _connection = new SqlConnection("Server=tcp:504234.database.windows.net,1433;Initial Catalog=TradeMate;Persist Security Info=False;User ID=CloudSA75d3553e;Password=Database123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+        Context.Database.CreateIfNotExists();
+        
+        return Context;
+    }
 
-        return _connection;
+    internal static async Task SaveContext(DatabaseContext dbSet)
+    {
+        Context = dbSet;
+        await Context.SaveChangesAsync();
     }
 }
