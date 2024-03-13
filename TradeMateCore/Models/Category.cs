@@ -3,12 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TradeMateCore.Models;
 
+[Table(nameof(Category))]
 public class Category
 {
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
+    public required int Id { get; set; }
 
     [StringLength(255)]
-    public string Name { get; set; }
+    public required string Name { get; set; }
+
+    public virtual List<StockItem> StockItems { get; set; } = [];
 }
