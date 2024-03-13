@@ -11,15 +11,12 @@ public class Tests
     public void Setup()
     {
         Context = new DatabaseContext();
-        //Context.Database.Delete();
-        if (Context.Database.CreateIfNotExists()) Context.SaveChanges();
     }
 
     [Test]
     public void TestAddInventory()
     {
-        var inventory = new Inventory("database1");
-        inventory.AddStockItem(new StockItem(1000, "Appel", []));
+        var inventory = new Inventory("database1", new Customer {Name = "a", Email = "test@gmail.com"});
 
         Context.Inventories.Add(inventory);
         
