@@ -6,11 +6,22 @@ namespace TradeMateCore.Models;
 [Table(nameof(Category))]
 public class Category
 {
+    public Category() { }
+
+    public Category(Inventory inventory)
+    {
+        Inventory = inventory;
+    }
+    
     [Key]
-    public required int Id { get; set; }
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; init; }
 
-    [StringLength(255)]
-    public required string Name { get; set; }
+    [StringLength(30)] 
+    public string Name { get; set; }
 
-    public virtual List<StockItem> StockItems { get; set; } = [];
+    [ForeignKey("InventoryId")]
+    public virtual Inventory Inventory { get; init; }
+
+    public virtual List<StockItem> StockItems { get; } = [];
 }

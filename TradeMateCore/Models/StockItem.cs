@@ -8,29 +8,31 @@ public class StockItem
 {
     public StockItem() { }
     
-    public StockItem(int id, string name)
+    public StockItem(string name, Inventory inventory)
     {
-        Id         = id;
-        Name       = name;
+        Name      = name;
+        Inventory = inventory;
     }
 
-    public StockItem(int id, string name, List<Category> categories)
+    public StockItem(string name, Inventory inventory, List<Category> categories)
     {
-        Id   = id;
-        Name = name;
+        Name      = name;
+        Inventory = inventory;
         
         categories.ForEach(Categories.Add);
     }
 
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.None)]
-    public int Id { get; set; }
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; init; }
+
+    public int Barcode { get; set; }
 
     [StringLength(255)]
     public string Name { get; set; }
 
     [ForeignKey("InventoryId")]
-    public virtual Inventory Inventory { get; set; }
+    public virtual Inventory Inventory { get; init; }
 
     public virtual List<Category> Categories { get; init; } = [];
 }

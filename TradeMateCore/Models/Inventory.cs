@@ -6,9 +6,7 @@ namespace TradeMateCore.Models;
 [Table(nameof(Inventory))]
 public class Inventory
 {
-    public Inventory()
-    {
-    }
+    public Inventory() { }
 
     public Inventory(string name, Customer customer)
     {
@@ -26,9 +24,11 @@ public class Inventory
     public string Name { get; private set; }
 
     [ForeignKey("CustomerId")]
-    public virtual Customer Customer { get; set; }
+    public virtual Customer Customer { get; init; }
 
     public virtual List<StockItem> StockItems { get; } = [];
+
+    public virtual List<Category> Categories { get; } = [];
 
     #endregion
 
@@ -39,14 +39,6 @@ public class Inventory
     public void AddStockItem(StockItem stockItem) 
     {
         StockItems.Add(stockItem);
-    }
-
-    public List<StockItem> GetStockItems(IEnumerable<Category> categories) => categories.SelectMany(targetCategory =>
-        StockItems.FindAll(stockItem => stockItem.Categories.Any(category => category == targetCategory))).ToList();
-
-    public static List<Inventory> GetAllInventories()
-    {
-        return [.. Database.GetContext().Inventories.ToList()];
     }
 
     #endregion
