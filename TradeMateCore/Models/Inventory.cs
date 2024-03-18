@@ -3,15 +3,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TradeMateCore.Models;
 
+[Table(nameof(Inventory))]
 public class Inventory
 {
     public Inventory()
     {
     }
 
-    public Inventory(string name)
+    public Inventory(string name, Customer customer)
     {
-        Name = name;
+        Name     = name;
+        Customer = customer;
     }
 
     #region Attributes
@@ -20,10 +22,13 @@ public class Inventory
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; init; }
 
-    [StringLength(255)] 
+    [StringLength(255)]
     public string Name { get; private set; }
 
-    protected virtual List<StockItem> StockItems { get; } = [];
+    [ForeignKey("CustomerId")]
+    public virtual Customer Customer { get; set; }
+
+    public virtual List<StockItem> StockItems { get; } = [];
 
     #endregion
 

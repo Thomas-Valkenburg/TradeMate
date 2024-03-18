@@ -1,22 +1,29 @@
 ﻿using TradeMateCore.Models;
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
+using Microsoft.EntityFrameworkCore;
 
 namespace TradeMateCore.Context;
 
 public class DatabaseContext : DbContext
 {
-    public DatabaseContext() : base("Server=tcp:504234.database.windows.net,1433; Initial Catalog=TradeMate; Persist Security Info=False; User ID=CloudSA75d3553e; Password=Database123; MultipleActiveResultSets=False; Encrypt=True; TrustServerCertificate=False; Connection Timeout=30;")
+    public DatabaseContext()
     {
-        
+        Database.EnsureCreated();
     }
-    
-    public DbSet<Inventory> Inventories { get; set; }
-    public DbSet<StockItem> StockItems  { get; set; }
-    public DbSet<Category>  Categories  { get; set; }
 
-    protected override void OnModelCreating(DbModelBuilder modelBuilder)
+    public virtual DbSet<Customer>  Customers   { get; set; }
+    public virtual DbSet<Inventory> Inventories { get; set; }
+    public virtual DbSet<StockItem> StockItems  { get; set; }
+    public virtual DbSet<Category>  Categories  { get; set; }
+
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+        if (optionsBuilder.IsConfigured) return;
+
+        optionsBuilder.UseSqlServer("Server=tcp:504234.database.windows.net,1433;Initial Catalog=TradeMate;Persist Security Info=False;User ID=CloudSA75d3553e;Password=Database123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;",
+            options =>
+            {
+                options.EnableRetryOnFailure(2);
+            });
     }
 }

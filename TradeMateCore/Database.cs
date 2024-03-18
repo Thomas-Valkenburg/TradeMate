@@ -9,8 +9,6 @@ internal static class Database
     internal static DatabaseContext GetContext()
     {
         Context ??= new DatabaseContext();
-
-        Context.Database.CreateIfNotExists();
         
         return Context;
     }
