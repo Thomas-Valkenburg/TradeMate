@@ -1,7 +1,7 @@
-﻿using TradeMateCore.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using TradeMate_Business.Models;
 
-namespace TradeMateCore.Context;
+namespace TradeMate_Business.Context;
 
 public class DatabaseContext : DbContext
 {

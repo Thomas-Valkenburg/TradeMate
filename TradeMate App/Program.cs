@@ -1,4 +1,4 @@
-namespace TradeMateApp;
+namespace TradeMate_App;
 
 public class Program
 {

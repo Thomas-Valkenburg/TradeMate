@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace TradeMateCore.Models;
+namespace TradeMate_Business.Models;
 
 [Table(nameof(StockItem))]
 public class StockItem

@@ -1,4 +1,4 @@
-namespace TradeMateApp.Models;
+namespace TradeMate_App.Models;
 
 public class ErrorViewModel
 {

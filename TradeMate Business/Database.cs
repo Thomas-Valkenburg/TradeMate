@@ -1,6 +1,6 @@
-﻿using TradeMateCore.Context;
+﻿using TradeMate_Business.Context;
 
-namespace TradeMateCore;
+namespace TradeMate_Business;
 
 internal static class Database
 {

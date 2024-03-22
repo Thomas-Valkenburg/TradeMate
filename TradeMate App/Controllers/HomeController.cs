@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using TradeMateApp.Models;
-using TradeMateCore.Models;
+using Microsoft.AspNetCore.Mvc;
+using TradeMate_App.Models;
+using TradeMate_Business.Models;
 
-namespace TradeMateApp.Controllers;
+namespace TradeMate_App.Controllers;
 
 public class HomeController(ILogger<HomeController> logger) : Controller
 {

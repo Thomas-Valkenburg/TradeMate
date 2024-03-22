@@ -1,7 +1,7 @@
-using TradeMateCore.Context;
-using TradeMateCore.Models;
+using TradeMate_Business.Context;
+using TradeMate_Business.Models;
 
-namespace TradeMateTest;
+namespace TradeMate_Test;
 
 public class Tests
 {
