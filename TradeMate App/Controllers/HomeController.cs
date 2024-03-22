@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using TradeMate_App.Models;
-using TradeMate_Business.Models;
+using TradeMate_Business;
 
 namespace TradeMate_App.Controllers;
 
@@ -11,7 +11,6 @@ public class HomeController(ILogger<HomeController> logger) : Controller
 
     public IActionResult Index()
     {
-        _ = Inventory.GetAllInventories();
         return View();
     }
 
