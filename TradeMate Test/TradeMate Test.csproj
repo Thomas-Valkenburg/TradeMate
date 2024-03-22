@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TradeMateCore\TradeMateCore.csproj" />
+    <ProjectReference Include="..\TradeMateCore\TradeMate Business.csproj" />
   </ItemGroup>
 
   <ItemGroup>
