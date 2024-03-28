@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="BLL.Models.Category">
+    <Position X="4.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Category.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Models.Customer">
+    <Position X="1.5" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Customer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Models.Inventory">
+    <Position X="1.5" Y="4.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAI=</HashCode>
+      <FileName>Models\Inventory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BLL.Models.StockItem">
+    <Position X="5.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\StockItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Domain.Models.Category">
+    <Position X="4.5" Y="6.25" Width="1.75" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="Inventory" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Domain.Models.Customer">
+    <Position X="1.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Domain.Models.Inventory">
+    <Position X="2" Y="1.25" Width="1.75" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="Customer" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Domain.Models.StockItem">
+    <Position X="5.5" Y="1.25" Width="1.75" />
+    <TypeIdentifier />
+    <ShowAsAssociation>
+      <Property Name="Inventory" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
