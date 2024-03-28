@@ -11,12 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-<<<<<<<< HEAD:Web/Web.csproj
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\BLL\BLL.csproj" />
-========
-    <ProjectReference Include="..\TradeMate Business\TradeMate Business.csproj" />
->>>>>>>> 18a6114e3b9a14f2fd25ae9bde0ca0f20161e8ef:TradeMate App/TradeMate App.csproj
   </ItemGroup>
 
 </Project>

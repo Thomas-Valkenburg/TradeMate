@@ -3,7 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-<<<<<<< HEAD
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL", "BLL\BLL.csproj", "{96A6B959-8569-4873-BE86-EF4B16D47917}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test", "Test\Test.csproj", "{C80DFC11-8633-4AC8-B14D-D8D99A99BCCD}"
@@ -19,15 +18,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL Factory", "DAL Factory\DAL Factory.csproj", "{50B22FF1-A1AD-49B4-A333-84A191A30A03}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL EF Core", "DAL EF Core\DAL EF Core.csproj", "{0BA51F6D-0D79-449A-B4D2-FAE4C1E5760B}"
-=======
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradeMate Business", "TradeMate Business\TradeMate Business.csproj", "{96A6B959-8569-4873-BE86-EF4B16D47917}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradeMate Test", "TradeMate Test\TradeMate Test.csproj", "{C80DFC11-8633-4AC8-B14D-D8D99A99BCCD}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradeMate App", "TradeMate App\TradeMate App.csproj", "{432A4823-42DB-43F7-84DA-4233AAE7D85C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TradeMate Data", "TradeMate Data\TradeMate Data.csproj", "{C6790074-87E0-4952-8E1B-1BE5AA0D1926}"
->>>>>>> 18a6114e3b9a14f2fd25ae9bde0ca0f20161e8ef
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,7 +37,6 @@ Global
 		{432A4823-42DB-43F7-84DA-4233AAE7D85C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{432A4823-42DB-43F7-84DA-4233AAE7D85C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{432A4823-42DB-43F7-84DA-4233AAE7D85C}.Release|Any CPU.Build.0 = Release|Any CPU
-<<<<<<< HEAD
 		{33C274EA-CB34-41E6-A686-45AF2B1F5C1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{33C274EA-CB34-41E6-A686-45AF2B1F5C1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33C274EA-CB34-41E6-A686-45AF2B1F5C1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -68,12 +57,6 @@ Global
 		{0BA51F6D-0D79-449A-B4D2-FAE4C1E5760B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BA51F6D-0D79-449A-B4D2-FAE4C1E5760B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BA51F6D-0D79-449A-B4D2-FAE4C1E5760B}.Release|Any CPU.Build.0 = Release|Any CPU
-=======
-		{C6790074-87E0-4952-8E1B-1BE5AA0D1926}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C6790074-87E0-4952-8E1B-1BE5AA0D1926}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C6790074-87E0-4952-8E1B-1BE5AA0D1926}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C6790074-87E0-4952-8E1B-1BE5AA0D1926}.Release|Any CPU.Build.0 = Release|Any CPU
->>>>>>> 18a6114e3b9a14f2fd25ae9bde0ca0f20161e8ef
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
