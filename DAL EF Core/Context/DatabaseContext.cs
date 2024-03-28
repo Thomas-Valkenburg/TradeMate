@@ -1,14 +1,7 @@
-<<<<<<<< HEAD:DAL EF Core/Context/DatabaseContext.cs
 ﻿using Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL_EF_Core.Context;
-========
-﻿using Microsoft.EntityFrameworkCore;
-using TradeMate_Business.Models;
-
-namespace TradeMate_Business.Context;
->>>>>>>> 18a6114e3b9a14f2fd25ae9bde0ca0f20161e8ef:TradeMate Business/Context/DatabaseContext.cs
 
 public class DatabaseContext : DbContext
 {

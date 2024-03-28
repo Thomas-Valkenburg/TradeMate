@@ -1,14 +1,7 @@
-<<<<<<<< HEAD:Test/UnitTest1.cs
 using DAL_EF_Core.Context;
 using Domain.Models;
 
 namespace Test;
-========
-using TradeMate_Business.Context;
-using TradeMate_Business.Models;
-
-namespace TradeMate_Test;
->>>>>>>> 18a6114e3b9a14f2fd25ae9bde0ca0f20161e8ef:TradeMate Test/UnitTest1.cs
 
 public class Tests
 {

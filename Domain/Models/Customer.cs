@@ -1,11 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-<<<<<<<< HEAD:Domain/Models/Customer.cs
 namespace Domain.Models;
-========
-namespace TradeMate_Business.Models;
->>>>>>>> 18a6114e3b9a14f2fd25ae9bde0ca0f20161e8ef:TradeMate Business/Models/Customer.cs
 
 [Table(nameof(Customer))]
 public class Customer

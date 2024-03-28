@@ -1,10 +1,6 @@
-<<<<<<<< HEAD:Web/Program.cs
 namespace Web;
-========
-namespace TradeMate_App;
->>>>>>>> 18a6114e3b9a14f2fd25ae9bde0ca0f20161e8ef:TradeMate App/Program.cs
 
-public class Program
+public static class Program
 {
     public static void Main(string[] args)
     {

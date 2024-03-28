@@ -7,41 +7,14 @@
       <FileName>Models\Inventory.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Domain.Models.Category">
-    <Position X="3.5" Y="5.5" Width="1.75" />
-    <TypeIdentifier>
-      <HashCode>AAACAAAAAAAAAAgAAAAAAAQAAAAAAAAAAAAAAgAAAAA=</HashCode>
-      <FileName>Models\Category.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Inventory" />
-    </ShowAsAssociation>
-    <ShowAsCollectionAssociation>
-      <Property Name="StockItems" />
-    </ShowAsCollectionAssociation>
-  </Class>
-  <Class Name="Domain.Models.Customer">
-    <Position X="0.5" Y="5.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAACAAAAACAAAAAAAAAAAAQAAAAAAAAAAAAAAgAAAAA=</HashCode>
-      <FileName>Models\Customer.cs</FileName>
-    </TypeIdentifier>
-    <ShowAsCollectionAssociation>
-      <Property Name="Inventory" />
-    </ShowAsCollectionAssociation>
-  </Class>
   <Class Name="Domain.Models.Inventory">
     <Position X="0.5" Y="0.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAECAAAAAAAAAAgAAAAAAAQAAAAAEAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Inventory.cs</FileName>
     </TypeIdentifier>
-    <ShowAsAssociation>
-      <Property Name="Customer" />
-    </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="StockItems" />
-      <Property Name="Categories" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Domain.Models.StockItem">
@@ -53,9 +26,6 @@
     <ShowAsAssociation>
       <Property Name="Inventory" />
     </ShowAsAssociation>
-    <ShowAsCollectionAssociation>
-      <Property Name="Categories" />
-    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="BLL.Models.Category">
     <Position X="3.5" Y="8.25" Width="1.5" />
@@ -77,6 +47,29 @@
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\StockItem.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="Domain.Models.Customer">
+    <Position X="0.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAACAAAAAAAAAAAAQAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Models\Customer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Inventory" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="Domain.Models.Category">
+    <Position X="3.5" Y="5.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAgAAAAAAAQAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Models\Category.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Inventory" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="StockItems" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
