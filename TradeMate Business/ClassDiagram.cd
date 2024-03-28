@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TradeMateCore.Models.Category">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAgAAAAAAAQAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Models\Category.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Inventory" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="StockItems" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="TradeMateCore.Models.Customer">
+    <Position X="7.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAACAAAAAAAAAAAAQAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Models\Customer.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Inventory" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="TradeMateCore.Models.Inventory">
+    <Position X="3.75" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAECAAAAAAAAAAgAAAAAAAQAAAAAEAAAAAAAAEAAAAI=</HashCode>
+      <FileName>Models\Inventory.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Customer" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Categories" />
+      <Property Name="StockItems" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="TradeMateCore.Models.StockItem">
+    <Position X="0.5" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAEAAAAAAAAAAAQAAAAAEAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Models\StockItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Inventory" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Categories" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
