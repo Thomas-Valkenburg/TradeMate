@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DAL EF Core\DAL EF Core.csproj" />
-    <ProjectReference Include="..\DAL\DAL.csproj" />
+    <ProjectReference Include="..\DAL Sqlite\DAL Sqlite.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
   </ItemGroup>

@@ -4,5 +4,5 @@ namespace Interfaces;
 
 public interface IInventory
 {
-    List<Inventory> GetAllInventories();
+    List<Inventory> GetAllInventories(int customerId);
 }
