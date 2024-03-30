@@ -12,7 +12,7 @@ public static class DatabaseConnection
     {
         var configuration = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appSettings.json", optional: false, reloadOnChange: true)
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .Build();
 
         return new SqliteConnection(configuration.GetConnectionString("Sqlite1Connection")?.Replace("~", AppContext.BaseDirectory));
