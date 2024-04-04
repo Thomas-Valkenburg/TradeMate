@@ -1,10 +1,11 @@
 ﻿using DAL_Factory;
+using Interfaces;
 
 namespace BLL.Models;
 
 public class Inventory : Domain.Models.Inventory
 {
-    private static readonly InventoryService InventoryService = new();
+    private static readonly IInventory InventoryService = Factory.GetInventoryGateway();
     
     public void ChangeName(string name) => Name = name;
 

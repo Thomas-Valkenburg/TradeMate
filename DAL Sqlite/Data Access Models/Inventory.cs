@@ -12,7 +12,7 @@ internal class Inventory
 
     internal Domain.Models.Inventory ConvertToDomainClass()
     {
-        var customer = new CustomerGateway().GetCustomer(CustomerId).GetAwaiter().GetResult();
+        var customer = new CustomerService().GetCustomer(CustomerId);
         
         return new Domain.Models.Inventory
         {
@@ -26,7 +26,7 @@ internal class Inventory
     {
         var customerId = inventories.First().CustomerId;
 
-        var customer = new CustomerGateway().GetCustomer(customerId).GetAwaiter().GetResult();
+        var customer = new CustomerService().GetCustomer(customerId);
         
         var inventoryList = new List<Domain.Models.Inventory>();
         
