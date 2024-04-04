@@ -1,11 +1,23 @@
-﻿namespace DAL_Sqlite.Gateways;
+﻿using Interfaces;
 
-public class InventoryService : Interfaces.IInventory
+namespace DAL_Sqlite.Gateways;
+
+public class InventoryService : IInventory
 {
-    public List<Domain.Models.Inventory> GetAllInventories(int customerId)
+    public List<Domain.Models.Inventory>? GetAllInventories(int customerId)
     {
-        var inventoryList = Query.Execute<Data_Access_Models.Inventory>($"SELECT * FROM Inventory WHERE CustomerId={customerId}").GetAwaiter().GetResult();
+        var inventoryList = Query.ExecuteReadMany<Data_Access_Models.Inventory>($"SELECT * FROM Inventory WHERE CustomerId={customerId}").GetAwaiter().GetResult();
 
+        if (inventoryList == null || inventoryList.Count < 1)
+        {
+            return null;
+        }
+        
         return Data_Access_Models.Inventory.ConvertToDomainClass(inventoryList);
+    }
+
+    public void CreateInventory(Domain.Models.Inventory inventory)
+    {
+        throw new NotImplementedException();
     }
 }

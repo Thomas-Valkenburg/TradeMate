@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 
 namespace DAL_Sqlite;

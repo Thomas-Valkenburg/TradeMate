@@ -1,44 +1,43 @@
 ﻿using Dapper;
+using Microsoft.Data.Sqlite; 
 
 namespace DAL_Sqlite;
 
 public static class Query
 {
-    public static async Task<List<T>> Execute<T>(string query)
+    public static async Task<List<T>?> ExecuteReadMany<T>(string query)
     {
-        var     connection = DatabaseConnection.GetConnection();
-        List<T> tList;
-        
-        try
-        {
-            await connection.OpenAsync();
-            tList = connection.Query<T>(query).ToList();
-            await connection.CloseAsync();
-        }
-        // ReSharper disable once RedundantCatchClause
-        catch (Exception)
-        {
-            throw;
-        }
-
-        return tList;
+        return await QueryRead<List<T>>(query, false);
+    }
+    public static async Task<T?> ExecuteReadFirst<T>(string query)
+    {
+        return await QueryRead<T>(query, true);
     }
 
-    public static async Task<T> ExecuteFirst<T>(string query)
+    private static async Task<T?> QueryRead<T>(string query, bool single)
     {
         var connection = DatabaseConnection.GetConnection();
-        T obj;
+        T? obj;
         
         try
         {
             await connection.OpenAsync();
-            obj = connection.QuerySingle<T>(query);
+
+            if (single)
+            {
+                obj = await connection.QueryFirstOrDefaultAsync<T>(query);
+            }
+            else
+            {
+                var data = await connection.QueryAsync<T>(query);
+                obj = (data as List<T>)!.FirstOrDefault();
+            }
+            
             await connection.CloseAsync();
         }
-        // ReSharper disable once RedundantCatchClause
-        catch (Exception)
+        catch (SqliteException)
         {
-            throw;
+            return default;
         }
 
         return obj;
