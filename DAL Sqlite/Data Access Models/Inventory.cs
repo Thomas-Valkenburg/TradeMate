@@ -4,11 +4,11 @@ namespace DAL_Sqlite.Data_Access_Models;
 
 internal class Inventory
 {
-    public required int Id { get; init; }
+    internal required int Id { get; init; }
     
-    public required string Name { get; init; }
+    internal required string Name { get; init; }
     
-    public required int CustomerId { get; init; }
+    internal required int CustomerId { get; init; }
 
     internal Domain.Models.Inventory ConvertToDomainClass()
     {
