@@ -4,5 +4,5 @@ namespace Interfaces;
 
 public interface ICustomer
 {
-    Customer GetCustomer(int customerId);
+    Customer? GetCustomer(int customerId);
 }
