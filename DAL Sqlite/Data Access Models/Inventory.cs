@@ -1,4 +1,4 @@
-﻿using DAL_Sqlite.Gateways;
+﻿using DAL_Sqlite.Services;
 
 namespace DAL_Sqlite.Data_Access_Models;
 
@@ -10,9 +10,11 @@ internal class Inventory
     
     internal required int CustomerId { get; init; }
 
-    internal Domain.Models.Inventory ConvertToDomainClass()
+    internal Domain.Models.Inventory? ConvertToDomainClass()
     {
-        var customer = new CustomerService().GetCustomer(CustomerId);
+        var customer = new SqLiteService().GetCustomer(CustomerId);
+
+        if (customer == null) return null;
         
         return new Domain.Models.Inventory
         {
@@ -22,11 +24,13 @@ internal class Inventory
         };
     }
 
-    internal static List<Domain.Models.Inventory> ConvertToDomainClass(List<Inventory> inventories)
+    internal static List<Domain.Models.Inventory>? ConvertToDomainClass(List<Inventory> inventories)
     {
         var customerId = inventories.First().CustomerId;
 
-        var customer = new CustomerService().GetCustomer(customerId);
+        var customer = new SqLiteService().GetCustomer(customerId);
+
+        if (customer == null) return null;
         
         var inventoryList = new List<Domain.Models.Inventory>();
         
