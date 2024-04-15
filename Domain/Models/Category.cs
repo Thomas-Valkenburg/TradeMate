@@ -6,7 +6,7 @@ public class Category
 
     public required string Name { get; set; }
 
-    public required Inventory Inventory { get; init; }
+    public required Inventory? Inventory { get; init; }
 
     public List<StockItem> StockItems { get; init; } = [];
 }
