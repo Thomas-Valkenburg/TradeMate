@@ -6,7 +6,7 @@ namespace BLL.Models;
 public class Customer(Factory.ServiceType serviceType) : Domain.Models.Customer
 {
     private readonly IDal _service = Factory.GetService(serviceType);
-    
+
     public Result SaveCustomer()
     {
         return _service.CreateCustomer(this);
@@ -22,5 +22,21 @@ public class Customer(Factory.ServiceType serviceType) : Domain.Models.Customer
         });
 
         return list;
+    }
+
+    public bool AddInventory(string name)
+    {
+        if (string.IsNullOrWhiteSpace(name) || name.Length > 30 ||
+            Inventory.Any(inventory => string.Equals(inventory.Name, name, StringComparison.CurrentCultureIgnoreCase))) return false;
+        
+        Inventory.Add(new Inventory(_service)
+        {
+            Name = name,
+            Customer = this
+        });
+        
+        // Save to database
+
+        return true;
     }
 }
