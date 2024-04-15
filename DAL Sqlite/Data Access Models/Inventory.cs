@@ -1,21 +1,24 @@
 ﻿using DAL_Sqlite.Services;
+using Dapper.Contrib.Extensions;
 
 namespace DAL_Sqlite.Data_Access_Models;
 
-internal class Inventory
+[Table("Inventory")]
+internal class Inventory : DbAccessModel
 {
-    internal required int Id { get; init; }
+    [Key]
+    public required int Id { get; init; }
+
+    public required string Name { get; init; }
     
-    internal required string Name { get; init; }
-    
-    internal required int CustomerId { get; init; }
+    public required int CustomerId { get; init; }
 
     internal Domain.Models.Inventory? ConvertToDomainClass()
     {
         var customer = new SqLiteService().GetCustomer(CustomerId);
 
         if (customer == null) return null;
-        
+
         return new Domain.Models.Inventory
         {
             Id = Id,
@@ -31,9 +34,9 @@ internal class Inventory
         var customer = new SqLiteService().GetCustomer(customerId);
 
         if (customer == null) return null;
-        
+
         var inventoryList = new List<Domain.Models.Inventory>();
-        
+
         inventories.ForEach(inventory =>
         {
             inventoryList.Add(new Domain.Models.Inventory
