@@ -5,11 +5,17 @@ namespace BLL.Models;
 
 public class Inventory : Domain.Models.Inventory
 {
-    private static readonly IInventory InventoryService = Factory.GetInventoryGateway();
+    public Inventory(Factory.ServiceType serviceType)
+    {
+        _service = Factory.GetService(serviceType);
+    }
     
-    public void ChangeName(string name) => Name = name;
+    internal Inventory(IDal service)
+    {
+        _service = service;
+    }
 
-    public void AddStockItem(StockItem stockItem)
+    private readonly IDal _service;
     {
         StockItems.Add(stockItem);
     }
