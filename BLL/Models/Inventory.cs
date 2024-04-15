@@ -9,7 +9,7 @@ public class Inventory : Domain.Models.Inventory
     {
         _service = Factory.GetService(serviceType);
     }
-    
+
     internal Inventory(IDal service)
     {
         _service = service;
@@ -36,16 +36,13 @@ public class Inventory : Domain.Models.Inventory
         };
         
         StockItems.Add(stockItem);
-        {
-            list.Add(ConvertDomainToBll(inventory));
-        });
-
+        
         _service.CreateStockItem(stockItem);
     }
 
-    private static Inventory ConvertDomainToBll(Domain.Models.Inventory data)
+    internal static Inventory ConvertToBll(Domain.Models.Inventory data, IDal service)
     {
-        return new Inventory
+        return new Inventory(service)
         {
             Id         = data.Id,
             Name       = data.Name,
