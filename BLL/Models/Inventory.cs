@@ -16,8 +16,12 @@ public class Inventory : Domain.Models.Inventory
     }
 
     private readonly IDal _service;
+    
+    public void ChangeName(string name)
     {
-        StockItems.Add(stockItem);
+        Name = name;
+        
+        _service.UpdateInventory(this);
     }
 
     public static List<Inventory> GetAllInventories(int customerId)
