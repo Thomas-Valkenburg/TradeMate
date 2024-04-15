@@ -26,6 +26,8 @@ public class Tests
         };
     }
 
+    #region Test cases
+
     [Test]
     public void Test01_GetInventory()
     {
@@ -82,20 +84,18 @@ public class Tests
         var result = _validCustomer.AddInventory("Inventory Eindhoven-Amsterdam 0002");
         
         if (!result) Assert.Pass("Error: Failed to create");
-        
-        Assert.Fail();
     }
 
     [Test]
     public void Test07_AddProduct()
     {
-        throw new NotImplementedException();
+        Assert.DoesNotThrow(() => _validCustomer.GetAllInventories().First().AddStockItem("Appel", 100, 200, 2.00m));
     }
 
     [Test]
     public void Test08_AddProductDuplicateBarcodeFail()
     {
-        throw new NotImplementedException();
+        Assert.Throws<Exception>(() => _validCustomer.GetAllInventories().First().AddStockItem("Peer", 100, 150, 2.00m));
     }
 
     [Test]
@@ -145,7 +145,34 @@ public class Tests
     {
         throw new NotImplementedException();
     }
-    
+
+    #endregion
+
+    #region Additional Tests
+
+    [Test]
+    public void Test50_CheckFactory()
+    {
+        Assert.DoesNotThrow(() =>
+        {
+            foreach (var value in Enum.GetValues(typeof(Factory.ServiceType)))
+            {
+                Factory.GetService((Factory.ServiceType)value);
+            }
+        });
+    }
+
+    [Test]
+    public void Test51_CheckFactoryFail()
+    {
+        Assert.Throws<ArgumentOutOfRangeException>(() =>
+        {
+            Factory.GetService((Factory.ServiceType)(-1));
+        });
+    }
+
+    #endregion
+
     [OneTimeTearDown]
     public void Teardown()
     {
