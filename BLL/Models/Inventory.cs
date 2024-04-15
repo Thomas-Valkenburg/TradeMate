@@ -24,16 +24,23 @@ public class Inventory : Domain.Models.Inventory
         _service.UpdateInventory(this);
     }
 
-    public static List<Inventory> GetAllInventories(int customerId)
+    public void AddStockItem(string name, int barcode, int amount, decimal price)
     {
-        var list = new List<Inventory>();
+        var stockItem = new StockItem
+        {
+            Name = name,
+            Barcode = barcode,
+            Amount = amount,
+            Price = price,
+            Inventory = this
+        };
         
-        InventoryService.GetAllInventories(customerId).ForEach(inventory =>
+        StockItems.Add(stockItem);
         {
             list.Add(ConvertDomainToBll(inventory));
         });
 
-        return list;
+        _service.CreateStockItem(stockItem);
     }
 
     private static Inventory ConvertDomainToBll(Domain.Models.Inventory data)
