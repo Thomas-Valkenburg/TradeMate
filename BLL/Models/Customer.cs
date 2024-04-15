@@ -11,4 +11,16 @@ public class Customer(Factory.ServiceType serviceType) : Domain.Models.Customer
     {
         return _service.CreateCustomer(this);
     }
+    
+    public List<Inventory> GetAllInventories()
+    {
+        var list = new List<Inventory>();
+
+        _service.GetAllInventories(Id).ForEach(inventory =>
+        {
+            list.Add(Models.Inventory.ConvertDomainToBll(inventory, _service));
+        });
+
+        return list;
+    }
 }
