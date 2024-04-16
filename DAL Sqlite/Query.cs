@@ -96,8 +96,14 @@ public static class Query
         {
             object _ = type switch
             {
+                    // INSERT INTO {TableName} ({List of property names}) VALUES ({List of property values})
+                    // EG: INSERT INTO Customer (Name, Email) VALUES ('Thomas', 'thomas@trademate.com')
                 NonQueryType.Insert => await connection.InsertAsync(obj, transaction),
+                    // UPDATE {TableName} SET {List(Property name = property value)} WHERE {PrimaryKey} = {PrimaryKeyValue}
+                    // EG: UPDATE Customer SET Name = 'Thomas', Email = 'thomas@trademate.nl' WHERE Id = 1
                 NonQueryType.Update => await connection.UpdateAsync(obj, transaction),
+                    // DELETE FROM {TableName} WHERE {PrimaryKey} = {PrimaryKeyValue}
+                    // EG: DELETE FROM Customer WHERE Id = 1
                 NonQueryType.Delete => await connection.DeleteAsync(obj, transaction),
                 _                   => throw new ArgumentOutOfRangeException(nameof(type), type, null)
             };
