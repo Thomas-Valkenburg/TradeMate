@@ -24,7 +24,14 @@ public class Inventory : Domain.Models.Inventory
         return _service.UpdateInventory(this);
     }
 
-    public void AddStockItem(string name, int barcode, int amount, decimal price)
+    public Result Delete()
+    {
+        Customer.Inventory.Remove(this);
+        
+        return _service.DeleteInventory(Id);
+    }
+
+    public Result AddStockItem(string name, int barcode, int amount, decimal price)
     {
         var stockItem = new StockItem
         {
