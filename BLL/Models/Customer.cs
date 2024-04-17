@@ -7,6 +7,20 @@ public class Customer(Factory.ServiceType serviceType) : Domain.Models.Customer
 {
     private readonly IDal _service = Factory.GetService(serviceType);
 
+    public Result ChangeName(string name)
+    {
+        Name = name;
+        
+        return SaveCustomer();
+    }
+
+    public Result ChangeEmail(string email)
+    {
+        Email = email;
+        
+        return SaveCustomer();
+    }
+    
     public Result SaveCustomer()
     {
         return _service.CreateCustomer(this);
