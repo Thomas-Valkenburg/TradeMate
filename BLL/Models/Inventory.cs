@@ -17,11 +17,11 @@ public class Inventory : Domain.Models.Inventory
 
     private readonly IDal _service;
     
-    public void ChangeName(string name)
+    public Result ChangeName(string name)
     {
         Name = name;
         
-        _service.UpdateInventory(this);
+        return _service.UpdateInventory(this);
     }
 
     public void AddStockItem(string name, int barcode, int amount, decimal price)
