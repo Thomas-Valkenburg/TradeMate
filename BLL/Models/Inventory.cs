@@ -44,7 +44,7 @@ public class Inventory : Domain.Models.Inventory
         
         StockItems.Add(stockItem);
         
-        _service.CreateStockItem(stockItem);
+        return _service.CreateStockItem(stockItem);
     }
 
     internal static Inventory ConvertToBll(Domain.Models.Inventory data, IDal service)

@@ -53,7 +53,7 @@ public class Tests
     {
         var result = _validCustomer.AddInventory("Inventory Eindhoven");
 
-        if (result) Assert.Pass("Success: Added new inventory");
+        if (result.Success) Assert.Pass("Success: Added new inventory");
 
         Assert.Fail();
     }
@@ -63,7 +63,7 @@ public class Tests
     {
         var result = _validCustomer.AddInventory("Inventory Eindhoven");
         
-        if (!result) Assert.Pass("Error: Failed to create");
+        if (!result.Success) Assert.Pass("Error: Failed to create");
         
         Assert.Fail();
     }
@@ -73,7 +73,7 @@ public class Tests
     {
         var result = _validCustomer.AddInventory("");
 
-        if (!result) Assert.Pass("Error: Failed to create");
+        if (!result.Success) Assert.Pass("Error: Failed to create");
 
         Assert.Fail();
     }
@@ -83,7 +83,7 @@ public class Tests
     {
         var result = _validCustomer.AddInventory("Inventory Eindhoven-Amsterdam 0002");
         
-        if (!result) Assert.Pass("Error: Failed to create");
+        if (!result.Success) Assert.Pass("Error: Failed to create");
     }
 
     [Test]
