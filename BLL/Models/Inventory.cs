@@ -1,33 +1,55 @@
 ﻿using DAL_Factory;
+using Interfaces;
 
 namespace BLL.Models;
 
 public class Inventory : Domain.Models.Inventory
 {
-    private static readonly InventoryService InventoryService = new();
+    public Inventory(Factory.ServiceType serviceType)
+    {
+        _service = Factory.GetService(serviceType);
+    }
+
+    internal Inventory(IDal service)
+    {
+        _service = service;
+    }
+
+    private readonly IDal _service;
     
-    public void ChangeName(string name) => Name = name;
-
-    public void AddStockItem(StockItem stockItem)
+    public Result ChangeName(string name)
     {
-        StockItems.Add(stockItem);
-    }
-
-    public static List<Inventory> GetAllInventories(int customerId)
-    {
-        var list = new List<Inventory>();
+        Name = name;
         
-        InventoryService.GetAllInventories(customerId).ForEach(inventory =>
-        {
-            list.Add(ConvertDomainToBll(inventory));
-        });
-
-        return list;
+        return _service.UpdateInventory(this);
     }
 
-    private static Inventory ConvertDomainToBll(Domain.Models.Inventory data)
+    public Result Delete()
     {
-        return new Inventory
+        Customer.Inventory.Remove(this);
+        
+        return _service.DeleteInventory(Id);
+    }
+
+    public Result AddStockItem(string name, int barcode, int amount, decimal price)
+    {
+        var stockItem = new StockItem
+        {
+            Name = name,
+            Barcode = barcode,
+            Amount = amount,
+            Price = price,
+            Inventory = this
+        };
+        
+        StockItems.Add(stockItem);
+        
+        return _service.CreateStockItem(stockItem);
+    }
+
+    internal static Inventory ConvertToBll(Domain.Models.Inventory data, IDal service)
+    {
+        return new Inventory(service)
         {
             Id         = data.Id,
             Name       = data.Name,
