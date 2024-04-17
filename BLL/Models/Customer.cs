@@ -25,7 +25,7 @@ public class Customer(Factory.ServiceType serviceType) : Domain.Models.Customer
     {
         return _service.CreateCustomer(this);
     }
-    
+
     public List<Inventory> GetAllInventories()
     {
         var list = new List<Inventory>();
@@ -38,19 +38,22 @@ public class Customer(Factory.ServiceType serviceType) : Domain.Models.Customer
         return list;
     }
 
-    public bool AddInventory(string name)
+    public Result AddInventory(string name)
     {
-        if (string.IsNullOrWhiteSpace(name) || name.Length > 30 ||
-            Inventory.Any(inventory => string.Equals(inventory.Name, name, StringComparison.CurrentCultureIgnoreCase))) return false;
-        
-        Inventory.Add(new Inventory(_service)
+        if (string.IsNullOrWhiteSpace(name) || name.Length > 30
+                                            || Inventory.Any(inventory => string.Equals(inventory.Name, name,
+                                                StringComparison.CurrentCultureIgnoreCase)))
+            return Result.FromError(ErrorType.Duplicate, $"There already exists an inventory with the name '{name}'",
+                "Inventory.Name");
+
+        var inventory = new Inventory(_service)
         {
             Name = name,
             Customer = this
-        });
-        
-        // Save to database
+        };
 
-        return true;
+        Inventory.Add(inventory);
+
+        return _service.CreateInventory(inventory);
     }
 }
