@@ -28,6 +28,7 @@ public static class Program
         app.UseRouting();
 
         app.UseAuthorization();
+        app.UseSession();
 
         app.MapControllerRoute(
             name: "default",
