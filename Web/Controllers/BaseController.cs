@@ -5,21 +5,22 @@ namespace Web.Controllers;
 
 public abstract class BaseController : Controller
 {
-    public class BaseController : Controller
+    public override void OnActionExecuting(ActionExecutingContext context)
     {
-        public override void OnActionExecuting(ActionExecutingContext context)
+        if (HttpContext.Session.TryGetValue("username", out _))
         {
-            if (HttpContext.Session.TryGetValue("username", out _) && context.Controller.GetType() == typeof(LoginController))
+            if (context.Controller.GetType() == typeof(LoginController))
             {
-                context.Result = Redirect("Home");
+                context.Result = RedirectToAction("Index", "Home");
             }
-            else if (context.Controller.GetType() != typeof(LoginController))
-            {
-                context.Result = Redirect("Login");
-            }
-
-            base.OnActionExecuting(context);
         }
+        else if (context.Controller.GetType() != typeof(LoginController))
+        {
+            context.Result = RedirectToAction("Index", "Login");
+        }
+
+        base.OnActionExecuting(context);
+    }
 
     public IActionResult Logout()
     {
