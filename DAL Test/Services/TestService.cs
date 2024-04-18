@@ -1,10 +1,13 @@
-﻿using Domain.Models;
+﻿using DAL_Test.Data;
+using Domain.Models;
 using Interfaces;
 
 namespace DAL_Test.Services;
 
 public class TestService : IDal
 {
+    private readonly TempData _tempData = new();
+    
     public Result CreateCustomer(Customer customer)
     {
         throw new NotImplementedException();

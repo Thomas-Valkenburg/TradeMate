@@ -24,32 +24,15 @@ public class Tests
             Name = "User 2",
             Email = "user2@trademate.com"
         };
+
+        _validCustomer.SaveCustomer();
+        _invalidCustomer.SaveCustomer();
     }
 
     #region Test cases
 
     [Test]
-    public void Test01_GetInventory()
-    {
-        var inventories = _validCustomer.GetAllInventories();
-
-        if (inventories.Count > 0) Assert.Pass("Success: Inventory Exists");
-        
-        Assert.Fail();
-    }
-
-    [Test]
-    public void Test02_GetInventoryFail()
-    {
-        var inventories = _invalidCustomer.GetAllInventories();
-        
-        if (inventories.Count < 1) Assert.Pass("Error: Inventory doesn't exist");
-        
-        Assert.Fail();
-    }
-
-    [Test]
-    public void Test03_CreateInventory()
+    public void Test01_CreateInventory()
     {
         var result = _validCustomer.AddInventory("Inventory Eindhoven");
 
@@ -59,7 +42,7 @@ public class Tests
     }
 
     [Test]
-    public void Test04_CreateInventoryDuplicateFail()
+    public void Test02_CreateInventoryDuplicateFail()
     {
         var result = _validCustomer.AddInventory("Inventory Eindhoven");
         
@@ -69,7 +52,7 @@ public class Tests
     }
 
     [Test]
-    public void Test05_CreateInventoryEmptyFail()
+    public void Test03_CreateInventoryEmptyFail()
     {
         var result = _validCustomer.AddInventory("");
 
@@ -79,11 +62,31 @@ public class Tests
     }
 
     [Test]
-    public void Test06_CreateInventoryNameTooLongFail()
+    public void Test04_CreateInventoryNameTooLongFail()
     {
         var result = _validCustomer.AddInventory("Inventory Eindhoven-Amsterdam 0002");
         
         if (!result.Success) Assert.Pass("Error: Failed to create");
+    }
+
+    [Test]
+    public void Test05_GetInventory()
+    {
+        var inventories = _validCustomer.GetAllInventories();
+
+        if (inventories.Count > 0) Assert.Pass("Success: Inventory Exists");
+
+        Assert.Fail();
+    }
+
+    [Test]
+    public void Test06_GetInventoryFail()
+    {
+        var inventories = _invalidCustomer.GetAllInventories();
+
+        if (inventories.Count < 1) Assert.Pass("Error: Inventory doesn't exist");
+
+        Assert.Fail();
     }
 
     [Test]
