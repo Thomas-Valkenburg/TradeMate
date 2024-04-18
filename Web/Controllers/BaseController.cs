@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Web.Controllers
+namespace Web.Controllers;
+
+public abstract class BaseController : Controller
 {
     public class BaseController : Controller
     {
