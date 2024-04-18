@@ -88,7 +88,7 @@ public class TestService : IDal
         throw new NotImplementedException();
     }
 
-    public StockItem? GetStockItemByBarcode(int barcode)
+    public StockItem? GetStockItemByBarcode(int inventoryId, int barcode)
     {
         throw new NotImplementedException();
     }
