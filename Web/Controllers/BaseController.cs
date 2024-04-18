@@ -18,5 +18,11 @@ namespace Web.Controllers
 
             base.OnActionExecuting(context);
         }
+
+    public IActionResult Logout()
+    {
+        HttpContext.Session.Clear();
+
+        return RedirectToAction("Index", "Home");
     }
 }
