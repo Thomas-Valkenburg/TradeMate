@@ -140,7 +140,21 @@ public class TestService : IDal
 
     public Result UpdateStockItem(StockItem stockItem)
     {
+        foreach (var x in _tempData.Customer)
+        {
+            foreach (var y in x.Inventories)
+            {
+                foreach (var z in y.StockItems.Where(z => z.Id == stockItem.Id))
+                {
+                    y.StockItems.Remove(z);
+                    y.StockItems.Add(stockItem);
+
         return Result.FromSuccess();
+    }
+            }
+        }
+        
+        return Result.FromError(ErrorType.NotFound, $"No stockItem found with id: {stockItem.Id}", "StockItem");
     }
 
     public Result DeleteStockItem(int stockItemId)
