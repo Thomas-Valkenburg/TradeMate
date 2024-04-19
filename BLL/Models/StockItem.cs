@@ -39,4 +39,14 @@ public class StockItem : Domain.Models.StockItem
         
         return result;
     }
+    
+    public Result ChangeAmount(int newAmount)
+    {
+        var result = CheckIfValid(newAmount);
+        
+        if (!result.Success) return result;
+        
+        Amount = newAmount;
+        return Save();
+    }
 }
