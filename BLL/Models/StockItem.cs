@@ -49,4 +49,15 @@ public class StockItem : Domain.Models.StockItem
         Amount = newAmount;
         return Save();
     }
+
+    public Result ChangePrice(decimal newPrice)
+    {
+        var result = CheckIfValid(newPrice);
+        
+        if (!result.Success) return result;
+        
+        Price = newPrice;
+        return Save();
+    }
+    
 }
