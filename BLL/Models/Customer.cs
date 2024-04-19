@@ -40,19 +40,14 @@ public class Customer(Factory.ServiceType serviceType) : Domain.Models.Customer
 
     public Result AddInventory(string name)
     {
-        if (string.IsNullOrWhiteSpace(name) || name.Length > 30
-                                            || Inventory.Any(inventory => string.Equals(inventory.Name, name,
-                                                StringComparison.CurrentCultureIgnoreCase)))
-            return Result.FromError(ErrorType.Duplicate, $"There already exists an inventory with the name '{name}'",
-                "Inventory.Name");
-
         var inventory = new Inventory(_service)
         {
             Name = name,
             Customer = this
         };
 
-        Inventory.Add(inventory);
+        var result = Inventory.CheckIfValid(inventory);
+        if (!result.Success) return result;
 
         return _service.CreateInventory(inventory);
     }

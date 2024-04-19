@@ -19,6 +19,10 @@ public class Inventory : Domain.Models.Inventory
     
     public Result ChangeName(string name)
     {
+        var result = CheckIfValid(name);
+
+        if (!result.Success) return result;
+        
         Name = name;
         
         return _service.UpdateInventory(this);
@@ -42,20 +46,36 @@ public class Inventory : Domain.Models.Inventory
             Inventory = this
         };
         
-        StockItems.Add(stockItem);
+        var valid = StockItem.CheckIfValid(stockItem);
         
-        return _service.CreateStockItem(stockItem);
+        if (!valid.Success) return valid;
+        
+        var result = _service.CreateStockItem(stockItem);
+
+        return result;
     }
 
-    internal static Inventory ConvertToBll(Domain.Models.Inventory data, IDal service)
+    internal Result CheckIfValid(string name) => CheckIfValid(name, Customer);
+    
+    internal static Result CheckIfValid(Inventory inventory) => CheckIfValid(inventory.Name, inventory.Customer);
+
+    internal static Result CheckIfValid(string name, Domain.Models.Customer customer)
     {
-        return new Inventory(service)
+        if (string.IsNullOrWhiteSpace(name)) return Result.FromError(ErrorType.Null, "Name can not be empty", "Name");
+        if (name.Length > 30) return Result.FromError(ErrorType.TooLong, "Name can not be longer than 30 characters", "Name");
+        if (customer.Inventories.Any(inventory => string.Equals(inventory.Name, name, StringComparison.CurrentCultureIgnoreCase)))
+            return Result.FromError(ErrorType.Duplicate, $"There already exists an inventory with the name '{name}'",
+                "Inventories.Name");
+
+        return Result.FromSuccess();
+    }
+
+    internal static Inventory ConvertToBll(Domain.Models.Inventory data, IDal service) => new(service)
         {
-            Id         = data.Id,
-            Name       = data.Name,
-            Customer   = data.Customer,
+        Id = data.Id,
+        Name = data.Name,
+        Customer = data.Customer,
             Categories = data.Categories,
             StockItems = data.StockItems
         };
     }
-}
