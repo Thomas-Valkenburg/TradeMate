@@ -84,7 +84,11 @@ public class TestService : IDal
     {
         var inv = stockItem.Inventory;
         
-        inv?.StockItems.Add(stockItem);
+        if (inv is null) return Result.FromError(ErrorType.NotFound, "Inventories not found", "StockItem.Inventories");
+        
+        if (inv.StockItems.Any(x => x.Barcode == stockItem.Barcode)) return Result.FromError(ErrorType.Duplicate, $"There already exists a StockItem with barcode: {stockItem.Barcode}", "StockItem.Barcode");
+        
+        inv.StockItems.Add(stockItem);
         
         return Result.FromSuccess();
     }
@@ -149,8 +153,8 @@ public class TestService : IDal
                     y.StockItems.Remove(z);
                     y.StockItems.Add(stockItem);
 
-        return Result.FromSuccess();
-    }
+                    return Result.FromSuccess();
+                }
             }
         }
         
@@ -166,8 +170,8 @@ public class TestService : IDal
                 foreach (var z in y.StockItems.Where(z => z.Id == stockItemId))
                 {
                     y.StockItems.Remove(z);
-        return Result.FromSuccess();
-    }
+                    return Result.FromSuccess();
+                }
             }
         }
 
