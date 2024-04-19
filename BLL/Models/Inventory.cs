@@ -26,7 +26,7 @@ public class Inventory : Domain.Models.Inventory
         Name = name;
         return Save();
     }
-
+    
     private Result Save() => _service.UpdateInventory(this);
 
     public Result Delete()
@@ -36,9 +36,21 @@ public class Inventory : Domain.Models.Inventory
         return _service.DeleteInventory(Id);
     }
 
-    public Result AddStockItem(string name, int barcode, int amount, decimal price)
+    public List<StockItem> GetStockItems()
     {
-        var stockItem = new StockItem
+        var list = new List<StockItem>();
+
+        _service.GetAllStockItems(Id).ForEach(stockItem =>
+        {
+            list.Add(StockItem.ConvertToBll(stockItem, _service));
+        });
+
+        return list;
+    }
+
+    public Result AddStockItem(string name, string barcode, int amount, decimal price)
+    {
+        var stockItem = new StockItem(_service)
         {
             Name = name,
             Barcode = barcode,
@@ -46,7 +58,7 @@ public class Inventory : Domain.Models.Inventory
             Price = price,
             Inventory = this
         };
-        
+
         var valid = StockItem.CheckIfValid(stockItem);
         
         if (!valid.Success) return valid;
@@ -72,11 +84,11 @@ public class Inventory : Domain.Models.Inventory
     }
 
     internal static Inventory ConvertToBll(Domain.Models.Inventory data, IDal service) => new(service)
-        {
+    {
         Id = data.Id,
         Name = data.Name,
         Customer = data.Customer,
-            Categories = data.Categories,
-            StockItems = data.StockItems
-        };
-    }
+        Categories = data.Categories,
+        StockItems = data.StockItems
+    };
+}
