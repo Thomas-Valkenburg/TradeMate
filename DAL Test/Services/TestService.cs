@@ -44,7 +44,7 @@ public class TestService : IDal
     {
         var customer = _tempData.Customer.Find(x => x.Id == inventory.Customer.Id);
         
-        customer?.Inventory.Add(inventory);
+        customer?.Inventories.Add(inventory);
         
         return Result.FromSuccess();
     }
@@ -55,7 +55,7 @@ public class TestService : IDal
         
         _tempData.Customer.ForEach(x =>
         {
-            var inv = x.Inventory.Find(y => y.Id == inventoryId);
+            var inv = x.Inventories.Find(y => y.Id == inventoryId);
 
             if (inventory is not null) inventory = inv;
         });
@@ -65,7 +65,7 @@ public class TestService : IDal
 
     public List<Inventory> GetAllInventories(int customerId)
     {
-        return _tempData.Customer.Find(x => x.Id == customerId)?.Inventory ?? [];
+        return _tempData.Customer.Find(x => x.Id == customerId)?.Inventories ?? [];
     }
 
     public Result UpdateInventory(Inventory inventory)
@@ -75,7 +75,7 @@ public class TestService : IDal
 
     public Result DeleteInventory(int inventoryId)
     {
-        _tempData.Customer.ForEach(x => x.Inventory.RemoveAll(y => y.Id == inventoryId));
+        _tempData.Customer.ForEach(x => x.Inventories.RemoveAll(y => y.Id == inventoryId));
         
         return Result.FromSuccess();
     }
@@ -95,7 +95,7 @@ public class TestService : IDal
         
         _tempData.Customer.ForEach(x =>
         {
-            x.Inventory.ForEach(y =>
+            x.Inventories.ForEach(y =>
             {
                 y.StockItems.ForEach(z =>
                 {
@@ -113,9 +113,9 @@ public class TestService : IDal
 
         _tempData.Customer.ForEach(x =>
         {
-            if (x.Inventory.Any(y => y.Id == inventoryId)) return;
+            if (x.Inventories.Any(y => y.Id == inventoryId)) return;
 
-            var inventory = x.Inventory.Find(y => y.Id == inventoryId);
+            var inventory = x.Inventories.Find(y => y.Id == inventoryId);
 
             stockItem = inventory?.StockItems.Find(y => y.Barcode == barcode);
         });
@@ -129,7 +129,7 @@ public class TestService : IDal
         
         _tempData.Customer.ForEach(x =>
         {
-            x.Inventory.ForEach(y =>
+            x.Inventories.ForEach(y =>
             {
                 if (y.Id == inventoryId) stockItems.AddRange(y.StockItems);
             });

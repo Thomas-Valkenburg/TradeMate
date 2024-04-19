@@ -8,5 +8,5 @@ public class Customer()
 
     public required string Email { get; set; }
 
-    public List<Inventory> Inventory { get; init; } = [];
+    public List<Inventory> Inventories { get; init; } = [];
 }

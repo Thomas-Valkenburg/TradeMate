@@ -31,7 +31,7 @@ public class Inventory : Domain.Models.Inventory
 
     public Result Delete()
     {
-        Customer.Inventory.Remove(this);
+        Customer.Inventories.Remove(this);
         
         return _service.DeleteInventory(Id);
     }

@@ -20,7 +20,7 @@ internal class Customer : DbAccessModel
             Id       = Id,
             Name     = Name,
             Email    = Email,
-            Inventory = new SqLiteService().GetAllInventories(Id)
+            Inventories = new SqLiteService().GetAllInventories(Id)
         };
     }
 
