@@ -80,4 +80,14 @@ public class StockItem : Domain.Models.StockItem
         
         return Result.FromSuccess();
     }
+
+    internal static StockItem ConvertToBll(Domain.Models.StockItem stockItem, IDal service) => new(service)
+    {
+        Id = stockItem.Id,
+        Name = stockItem.Name,
+        Barcode = stockItem.Barcode,
+        Amount = stockItem.Amount,
+        Price = stockItem.Price,
+        Inventory = stockItem.Inventory
+    };
 }
