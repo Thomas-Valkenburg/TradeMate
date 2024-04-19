@@ -27,4 +27,16 @@ public class StockItem : Domain.Models.StockItem
         return Save();
 
     }
+
+    public Result ChangeBarcode(string newBarcode)
+    {
+        var oldBarcode = Barcode;
+        Barcode = newBarcode;
+
+        var result = Save();
+        
+        if (!result.Success) Barcode = oldBarcode;
+        
+        return result;
+    }
 }
