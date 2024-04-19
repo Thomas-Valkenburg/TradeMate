@@ -24,9 +24,10 @@ public class Inventory : Domain.Models.Inventory
         if (!result.Success) return result;
         
         Name = name;
-        
-        return _service.UpdateInventory(this);
+        return Save();
     }
+
+    private Result Save() => _service.UpdateInventory(this);
 
     public Result Delete()
     {
