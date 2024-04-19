@@ -159,7 +159,19 @@ public class TestService : IDal
 
     public Result DeleteStockItem(int stockItemId)
     {
+        foreach (var x in _tempData.Customer)
+        {
+            foreach (var y in x.Inventories)
+            {
+                foreach (var z in y.StockItems.Where(z => z.Id == stockItemId))
+                {
+                    y.StockItems.Remove(z);
         return Result.FromSuccess();
+    }
+            }
+        }
+
+        return Result.FromError(ErrorType.NotFound, "", "");
     }
 
     public Result CreateCategory(Category category)
