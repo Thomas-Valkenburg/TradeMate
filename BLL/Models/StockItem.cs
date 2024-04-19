@@ -61,4 +61,6 @@ public class StockItem : Domain.Models.StockItem
     }
     
     private Result Save() => _service.UpdateStockItem(this);
+    
+    public Result Delete() => _service.DeleteStockItem(Id);
 }
