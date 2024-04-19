@@ -63,4 +63,21 @@ public class StockItem : Domain.Models.StockItem
     private Result Save() => _service.UpdateStockItem(this);
     
     public Result Delete() => _service.DeleteStockItem(Id);
+
+    private Result CheckIfValid(string name) => CheckIfValid(name, Amount, Price);
+    private Result CheckIfValid(int amount) => CheckIfValid(Name, amount, Price);
+    private Result CheckIfValid(decimal price) => CheckIfValid(Name, Amount, price);
+    
+    internal static Result CheckIfValid(StockItem stockItem) =>
+        CheckIfValid(stockItem.Name, stockItem.Amount, stockItem.Price);
+    
+    internal static Result CheckIfValid(string name, int amount, decimal price)
+    {
+        if (string.IsNullOrWhiteSpace(name)) return Result.FromError(ErrorType.Null, "Name can not be empty", "Name");
+        if (name.Length > 90) return Result.FromError(ErrorType.TooLong, "Name can not be longer than 90 characters", "Name");
+        if (amount < 0) return Result.FromError(ErrorType.TooShort, "Amount can not be less than 0", "Amount");
+        if (price < 0) return Result.FromError(ErrorType.TooShort, "Price can not be less than 0", "Price");
+        
+        return Result.FromSuccess();
+    }
 }
