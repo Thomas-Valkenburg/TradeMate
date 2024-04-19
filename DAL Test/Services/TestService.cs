@@ -107,7 +107,7 @@ public class TestService : IDal
         return stockItem;
     }
 
-    public StockItem? GetStockItemByBarcode(int inventoryId, int barcode)
+    public StockItem? GetStockItemByBarcode(int inventoryId, string barcode)
     {
         StockItem? stockItem = null;
 

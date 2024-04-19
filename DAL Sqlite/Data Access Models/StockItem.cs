@@ -11,7 +11,7 @@ internal class StockItem : DbAccessModel
     
     public required string Name { get; init; }
     
-    public required int Barcode { get; init; }
+    public required string Barcode { get; init; }
     
     public required int Amount { get; init; }
     
