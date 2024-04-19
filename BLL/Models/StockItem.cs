@@ -60,4 +60,5 @@ public class StockItem : Domain.Models.StockItem
         return Save();
     }
     
+    private Result Save() => _service.UpdateStockItem(this);
 }
