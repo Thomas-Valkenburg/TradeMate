@@ -26,7 +26,7 @@ public class Customer(Factory.ServiceType serviceType) : Domain.Models.Customer
         return _service.CreateCustomer(this);
     }
 
-    public List<Inventory> GetAllInventories()
+    public List<Inventory> GetInventories()
     {
         var list = new List<Inventory>();
 
