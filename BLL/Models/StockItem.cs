@@ -16,4 +16,15 @@ public class StockItem : Domain.Models.StockItem
     {
         _service = service;
     }
+
+    public Result ChangeName(string newName)
+    {
+        var result = CheckIfValid(newName);
+
+        if (!result.Success) return result;
+        
+        Name = newName;
+        return Save();
+
+    }
 }
