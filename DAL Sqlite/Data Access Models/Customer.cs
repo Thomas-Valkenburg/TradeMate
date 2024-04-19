@@ -4,7 +4,7 @@ using Dapper.Contrib.Extensions;
 namespace DAL_Sqlite.Data_Access_Models;
 
 [Table("Customer")]
-internal class Customer : DbAccessModel
+internal class Customer
 {
     [Key]
     public required int Id { get; init; }
@@ -32,10 +32,5 @@ internal class Customer : DbAccessModel
             Name  = customer.Name,
             Email = customer.Email
         };
-    }
-
-    public void Dispose()
-    {
-        throw new NotImplementedException();
     }
 }

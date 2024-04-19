@@ -4,7 +4,7 @@ using Dapper.Contrib.Extensions;
 namespace DAL_Sqlite.Data_Access_Models;
 
 [Table("StockItem")]
-internal class StockItem : DbAccessModel
+internal class StockItem
 {
     [Key]
     public required int Id { get; init; }
