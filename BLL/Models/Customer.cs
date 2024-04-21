@@ -38,4 +38,20 @@ public class Customer(Factory.ServiceType serviceType) : Domain.Models.Customer
 
         return _service.CreateInventory(inventory);
     }
+
+	public static Customer? TryGetCustomer(int customerId, Factory.ServiceType serviceType)
+	{
+		var customer = Factory.GetDataService(serviceType).GetCustomer(customerId);
+
+        return customer == null ? null : ConvertToBll(customer, serviceType);
+	}
+
+	internal static Customer ConvertToBll(Domain.Models.Customer customer, Factory.ServiceType serviceType)
+    {
+	    return new Customer(serviceType)
+	    {
+		    Id          = customer.Id,
+		    Inventories = customer.Inventories
+	    };
+    }
 }
