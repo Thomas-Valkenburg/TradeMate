@@ -1,4 +1,5 @@
-﻿using Domain.Models;
+﻿using Domain;
+using Domain.Models;
 using Interfaces;
 
 namespace DAL_EF_Core.Services;

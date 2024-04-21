@@ -8,6 +8,7 @@ namespace DAL_Factory;
 public static class Factory
 {
     public static IDataAccessLayer GetService(ServiceType type)
+    public static IDataAccessLayer GetDataService(ServiceType type)
     {
         return type switch
         {
@@ -22,6 +23,6 @@ public static class Factory
     {
         Sqlite,
         EfCore,
-        Test
+        Test,
     }
 }

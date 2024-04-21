@@ -1,4 +1,5 @@
-﻿using Interfaces;
+﻿using Domain;
+using Interfaces;
 
 namespace DAL_Sqlite.Services;
 

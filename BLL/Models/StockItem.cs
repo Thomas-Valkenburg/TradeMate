@@ -1,4 +1,5 @@
 ﻿using DAL_Factory;
+using Domain;
 using Interfaces;
 
 namespace BLL.Models;
@@ -9,7 +10,7 @@ public class StockItem : Domain.Models.StockItem
     
     public StockItem(Factory.ServiceType serviceType)
     {
-        _service = Factory.GetService(serviceType);
+        _service = Factory.GetDataService(serviceType);
     }
 
     public StockItem(IDataAccessLayer service)

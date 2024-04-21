@@ -6,8 +6,8 @@ namespace BLL.Models;
 
 public class Customer(Factory.ServiceType serviceType) : Domain.Models.Customer
 {
-    private readonly IDataAccessLayer _service = Factory.GetService(serviceType);
-
+    private readonly IDataAccessLayer _service = Factory.GetDataService(serviceType);
+    
     public Result Save()
     {
         return _service.CreateCustomer(this);

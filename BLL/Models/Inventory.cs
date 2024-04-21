@@ -1,4 +1,5 @@
 ﻿using DAL_Factory;
+using Domain;
 using Interfaces;
 
 namespace BLL.Models;
@@ -7,7 +8,7 @@ public class Inventory : Domain.Models.Inventory
 {
     public Inventory(Factory.ServiceType serviceType)
     {
-        _service = Factory.GetService(serviceType);
+        _service = Factory.GetDataService(serviceType);
     }
 
     internal Inventory(IDataAccessLayer service)
