@@ -14,20 +14,13 @@ public class Account : Domain.Models.Account
 
 	private Result Save()
 	{
-		if (_service.CreateAccount(this).Error is ErrorType.Duplicate) return _service.UpdateAccount(this);
-		
-		return Result.FromSuccess();
+		return _service.CreateAccount(this).Error is ErrorType.Duplicate ? _service.UpdateAccount(this) : Result.FromSuccess();
 	}
 
-	public Account CreateAccount(string username, string password, string email)
+	public static Result CreateAccount(string username, string password, string email)
 	{
-		var customer = new Customer(ServiceType);
+		var customer = new Customer(Factory.ServiceType.Sqlite);
 		var customerResult = customer.Save();
-
-		if (!customerResult.Success)
-		{
-			return null;
-		}
 
 		var account = new Account
 		{
@@ -41,6 +34,32 @@ public class Account : Domain.Models.Account
 
 		var accountResult = account.Save();
 
-		return account;
+		if (!accountResult.Success) return accountResult;
+		if (!customerResult.Success) return customerResult;
+		
+		return Result.FromSuccess();
+	}
+
+	public static Result<Account?> TryLogin(string username, string password)
+	{
+		var result = Factory.GetAccountService().ReadAccount(username, password);
+
+		if (!result.Success || result.Value is null) return Result.FromError<Account>((ErrorType)result.Error!, result.ErrorMessage, result.ErrorPropertyName);
+
+		return Result.FromSuccess(Convert(result.Value, Factory.ServiceType.Sqlite))!;
+	}
+
+	private static Account Convert(Domain.Models.Account account, Factory.ServiceType serviceType)
+	{
+		return new Account
+		{
+			Username     = account.Username,
+			Password     = account.Password,
+			Email        = account.Email,
+			CustomerId   = account.CustomerId,
+			CreationDate = account.CreationDate,
+			ServiceType  = serviceType,
+			Id           = account.Id
+		};
 	}
 }
