@@ -60,7 +60,7 @@ public class EfCoreService : IDal
         throw new NotImplementedException();
     }
 
-    public StockItem? GetStockItemByBarcode(int barcode)
+    public StockItem? GetStockItemByBarcode(int inventoryId, string barcode)
     {
         throw new NotImplementedException();
     }

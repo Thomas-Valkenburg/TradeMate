@@ -1,71 +1,71 @@
-﻿using Domain.Models;
+﻿using DAL_Test.Data;
+using Domain.Models;
 using Interfaces;
 
 namespace DAL_Test.Services;
 
 public class TestService : IDal
 {
+    private readonly TempData _tempData = new();
+    
     public Result CreateCustomer(Customer customer)
     {
-        throw new NotImplementedException();
+        _tempData.Customer.Add(customer);
+        
+        return Result.FromSuccess();
     }
 
     public Customer? GetCustomer(int customerId)
     {
-        throw new NotImplementedException();
+        return _tempData.Customer.Find(x => x.Id == customerId);
     }
 
     public Result UpdateCustomer(Customer customer)
     {
-        throw new NotImplementedException();
+        var c = _tempData.Customer.Find(x => x.Id == customer.Id);
+        
+        if (c is null) return Result.FromError(ErrorType.NotFound, "Customer not found", "");
+        
+        _tempData.Customer.Remove(c);
+        
+        _tempData.Customer.Add(customer);
+        
+        return Result.FromSuccess();
     }
 
     public Result DeleteCustomer(int customerId)
     {
+        _tempData.Customer.RemoveAll(x => x.Id == customerId);
+        
         return Result.FromSuccess();
     }
 
     public Result CreateInventory(Inventory inventory)
     {
+        var customer = _tempData.Customer.Find(x => x.Id == inventory.Customer.Id);
+        
+        customer?.Inventories.Add(inventory);
+        
         return Result.FromSuccess();
     }
 
     public Inventory? GetInventory(int inventoryId)
     {
-        return new Inventory
+        Inventory? inventory = null;
+        
+        _tempData.Customer.ForEach(x =>
         {
-            Id = 1,
-            Name = "Test Inventory",
-            Customer = new Customer
-            {
-                Id = 1,
-                Name = "User 1",
-                Email = "user@trademate.com"
-            }
-        };
+            var inv = x.Inventories.Find(y => y.Id == inventoryId);
+
+            if (inventory is not null) inventory = inv;
+        });
+
+        return inventory;
     }
 
     public List<Inventory> GetAllInventories(int customerId)
     {
-        if (customerId == 1)
-        {
-            return
-            [
-                new Inventory
-                {
-                    Id = 1,
-                    Name = "Test Inventory",
-                    Customer = new Customer
-                    {
-                        Id = 1,
-                        Name = "User 1",
-                        Email = "user@trademate.com"
-                    }
-                }
-            ];
-        }
-
-        return [];
+        return _tempData.Customer.Find(x => x.Id == customerId)?.Inventories ?? [];
     }
 
     public Result UpdateInventory(Inventory inventory)
@@ -75,37 +75,107 @@ public class TestService : IDal
 
     public Result DeleteInventory(int inventoryId)
     {
+        _tempData.Customer.ForEach(x => x.Inventories.RemoveAll(y => y.Id == inventoryId));
+        
         return Result.FromSuccess();
     }
 
     public Result CreateStockItem(StockItem stockItem)
     {
+        var inv = stockItem.Inventory;
+        
+        if (inv is null) return Result.FromError(ErrorType.NotFound, "Inventories not found", "StockItem.Inventories");
+        
+        if (inv.StockItems.Any(x => x.Barcode == stockItem.Barcode)) return Result.FromError(ErrorType.Duplicate, $"There already exists a StockItem with barcode: {stockItem.Barcode}", "StockItem.Barcode");
+        
+        inv.StockItems.Add(stockItem);
+        
         return Result.FromSuccess();
     }
 
     public StockItem? GetStockItem(int stockItemId)
     {
-        throw new NotImplementedException();
+        StockItem? stockItem = null;
+        
+        _tempData.Customer.ForEach(x =>
+        {
+            x.Inventories.ForEach(y =>
+            {
+                y.StockItems.ForEach(z =>
+                {
+                    if (z.Id == stockItemId) stockItem = z;
+                });
+            });
+        });
+        
+        return stockItem;
     }
 
-    public StockItem? GetStockItemByBarcode(int barcode)
+    public StockItem? GetStockItemByBarcode(int inventoryId, string barcode)
     {
-        throw new NotImplementedException();
+        StockItem? stockItem = null;
+
+        _tempData.Customer.ForEach(x =>
+        {
+            if (x.Inventories.Any(y => y.Id == inventoryId)) return;
+
+            var inventory = x.Inventories.Find(y => y.Id == inventoryId);
+
+            stockItem = inventory?.StockItems.Find(y => y.Barcode == barcode);
+        });
+
+        return stockItem;
     }
 
     public List<StockItem> GetAllStockItems(int inventoryId)
     {
-        throw new NotImplementedException();
+        var stockItems = new List<StockItem>();
+        
+        _tempData.Customer.ForEach(x =>
+        {
+            x.Inventories.ForEach(y =>
+            {
+                if (y.Id == inventoryId) stockItems.AddRange(y.StockItems);
+            });
+        });
+
+        return stockItems;
     }
 
     public Result UpdateStockItem(StockItem stockItem)
     {
-        return Result.FromSuccess();
+        foreach (var x in _tempData.Customer)
+        {
+            foreach (var y in x.Inventories)
+            {
+                foreach (var z in y.StockItems.Where(z => z.Id == stockItem.Id))
+                {
+                    y.StockItems.Remove(z);
+                    y.StockItems.Add(stockItem);
+
+                    return Result.FromSuccess();
+                }
+            }
+        }
+        
+        return Result.FromError(ErrorType.NotFound, $"No stockItem found with id: {stockItem.Id}", "StockItem");
     }
 
     public Result DeleteStockItem(int stockItemId)
     {
-        return Result.FromSuccess();
+        foreach (var x in _tempData.Customer)
+        {
+            foreach (var y in x.Inventories)
+            {
+                foreach (var z in y.StockItems.Where(z => z.Id == stockItemId))
+                {
+                    y.StockItems.Remove(z);
+                    return Result.FromSuccess();
+                }
+            }
+        }
+
+        return Result.FromError(ErrorType.NotFound, "", "");
     }
 
     public Result CreateCategory(Category category)

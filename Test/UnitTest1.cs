@@ -1,12 +1,14 @@
 using BLL.Models;
 using DAL_Factory;
+using Interfaces;
 
 namespace Test;
 
 public class Tests
 {
-    private Customer _validCustomer   = null!;
-    private Customer _invalidCustomer = null!;
+    private Customer  _validCustomer   = null!;
+    private Customer  _invalidCustomer = null!;
+    private Inventory _inventory       = null!;
     
     [OneTimeSetUp]
     public void Setup()
@@ -24,126 +26,196 @@ public class Tests
             Name = "User 2",
             Email = "user2@trademate.com"
         };
+
+        _validCustomer.SaveCustomer();
+        _invalidCustomer.SaveCustomer();
     }
 
     #region Test cases
 
     [Test]
-    public void Test01_GetInventory()
+    public void Test10_CreateInventory()
     {
-        var inventories = _validCustomer.GetAllInventories();
+        var result = _validCustomer.AddInventory("Inventories Eindhoven");
 
-        if (inventories.Count > 0) Assert.Pass("Success: Inventory Exists");
+        Assert.That(result.Success);
         
-        Assert.Fail();
+        _inventory = _validCustomer.GetInventories().First();
     }
 
     [Test]
-    public void Test02_GetInventoryFail()
+    public void Test11_CreateInventoryDuplicateFail()
     {
-        var inventories = _invalidCustomer.GetAllInventories();
+        var result = _validCustomer.AddInventory("Inventories Eindhoven");
         
-        if (inventories.Count < 1) Assert.Pass("Error: Inventory doesn't exist");
-        
-        Assert.Fail();
+        Assert.That(result is { Success: false, Error: ErrorType.Duplicate });
     }
 
     [Test]
-    public void Test03_CreateInventory()
-    {
-        var result = _validCustomer.AddInventory("Inventory Eindhoven");
-
-        if (result.Success) Assert.Pass("Success: Added new inventory");
-
-        Assert.Fail();
-    }
-
-    [Test]
-    public void Test04_CreateInventoryDuplicateFail()
-    {
-        var result = _validCustomer.AddInventory("Inventory Eindhoven");
-        
-        if (!result.Success) Assert.Pass("Error: Failed to create");
-        
-        Assert.Fail();
-    }
-
-    [Test]
-    public void Test05_CreateInventoryEmptyFail()
+    public void Test12_CreateInventoryEmptyFail()
     {
         var result = _validCustomer.AddInventory("");
 
-        if (!result.Success) Assert.Pass("Error: Failed to create");
-
-        Assert.Fail();
-    }
-
-    [Test]
-    public void Test06_CreateInventoryNameTooLongFail()
-    {
-        var result = _validCustomer.AddInventory("Inventory Eindhoven-Amsterdam 0002");
+        Assert.That(result is { Success: false, Error: ErrorType.Null });
         
-        if (!result.Success) Assert.Pass("Error: Failed to create");
+        
     }
 
     [Test]
-    public void Test07_AddProduct()
+    public void Test13_CreateInventoryNameTooLongFail()
     {
-        Assert.DoesNotThrow(() => _validCustomer.GetAllInventories().First().AddStockItem("Appel", 100, 200, 2.00m));
+        var result = _validCustomer.AddInventory("Inventories Eindhoven-Amsterdam 0002");
+
+        Assert.That(result is { Success: false, Error: ErrorType.TooLong });
     }
 
     [Test]
-    public void Test08_AddProductDuplicateBarcodeFail()
+    public void Test14_GetInventory()
     {
-        Assert.Throws<Exception>(() => _validCustomer.GetAllInventories().First().AddStockItem("Peer", 100, 150, 2.00m));
+        var inventories = _validCustomer.GetInventories();
+
+        Assert.That(inventories, Is.Not.Empty);
     }
 
     [Test]
-    public void Test09_AddProductNameTooLongFail()
+    public void Test15_GetInventoryFail()
     {
-        throw new NotImplementedException();
+        var inventories = _invalidCustomer.GetInventories();
+
+        Assert.That(inventories, Has.Count.Zero);
     }
 
     [Test]
-    public void Test10_AddProductEmptyNameFail()
+    public void Test16_ChangeInventoryName()
     {
-        throw new NotImplementedException();
+        var result = _inventory.ChangeName("Inventories Amsterdam");
+        
+        Assert.That(result.Success);
     }
 
     [Test]
-    public void Test11_EditProductAmount()
+    public void Test17_ChangeInventoryNameFailEmpty()
     {
-        throw new NotImplementedException();
+        var result = _inventory.ChangeName("");
+        
+        Assert.That(result is { Success: false, Error: ErrorType.Null });
     }
 
     [Test]
-    public void Test12_EditProductBarcode()
+    public void Test18_ChangeInventoryNameFailTooLong()
     {
-        throw new NotImplementedException();
+        var result = _inventory.ChangeName("Inventories Eindhoven-Amsterdam 0002");
+        
+        Assert.That(result is { Success: false, Error: ErrorType.TooLong });
     }
 
     [Test]
-    public void Test13_EditProductNameTooLongFail()
+    public void Test30_AddProduct()
     {
-        throw new NotImplementedException();
+        var result = _inventory.AddStockItem("Appel", "100", 200, 2.00m);
+        Console.WriteLine(_inventory.GetStockItems().Count);
+
+        Assert.That(result.Success);
+        Console.WriteLine(_inventory.GetStockItems().Count);
+
     }
 
     [Test]
-    public void Test14_EditProductEmptyNameFail()
+    public void Test31_AddProductDuplicateBarcodeFail()
     {
-        throw new NotImplementedException();
+        Console.WriteLine(_inventory.GetStockItems().Count);
+
+        var result = _inventory.AddStockItem("Peer", "100", 150, 2.00m);
+        
+        Assert.That(result is { Success: false, Error: ErrorType.Duplicate });
     }
 
     [Test]
-    public void Test15_RemoveProduct()
+    public void Test32_AddProductNameTooLongFail()
     {
-        throw new NotImplementedException();
+        var result = _inventory.AddStockItem("De aller grootste peer die er bestaat op de hele wereld, en in onze winkel te koop is voor de beste prijs.", "200", 150, 10);
+
+        Assert.That(result is { Success: false, Error: ErrorType.TooLong });
     }
 
     [Test]
-    public void Test16_RemoveProductFail()
+    public void Test33_AddProductEmptyNameFail()
     {
-        throw new NotImplementedException();
+        var result = _inventory.AddStockItem("", "200", 150, 10);
+        
+        Assert.That(result is { Success: false, Error: ErrorType.Null });
+    }
+
+    [Test]
+    public void Test34_EditProductAmount()
+    {
+        var stockItem = _inventory.GetStockItems().Find(x => x.Barcode == "100");
+        
+        var result = stockItem?.ChangeAmount(250);
+        
+        Assert.That(result is { Success: true });
+    }
+
+    [Test]
+    public void Test35_EditProductBarcode()
+    {
+        var stockItem = _inventory.GetStockItems().Find(x => x.Barcode == "100");
+
+        var result = stockItem?.ChangeBarcode("150");
+
+        Assert.That(result is { Success: true });
+    }
+
+    [Test]
+    public void Test36_EditProductNameTooLongFail()
+    {
+        var stockItem = _validCustomer
+            .GetInventories()
+            .First()
+            .GetStockItems()
+            .Find(x => x.Barcode == "150");
+
+        var result = stockItem?.ChangeName("De aller grootste peer die er bestaat op de hele wereld, en in onze winkel te koop is voor de beste prijs.");
+
+        Assert.That(result is { Success: false, Error: ErrorType.TooLong });
+    }
+
+    [Test]
+    public void Test37_EditProductEmptyNameFail()
+    {
+        var stockItem = _inventory.GetStockItems().Find(x => x.Barcode == "150");
+
+        var result = stockItem?.ChangeName("");
+
+        Assert.That(result is { Success: false, Error: ErrorType.Null });
+    }
+
+    [Test]
+    public void Test38_RemoveProduct()
+    {
+        var stockItem = _inventory.GetStockItems().Find(x => x.Barcode == "150");
+
+        var result = stockItem?.Delete();
+
+        Assert.That(result is { Success: true });
+    }
+
+    [Test]
+    public void Test39_RemoveProductFail()
+    {
+        var stockItem = _inventory.GetStockItems().Find(x => x.Barcode == "150");
+
+        var result = stockItem?.Delete();
+
+        Assert.That(result is null or { Success: false, Error: ErrorType.NotFound });
+    }
+
+    [Test]
+    public void Test50_RemoveInventory()
+    {
+        var result = _inventory.Delete();
+
+        Assert.That(result is { Success: true });
     }
 
     #endregion
@@ -151,7 +223,7 @@ public class Tests
     #region Additional Tests
 
     [Test]
-    public void Test50_CheckFactory()
+    public void Test80_CheckFactory()
     {
         Assert.DoesNotThrow(() =>
         {
@@ -163,7 +235,7 @@ public class Tests
     }
 
     [Test]
-    public void Test51_CheckFactoryFail()
+    public void Test81_CheckFactoryFail()
     {
         Assert.Throws<ArgumentOutOfRangeException>(() =>
         {

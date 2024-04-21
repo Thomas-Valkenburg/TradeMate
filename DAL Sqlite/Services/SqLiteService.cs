@@ -92,7 +92,7 @@ public class SqLiteService : IDal
         return stockItem?.ConvertToDomain();
     }
 
-    public Domain.Models.StockItem? GetStockItemByBarcode(int barcode)
+    public Domain.Models.StockItem? GetStockItemByBarcode(int inventoryId, string barcode)
     {
         throw new NotImplementedException();
     }

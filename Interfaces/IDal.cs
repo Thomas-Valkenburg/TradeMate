@@ -36,7 +36,7 @@ public interface IDal
     
     StockItem? GetStockItem(int stockItemId);
 
-    StockItem? GetStockItemByBarcode(int barcode);
+    StockItem? GetStockItemByBarcode(int inventoryId, string barcode);
     
     List<StockItem> GetAllStockItems(int inventoryId);
     

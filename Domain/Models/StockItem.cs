@@ -4,7 +4,7 @@ public class StockItem
 {
     public int Id { get; init; }
 
-    public required int Barcode { get; set; }
+    public required string Barcode { get; set; }
 
     public required string Name { get; set; }
     

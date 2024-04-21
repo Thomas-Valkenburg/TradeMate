@@ -30,7 +30,9 @@ public class Result
 
 public enum ErrorType
 {
-    AlreadyDeleted,
     Duplicate,
     NotFound,
+    Null,
+    TooShort,
+    TooLong,
 }

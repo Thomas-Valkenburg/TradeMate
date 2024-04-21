@@ -19,21 +19,38 @@ public class Inventory : Domain.Models.Inventory
     
     public Result ChangeName(string name)
     {
-        Name = name;
+        var result = CheckIfValid(name);
+
+        if (!result.Success) return result;
         
-        return _service.UpdateInventory(this);
+        Name = name;
+        return Save();
     }
+    
+    private Result Save() => _service.UpdateInventory(this);
 
     public Result Delete()
     {
-        Customer.Inventory.Remove(this);
+        Customer.Inventories.Remove(this);
         
         return _service.DeleteInventory(Id);
     }
 
-    public Result AddStockItem(string name, int barcode, int amount, decimal price)
+    public List<StockItem> GetStockItems()
     {
-        var stockItem = new StockItem
+        var list = new List<StockItem>();
+
+        _service.GetAllStockItems(Id).ForEach(stockItem =>
+        {
+            list.Add(StockItem.ConvertToBll(stockItem, _service));
+        });
+
+        return list;
+    }
+
+    public Result AddStockItem(string name, string barcode, int amount, decimal price)
+    {
+        var stockItem = new StockItem(_service)
         {
             Name = name,
             Barcode = barcode,
@@ -41,21 +58,37 @@ public class Inventory : Domain.Models.Inventory
             Price = price,
             Inventory = this
         };
+
+        var valid = StockItem.CheckIfValid(stockItem);
         
-        StockItems.Add(stockItem);
+        if (!valid.Success) return valid;
         
-        return _service.CreateStockItem(stockItem);
+        var result = _service.CreateStockItem(stockItem);
+
+        return result;
     }
 
-    internal static Inventory ConvertToBll(Domain.Models.Inventory data, IDal service)
+    internal Result CheckIfValid(string name) => CheckIfValid(name, Customer);
+    
+    internal static Result CheckIfValid(Inventory inventory) => CheckIfValid(inventory.Name, inventory.Customer);
+
+    internal static Result CheckIfValid(string name, Domain.Models.Customer customer)
     {
-        return new Inventory(service)
-        {
-            Id         = data.Id,
-            Name       = data.Name,
-            Customer   = data.Customer,
-            Categories = data.Categories,
-            StockItems = data.StockItems
-        };
+        if (string.IsNullOrWhiteSpace(name)) return Result.FromError(ErrorType.Null, "Name can not be empty", "Name");
+        if (name.Length > 30) return Result.FromError(ErrorType.TooLong, "Name can not be longer than 30 characters", "Name");
+        if (customer.Inventories.Any(inventory => string.Equals(inventory.Name, name, StringComparison.CurrentCultureIgnoreCase)))
+            return Result.FromError(ErrorType.Duplicate, $"There already exists an inventory with the name '{name}'",
+                "Inventories.Name");
+
+        return Result.FromSuccess();
     }
+
+    internal static Inventory ConvertToBll(Domain.Models.Inventory data, IDal service) => new(service)
+    {
+        Id = data.Id,
+        Name = data.Name,
+        Customer = data.Customer,
+        Categories = data.Categories,
+        StockItems = data.StockItems
+    };
 }
