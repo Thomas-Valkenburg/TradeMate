@@ -1,4 +1,5 @@
-﻿using DAL_EF_Core.Services;
+﻿using DAL_Account_Sqlite.Services;
+using DAL_EF_Core.Services;
 using DAL_Sqlite.Services;
 using DAL_Test.Services;
 using Interfaces;
@@ -7,7 +8,11 @@ namespace DAL_Factory;
 
 public static class Factory
 {
-    public static IDataAccessLayer GetService(ServiceType type)
+	public static IAccountDataAccessLayer GetAccountService()
+	{
+		return new AccountSqLiteService();
+	}
+    
     public static IDataAccessLayer GetDataService(ServiceType type)
     {
         return type switch
