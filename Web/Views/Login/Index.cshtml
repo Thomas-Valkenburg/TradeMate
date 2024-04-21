@@ -3,8 +3,24 @@
 	Layout = "_SimpleLayout";
 }
 
-
-<div class="text-center">
-	<h1 class="display-4">Welcome</h1>
-	<p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+﻿<div class="container">
+	@if (ViewData["LoginError"] is not null)
+	{
+		<div>
+			<p>@ViewData["LoginError"]</p>
+		</div>
+	}
+	<form action="@Url.Action("Post")" method="post">
+		@Html.AntiForgeryToken()
+		<div>
+			<label for="">Username:</label>
+			<input type="text" class="form-control" name="username" required>
+		</div>
+		<div>
+			<label for="">Password:</label>
+			<input type="password" class="form-control" name="password" required>
+		</div>
+		<br>
+		<input type="submit" value="Login" class="btn btn-primary">
+	</form>
 </div>
