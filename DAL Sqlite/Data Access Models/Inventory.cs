@@ -17,13 +17,13 @@ internal class Inventory
     {
         var customer = new SqLiteService().GetCustomer(CustomerId);
 
-        if (customer == null) return null;
+        if (customer.Value == null) return null;
 
         return new Domain.Models.Inventory
         {
             Id = Id,
             Name = Name,
-            Customer = customer
+            Customer = customer.Value
         };
     }
 
@@ -33,7 +33,7 @@ internal class Inventory
 
         var customer = new SqLiteService().GetCustomer(customerId);
 
-        if (customer == null) return null;
+        if (customer.Value == null) return null;
 
         var inventoryList = new List<Domain.Models.Inventory>();
 
@@ -43,7 +43,7 @@ internal class Inventory
             {
                 Id = inventory.Id,
                 Name = inventory.Name,
-                Customer = customer
+                Customer = customer.Value
             });
         });
 
