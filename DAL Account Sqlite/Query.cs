@@ -1,5 +1,4 @@
-﻿using Dapper;
-using Dapper.Contrib.Extensions;
+﻿using Dapper.Contrib.Extensions;
 using Domain;
 using Microsoft.Data.Sqlite;
 using System.Data.Common;
@@ -10,13 +9,13 @@ public static class Query
 {
     #region Read
 
-    public static async Task<T?> ReadFirstAsync<T>(int id) where T : class =>
-        await QueryReadAsync<T>(id, true);
+    public static async Task<T?> ReadFirstAsync<T>(string username, string password) where T : class =>
+        await QueryReadAsync<T>(username, password);
 
-    public static T? ReadFirst<T>(int id) where T : class =>
-        QueryReadAsync<T>(id, true).GetAwaiter().GetResult();
+    public static T? ReadFirst<T>(string username, string password) where T : class =>
+        QueryReadAsync<T>(username, password).GetAwaiter().GetResult();
 
-    private static async Task<T?> QueryReadAsync<T>(int id, bool single) where T : class
+    private static async Task<T?> QueryReadAsync<T>(string username, string password) where T : class
     {
         var connection = DatabaseConnection.GetConnection();
         T? obj;
@@ -27,7 +26,7 @@ public static class Query
 
         try
         {
-	        obj = await connection.GetAsync<T>(id, transaction);
+	        obj = await connection.GetAsync<T>((username, password), transaction);
 
             await transaction.CommitAsync();
         }
