@@ -1,4 +1,4 @@
-﻿namespace Interfaces;
+﻿namespace Domain;
 
 public class Result
 {
