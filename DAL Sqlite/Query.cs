@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using Dapper.Contrib.Extensions;
-using Interfaces;
+using Domain;
 using Microsoft.Data.Sqlite;
 using System.Data.Common;
 

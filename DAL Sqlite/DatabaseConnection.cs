@@ -14,7 +14,7 @@ public static class DatabaseConnection
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
             .Build();
 
-        return new SqliteConnection(configuration.GetConnectionString("Sqlite1Connection")?.Replace("~", AppContext.BaseDirectory));
+        return new SqliteConnection(configuration.GetConnectionString("DataConnection")?.Replace("~", AppContext.BaseDirectory));
     }
 
     public static SqliteConnection GetConnection()
