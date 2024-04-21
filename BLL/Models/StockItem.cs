@@ -5,14 +5,14 @@ namespace BLL.Models;
 
 public class StockItem : Domain.Models.StockItem
 {
-    private readonly IDal _service;
+    private readonly IDataAccessLayer _service;
     
     public StockItem(Factory.ServiceType serviceType)
     {
         _service = Factory.GetService(serviceType);
     }
 
-    public StockItem(IDal service)
+    public StockItem(IDataAccessLayer service)
     {
         _service = service;
     }
@@ -81,7 +81,7 @@ public class StockItem : Domain.Models.StockItem
         return Result.FromSuccess();
     }
 
-    internal static StockItem ConvertToBll(Domain.Models.StockItem stockItem, IDal service) => new(service)
+    internal static StockItem ConvertToBll(Domain.Models.StockItem stockItem, IDataAccessLayer service) => new(service)
     {
         Id = stockItem.Id,
         Name = stockItem.Name,

@@ -2,7 +2,7 @@
 
 namespace Interfaces;
 
-public interface IDal
+public interface IDataAccessLayer
 {
     #region Customer
 

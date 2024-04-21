@@ -5,7 +5,7 @@ namespace BLL.Models;
 
 public class Customer(Factory.ServiceType serviceType) : Domain.Models.Customer
 {
-    private readonly IDal _service = Factory.GetService(serviceType);
+    private readonly IDataAccessLayer _service = Factory.GetService(serviceType);
 
     public Result ChangeName(string name)
     {

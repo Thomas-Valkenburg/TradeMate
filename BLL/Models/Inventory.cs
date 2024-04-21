@@ -10,12 +10,12 @@ public class Inventory : Domain.Models.Inventory
         _service = Factory.GetService(serviceType);
     }
 
-    internal Inventory(IDal service)
+    internal Inventory(IDataAccessLayer service)
     {
         _service = service;
     }
 
-    private readonly IDal _service;
+    private readonly IDataAccessLayer _service;
     
     public Result ChangeName(string name)
     {
@@ -83,7 +83,7 @@ public class Inventory : Domain.Models.Inventory
         return Result.FromSuccess();
     }
 
-    internal static Inventory ConvertToBll(Domain.Models.Inventory data, IDal service) => new(service)
+    internal static Inventory ConvertToBll(Domain.Models.Inventory data, IDataAccessLayer service) => new(service)
     {
         Id = data.Id,
         Name = data.Name,

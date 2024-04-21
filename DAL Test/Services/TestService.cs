@@ -4,7 +4,7 @@ using Interfaces;
 
 namespace DAL_Test.Services;
 
-public class TestService : IDal
+public class TestService : IDataAccessLayer
 {
     private readonly TempData _tempData = new();
     

@@ -7,7 +7,7 @@ namespace DAL_Factory;
 
 public static class Factory
 {
-    public static IDal GetService(ServiceType type)
+    public static IDataAccessLayer GetService(ServiceType type)
     {
         return type switch
         {

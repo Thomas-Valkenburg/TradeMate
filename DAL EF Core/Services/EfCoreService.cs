@@ -3,7 +3,7 @@ using Interfaces;
 
 namespace DAL_EF_Core.Services;
 
-public class EfCoreService : IDal
+public class EfCoreService : IDataAccessLayer
 {
     public Result CreateCustomer(Customer customer)
     {

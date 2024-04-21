@@ -2,7 +2,7 @@
 
 namespace DAL_Sqlite.Services;
 
-public class SqLiteService : IDal
+public class SqLiteService : IDataAccessLayer
 {
     #region Customer
 
