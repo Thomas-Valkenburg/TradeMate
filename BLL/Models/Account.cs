@@ -10,7 +10,7 @@ public class Account : Domain.Models.Account
 	
 	public required Factory.ServiceType ServiceType { get; set; }
 
-	public Customer? Customer => Customer.TryGetCustomer(CustomerId, ServiceType);
+	public Customer? Customer => Customer.TryGetCustomer(CustomerId, ServiceType).Value;
 
 	private Result Save()
 	{

@@ -39,14 +39,16 @@ public class Customer(Factory.ServiceType serviceType) : Domain.Models.Customer
         return _service.CreateInventory(inventory);
     }
 
-	public static Customer? TryGetCustomer(int customerId, Factory.ServiceType serviceType)
+	public static Result<Customer?> TryGetCustomer(int customerId, Factory.ServiceType serviceType)
 	{
-		var customer = Factory.GetDataService(serviceType).GetCustomer(customerId);
+		var result = Factory.GetDataService(serviceType).GetCustomer(customerId);
 
-        return customer == null ? null : ConvertToBll(customer, serviceType);
+		if (!result.Success || result.Value is null) return Result.FromError<Customer>(result.Error ?? ErrorType.Duplicate, result.ErrorMessage, result.ErrorPropertyName);
+
+        return Result.FromSuccess(Convert(result.Value, serviceType))!;
 	}
 
-	internal static Customer ConvertToBll(Domain.Models.Customer customer, Factory.ServiceType serviceType)
+	private static Customer Convert(Domain.Models.Customer customer, Factory.ServiceType serviceType)
     {
 	    return new Customer(serviceType)
 	    {
