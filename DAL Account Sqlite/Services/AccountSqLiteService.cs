@@ -8,7 +8,12 @@ public class AccountSqLiteService : IAccountDataAccessLayer
 {
 	public Result CreateAccount(Domain.Models.Account account) => Query.Insert(account);
 
-	public Account? ReadAccount(int id) => Query.ReadFirst<Account>(id);
+	public Result<Account?> ReadAccount(string username, string password)
+	{
+		var account = Query.ReadFirst<Account>(username, password);
+
+		return account is not null ? Result.FromSuccess<Account?>(account) : Result.FromError<Account?>(ErrorType.NotFound, "Username or password is incorrect", "");
+	}
 
 	public Result UpdateAccount(Account account) => Query.Update(account);
 
