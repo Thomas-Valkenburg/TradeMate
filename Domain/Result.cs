@@ -5,7 +5,7 @@ public class Result
     public bool Success { get; }
     public ErrorType? Error { get; }
     public string ErrorPropertyName { get; }
-    public string ErrorErrorMessage { get; }
+    public string ErrorMessage { get; }
 
     private Result(bool success, ErrorType? error, string errorMessage, string errorPropertyName)
     {
@@ -19,7 +19,7 @@ public class Result
 
         Success = success;
         Error = error;
-        ErrorErrorMessage = errorMessage;
+        ErrorMessage = errorMessage;
         ErrorPropertyName = errorPropertyName;
     }
     
