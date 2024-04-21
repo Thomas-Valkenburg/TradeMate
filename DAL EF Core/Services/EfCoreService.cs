@@ -11,7 +11,7 @@ public class EfCoreService : IDataAccessLayer
         throw new NotImplementedException();
     }
 
-    public Customer? GetCustomer(int customerId)
+    public Result<Customer?> GetCustomer(int customerId)
     {
         throw new NotImplementedException();
     }

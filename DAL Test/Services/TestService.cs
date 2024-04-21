@@ -16,9 +16,9 @@ public class TestService : IDataAccessLayer
         return Result.FromSuccess();
     }
 
-    public Customer? GetCustomer(int customerId)
+    public Result<Customer?> GetCustomer(int customerId)
     {
-        return _tempData.Customer.Find(x => x.Id == customerId);
+        return Result.FromSuccess(_tempData.Customer.Find(x => x.Id == customerId));
     }
 
     public Result UpdateCustomer(Customer customer)

@@ -10,11 +10,11 @@ public class SqLiteService : IDataAccessLayer
     public Result CreateCustomer(Domain.Models.Customer customer) => Query
         .Insert(Data_Access_Models.Customer.ConvertToDataAccess(customer));
     
-    public Domain.Models.Customer? GetCustomer(int customerId)
+    public Result<Domain.Models.Customer?> GetCustomer(int customerId)
     {
         var customer = Query.ReadFirst<Data_Access_Models.Customer>($"SELECT * FROM Customer WHERE Id={customerId}");
 
-        return customer?.ConvertToDomain();
+        return Result.FromSuccess(customer?.ConvertToDomain());
     }
 
     public Result UpdateCustomer(Domain.Models.Customer customer)

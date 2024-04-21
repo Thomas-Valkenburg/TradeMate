@@ -9,7 +9,7 @@ public interface IDataAccessLayer
 
     Result CreateCustomer(Customer customer);
 
-    Customer? GetCustomer(int customerId);
+    Result<Customer?> GetCustomer(int customerId);
 
     Result UpdateCustomer(Customer customer);
 
