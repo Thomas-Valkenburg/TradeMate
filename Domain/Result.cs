@@ -7,7 +7,7 @@ public class Result
     public string ErrorPropertyName { get; }
     public string ErrorMessage { get; }
 
-    private Result(bool success, ErrorType? error, string errorMessage, string errorPropertyName)
+    protected Result(bool success, ErrorType? error, string errorMessage, string errorPropertyName)
     {
         switch (success)
         {
@@ -24,12 +24,27 @@ public class Result
     }
     
     public static Result FromSuccess() => new(true, null, "", "");
+    public static Result<T> FromSuccess<T>(T value) => new(value, true, null, "", "");
     public static Result FromError(ErrorType error, string errorMessage, string errorPropertyName) 
         => new(false, error, errorMessage, errorPropertyName);
+
+    public static Result<T?> FromError<T>(ErrorType error, string errorMessage, string errorPropertyName) =>
+	    new(default, false, error, errorMessage, errorPropertyName);
+}
+
+public class Result<T> : Result
+{
+    public T Value { get; set; }
+
+    protected internal Result(T value, bool success, ErrorType? error, string errorMessage, string errorPropertyName) : base(success, error, errorMessage, errorPropertyName)
+    {
+        Value = value;
+    }
 }
 
 public enum ErrorType
 {
+    Unknown,
     Duplicate,
     NotFound,
     Null,
