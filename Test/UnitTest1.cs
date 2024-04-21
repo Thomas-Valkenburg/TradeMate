@@ -1,6 +1,6 @@
 using BLL.Models;
 using DAL_Factory;
-using Interfaces;
+using Domain;
 
 namespace Test;
 
@@ -15,20 +15,16 @@ public class Tests
     {
         _validCustomer = new Customer(Factory.ServiceType.Test)
         {
-            Id = 1,
-            Name = "User 1",
-            Email = "user1@trademate.com"
+            Id = 1
         };
 
         _invalidCustomer = new Customer(Factory.ServiceType.Test)
         {
-            Id = 2,
-            Name = "User 2",
-            Email = "user2@trademate.com"
+            Id = 2
         };
 
-        _validCustomer.SaveCustomer();
-        _invalidCustomer.SaveCustomer();
+        _validCustomer.Save();
+        _invalidCustomer.Save();
     }
 
     #region Test cases
@@ -229,7 +225,7 @@ public class Tests
         {
             foreach (var value in Enum.GetValues(typeof(Factory.ServiceType)))
             {
-                Factory.GetService((Factory.ServiceType)value);
+                Factory.GetDataService((Factory.ServiceType)value);
             }
         });
     }
@@ -239,7 +235,7 @@ public class Tests
     {
         Assert.Throws<ArgumentOutOfRangeException>(() =>
         {
-            Factory.GetService((Factory.ServiceType)(-1));
+            Factory.GetDataService((Factory.ServiceType)(-1));
         });
     }
 

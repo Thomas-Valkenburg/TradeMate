@@ -9,28 +9,20 @@ internal class Customer
     [Key]
     public required int Id { get; init; }
 
-    public required string Name { get; init; }
-
-    public required string Email { get; init; }
-
     internal Domain.Models.Customer ConvertToDomain()
     {
-        return new Domain.Models.Customer
-        {
-            Id       = Id,
-            Name     = Name,
-            Email    = Email,
-            Inventories = new SqLiteService().GetAllInventories(Id)
-        };
+	    return new Domain.Models.Customer
+	    {
+		    Id          = Id,
+		    Inventories = new SqLiteService().GetAllInventories(Id)
+	    };
     }
 
     internal static Customer ConvertToDataAccess(Domain.Models.Customer customer)
     {
-        return new Customer
-        {
-            Id    = customer.Id,
-            Name  = customer.Name,
-            Email = customer.Email
-        };
+	    return new Customer
+	    {
+		    Id = customer.Id
+	    };
     }
 }
