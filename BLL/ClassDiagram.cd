@@ -1,57 +1,128 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="BLL.Models.Category">
-    <Position X="5.25" Y="11" Width="1.5" />
+    <Position X="16" Y="5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Category.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BLL.Models.Customer">
-    <Position X="1.25" Y="11.25" Width="2.5" />
+    <Position X="4.75" Y="4" Width="2.75" />
+    <AssociationLine Name="_service" Type="Interfaces.IDataAccessLayer" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="6.125" Y="6.002" />
+        <Point X="6.125" Y="9.625" />
+        <Point X="8.75" Y="9.625" />
+      </Path>
+    </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAYAAAADAAAgAAAAAAAAAAAAEAAAAA=</HashCode>
+      <HashCode>AAAAAIAAAAAAAAAQAIAABAAAgAAAAAAEAAAAAAAAAAA=</HashCode>
       <FileName>Models\Customer.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_service" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="BLL.Models.StockItem">
-    <Position X="5.25" Y="4.5" Width="2.75" />
+    <Position X="16" Y="0.5" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAIAAAAAAEBAQAAAAAgAAAAEBAIAAAAAAAEAAAAA=</HashCode>
       <FileName>Models\StockItem.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_service" />
+    </ShowAsAssociation>
   </Class>
   <Class Name="Domain.Models.Category">
-    <Position X="5.25" Y="8.25" Width="1.75" />
+    <Position X="13.25" Y="5" Width="1.75" />
     <TypeIdentifier />
     <ShowAsAssociation>
       <Property Name="Inventory" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Domain.Models.Customer">
-    <Position X="1.75" Y="8.25" Width="1.5" />
+    <Position X="5.25" Y="1.25" Width="1.75" />
     <TypeIdentifier />
   </Class>
   <Class Name="Domain.Models.Inventory">
-    <Position X="1.75" Y="1.25" Width="1.75" />
+    <Position X="9.25" Y="1" Width="1.75" />
     <TypeIdentifier />
     <ShowAsAssociation>
       <Property Name="Customer" />
     </ShowAsAssociation>
   </Class>
   <Class Name="Domain.Models.StockItem">
-    <Position X="5.75" Y="1.25" Width="1.75" />
+    <Position X="13.25" Y="0.5" Width="1.75" />
     <TypeIdentifier />
     <ShowAsAssociation>
       <Property Name="Inventory" />
     </ShowAsAssociation>
   </Class>
   <Class Name="BLL.Models.Inventory">
-    <Position X="1.25" Y="4.25" Width="2.75" />
+    <Position X="8.75" Y="3.75" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAIAAIAAAAAAEAAQAAAAAgAAAAEAAAAAAAAAAEAAAAI=</HashCode>
       <FileName>Models\Inventory.cs</FileName>
     </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_service" />
+    </ShowAsAssociation>
   </Class>
+  <Class Name="BLL.Models.Account">
+    <Position X="0.5" Y="3.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAEIAIAAAAAAAAAQBIAABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Account.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_service" />
+      <Property Name="Customer" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Domain.Models.Account">
+    <Position X="0.5" Y="0.5" Width="2" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="DAL_Factory.Factory">
+    <Position X="20.25" Y="0.5" Width="3.25" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="DAL_Factory.Factory.ServiceType">
+        <TypeIdentifier />
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier />
+  </Class>
+  <Class Name="DAL_Sqlite.Services.SqLiteService" Collapsed="true">
+    <Position X="9.5" Y="12.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.159" />
+  </Class>
+  <Class Name="DAL_EF_Core.Services.EfCoreService" Collapsed="true">
+    <Position X="11.25" Y="12.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DAL_Test.Services.TestService" Collapsed="true">
+    <Position X="7.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DAL_Account_Sqlite.Services.AccountSqLiteService" Collapsed="true">
+    <Position X="0.75" Y="9.5" Width="1.75" />
+    <TypeIdentifier />
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Interfaces.IAccountDataAccessLayer">
+    <Position X="0.5" Y="7.5" Width="2.5" />
+    <TypeIdentifier />
+  </Interface>
+  <Interface Name="Interfaces.IDataAccessLayer">
+    <Position X="8.75" Y="7.25" Width="2.75" />
+    <TypeIdentifier />
+  </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
