@@ -10,12 +10,12 @@ public static class Query
     #region Read
 
     public static async Task<T?> ReadFirstAsync<T>(string username, string password) where T : class =>
-        await QueryReadAsync<T>(username, password);
+        await QueryReadAsync<T>(username);
 
-    public static T? ReadFirst<T>(string username, string password) where T : class =>
-        QueryReadAsync<T>(username, password).GetAwaiter().GetResult();
+    public static T? ReadFirst<T>(string username) where T : class =>
+        QueryReadAsync<T>(username).GetAwaiter().GetResult();
 
-    private static async Task<T?> QueryReadAsync<T>(string username, string password) where T : class
+    private static async Task<T?> QueryReadAsync<T>(string username) where T : class
     {
         var connection = DatabaseConnection.GetConnection();
         T? obj;
@@ -26,7 +26,7 @@ public static class Query
 
         try
         {
-	        obj = await connection.GetAsync<T>((username, password), transaction);
+	        obj = await connection.GetAsync<T>(username, transaction);
 
             await transaction.CommitAsync();
         }

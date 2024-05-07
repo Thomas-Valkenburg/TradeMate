@@ -10,7 +10,7 @@
 			<p>@ViewData["LoginError"]</p>
 		</div>
 	}
-	<form action="@Url.Action("Post")" method="post">
+	<form action="@Url.Action("LoginPost")" method="post">
 		@Html.AntiForgeryToken()
 		<div>
 			<label for="">Username:</label>

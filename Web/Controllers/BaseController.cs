@@ -9,14 +9,14 @@ public abstract class BaseController : Controller
     {
         if (HttpContext.Session.TryGetValue("username", out _))
         {
-            if (context.Controller.GetType() == typeof(LoginController))
+            if (context.Controller.GetType() == typeof(AccountController))
             {
                 context.Result = RedirectToAction("Index", "Home");
             }
         }
-        else if (context.Controller.GetType() != typeof(LoginController))
+        else if (context.Controller.GetType() != typeof(AccountController))
         {
-            context.Result = RedirectToAction("Index", "Login");
+            context.Result = RedirectToAction("Index", "Account");
         }
 
         base.OnActionExecuting(context);

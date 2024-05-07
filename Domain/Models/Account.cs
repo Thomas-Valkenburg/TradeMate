@@ -10,7 +10,6 @@ public class Account
 	[ExplicitKey]
 	public required string Username { get; set; }
 
-	[ExplicitKey]
 	public required string Password { get; set; }
 	
 	public required string Email { get; set; }

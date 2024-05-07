@@ -3,12 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers;
 
-public class LoginController : BaseController
+public class AccountController : BaseController
 {
     public ActionResult Index()
     {
-        return View();
+	    return RedirectToAction("Login");
     }
+
+    public ActionResult Login()
+    {
+	    return View();
+	}
 
     [HttpPost]
     public ActionResult LoginPost(string username, string password)

@@ -24,10 +24,10 @@ public class SqLiteService : IDataAccessLayer
 
     public Result DeleteCustomer(int customerId)
     {
-        var customer = GetCustomer(customerId);
-        if (customer == null) return Result.FromError(ErrorType.NotFound, "", "Customer");
+        var result = GetCustomer(customerId);
+        if (!result.Success || result.Value is null) return result;
 
-        Query.Delete(customer);
+		Query.Delete(result.Value);
         
         return Result.FromSuccess();
     }

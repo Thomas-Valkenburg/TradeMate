@@ -1,5 +1,4 @@
 ﻿using Domain;
-using Domain.Models;
 using Interfaces;
 
 namespace DAL_Account_Sqlite.Services;
@@ -8,14 +7,14 @@ public class AccountSqLiteService : IAccountDataAccessLayer
 {
 	public Result CreateAccount(Domain.Models.Account account) => Query.Insert(account);
 
-	public Result<Account?> ReadAccount(string username, string password)
+	public Result<Domain.Models.Account?> ReadAccount(string username, string password)
 	{
-		var account = Query.ReadFirst<Account>(username, password);
+		var account = Query.ReadFirst<Domain.Models.Account>(username);
 
-		return account is not null ? Result.FromSuccess<Account?>(account) : Result.FromError<Account?>(ErrorType.NotFound, "Username or password is incorrect", "");
+		return account is not null ? Result.FromSuccess<Domain.Models.Account?>(account) : Result.FromError<Domain.Models.Account?>(ErrorType.NotFound, "Username or password is incorrect", "");
 	}
 
-	public Result UpdateAccount(Account account) => Query.Update(account);
+	public Result UpdateAccount(Domain.Models.Account account) => Query.Update(account);
 
-	public Result DeleteAccount(Account account) => Query.Delete(account);
+	public Result DeleteAccount(Domain.Models.Account account) => Query.Delete(account);
 }
