@@ -1,7 +1,45 @@
-﻿@{
+﻿@model Web.Models.InventoriesViewModel;
+
+@{
     ViewData["Title"] = "Home";
+    var inventory = Model.Inventories.Find(x => x.Id == ViewData["Inventory"] as int?);
 }
 
-<div>
-    @*Html.PartialAsync("",)*@
+<div class="d-flex flex-row">
+	<div class="d-flex flex-column col-3 justify-content-start gap-2 p-2 border-1 border-end overflow-hidden">
+		@foreach (var inv in Model.Inventories)
+		{
+			<form asp-area="" asp-controller="Home" asp-action="Index" method="get">
+				<input class="visually-hidden" type="number" name="inventory" value="@inv.Id"/>
+				<input class="btn text-dark p-1" type="submit" value="@inv.Name"/>
+			</form>
+		}
+	</div>
+	<div class="col-9 p-3">
+		@if (inventory is null)
+		{
+			<p>Select an inventory on the left.</p>
+		}
+		else
+		{
+			@foreach (var item in inventory.GetStockItems())
+			{
+				<div class="card p-2">
+					<div class="d-flex flex-row justify-content-between gap-2">
+						<p class="card-title">@item.Name</p>
+						<p class="card-title">x@(item.Amount)</p>
+					</div>
+					<div class="card-body">
+
+					</div>
+					<div class="card-footer w-100">
+						<ol class="list-inline">
+							<a asp-area="" asp-controller="Home" asp-action="Details">Edit</a>
+							<a asp-area="" asp-controller="Home" asp-action="">Delete</a>
+						</ol>
+					</div>
+				</div>
+			}
+		}
+	</div>
 </div>
