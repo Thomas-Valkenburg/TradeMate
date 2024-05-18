@@ -9,7 +9,7 @@ public static class Query
 {
     #region Read
 
-    public static async Task<T?> ReadFirstAsync<T>(string username, string password) where T : class =>
+    public static async Task<T?> ReadFirstAsync<T>(string username) where T : class =>
         await QueryReadAsync<T>(username);
 
     public static T? ReadFirst<T>(string username) where T : class =>

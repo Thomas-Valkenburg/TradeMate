@@ -5,7 +5,7 @@ namespace Domain.Models;
 public class Account
 {
 	[Computed]
-	public int Id { get; init; }
+	public int AccountId { get; init; }
 
 	[ExplicitKey]
 	public required string Username { get; set; }
