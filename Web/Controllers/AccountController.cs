@@ -10,8 +10,10 @@ public class AccountController : BaseController
 	    return RedirectToAction("Login");
     }
 
-    public ActionResult Login()
+    public ActionResult Login(string? errorMessage = null)
     {
+	    ViewData["LoginError"] = errorMessage;
+
 	    return View();
 	}
 
@@ -20,11 +22,20 @@ public class AccountController : BaseController
     {
 	    var result = Account.TryLogin(username, password);
 
-	    if (!result.Success) ViewData["LoginError"] = result.ErrorMessage;
-        
-        
+	    if (!result.Success || result.Value is null)
+	    {
+		    return RedirectToAction("Login", routeValues: new
+		    {
+                errorMessage = result.ErrorMessage
+		    });
+	    }
 
-		return RedirectToAction("Index");
+		HttpContext.Session.SetString("AccountId", result.Value.AccountId.ToString());
+		HttpContext.Session.SetString("AccountUsername", result.Value.Username);
+	    HttpContext.Session.SetString("AccountEmail", result.Value.Email);
+		HttpContext.Session.SetString("CustomerId", result.Value.CustomerId.ToString());
+
+		return RedirectToAction("Index", "Home");
     }
 
     public ActionResult Signup()
@@ -38,5 +49,12 @@ public class AccountController : BaseController
 	    Account.CreateAccount(username, password, email);
 
 	    return RedirectToAction("Index");
+    }
+
+    public IActionResult Logout()
+    {
+	    HttpContext.Session.Clear();
+
+	    return RedirectToAction("Index", "Home");
     }
 }
