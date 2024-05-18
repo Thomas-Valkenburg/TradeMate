@@ -1,6 +1,6 @@
 ﻿namespace Domain.Models;
 
-public class Customer()
+public class Customer
 {
     public int Id { get; init; }
 

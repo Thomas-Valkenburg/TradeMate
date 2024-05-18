@@ -4,14 +4,14 @@ using Dapper.Contrib.Extensions;
 namespace DAL_Sqlite.Data_Access_Models;
 
 [Table("Inventory")]
-internal class Inventory
+public class Inventory
 {
-    [Key]
-    public required int Id { get; init; }
+	[Key]
+	public required int Id { get; init; }
 
     public required string Name { get; init; }
-    
-    public required int CustomerId { get; init; }
+
+	public required int CustomerId { get; init; }
 
     internal Domain.Models.Inventory? ConvertToDomainClass()
     {

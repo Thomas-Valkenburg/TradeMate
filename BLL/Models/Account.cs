@@ -59,7 +59,7 @@ public class Account : Domain.Models.Account
 			CustomerId   = account.CustomerId,
 			CreationDate = account.CreationDate,
 			ServiceType  = serviceType,
-			Id           = account.Id
+			AccountId    = account.AccountId
 		};
 	}
 }

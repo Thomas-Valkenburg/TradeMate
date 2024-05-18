@@ -13,8 +13,7 @@ internal class Customer
     {
 	    return new Domain.Models.Customer
 	    {
-		    Id          = Id,
-		    Inventories = new SqLiteService().GetAllInventories(Id)
+		    Id = Id
 	    };
     }
 

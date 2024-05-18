@@ -49,11 +49,10 @@ public class Customer(Factory.ServiceType serviceType) : Domain.Models.Customer
 	}
 
 	private static Customer Convert(Domain.Models.Customer customer, Factory.ServiceType serviceType)
-    {
-	    return new Customer(serviceType)
-	    {
-		    Id          = customer.Id,
-		    Inventories = customer.Inventories
-	    };
-    }
+	{
+		return new Customer(serviceType)
+		{
+			Id = customer.Id
+		};
+	}
 }
