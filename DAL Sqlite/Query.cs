@@ -11,21 +11,21 @@ public static class Query
     #region Read
 
     public static async Task<List<T>?> ReadManyAsync<T>(string query) where T : class =>
-        await QueryReadAsync<List<T>>(query, false);
+        await QueryReadManyAsync<T>(query);
 
     public static List<T>? ReadMany<T>(string query) where T : class =>
-        QueryReadAsync<List<T>>(query, false).GetAwaiter().GetResult();
+        QueryReadManyAsync<T>(query).GetAwaiter().GetResult();
 
     public static async Task<T?> ReadFirstAsync<T>(string query) where T : class =>
-        await QueryReadAsync<T>(query, true);
+        await QueryReadAsync<T>(query);
 
     public static T? ReadFirst<T>(string query) where T : class =>
-        QueryReadAsync<T>(query, true).GetAwaiter().GetResult();
+        QueryReadAsync<T>(query).GetAwaiter().GetResult();
 
-    private static async Task<T?> QueryReadAsync<T>(string query, bool single) where T : class
+    private static async Task<T?> QueryReadAsync<T>(string query) where T : class
     {
         var connection = DatabaseConnection.GetConnection();
-        T? obj;
+        T?  obj;
 
         await connection.OpenAsync();
 
@@ -33,15 +33,7 @@ public static class Query
 
         try
         {
-            if (single)
-            {
-                obj = await connection.QueryFirstOrDefaultAsync<T>(query, transaction);
-            }
-            else
-            {
-                var data = await connection.QueryAsync<T>(query, transaction);
-                obj = (data as List<T>)!.FirstOrDefault();
-            }
+	        obj = await connection.QueryFirstOrDefaultAsync<T>(query, transaction);
 
             await transaction.CommitAsync();
         }
@@ -55,11 +47,37 @@ public static class Query
         return obj;
     }
 
-    #endregion
+	private static async Task<List<T>?> QueryReadManyAsync<T>(string query) where T : class
+	{
+		var      connection = DatabaseConnection.GetConnection();
+		List<T>? objList;
 
-    #region Insert / Update / Delete
+		await connection.OpenAsync();
 
-    private enum NonQueryType
+		await using var transaction = await connection.BeginTransactionAsync();
+
+		try
+		{
+			var data = await connection.QueryAsync<T>(query, transaction);
+			objList = data.ToList();
+
+			await transaction.CommitAsync();
+		}
+		catch (SqliteException e)
+		{
+			_ = await ErrorHandler(e, connection, transaction);
+
+			return default;
+		}
+
+		return objList;
+	}
+
+	#endregion
+
+	#region Insert / Update / Delete
+
+	private enum NonQueryType
     {
         Insert,
         Update,

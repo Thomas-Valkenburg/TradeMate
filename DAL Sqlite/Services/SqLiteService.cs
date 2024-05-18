@@ -43,10 +43,7 @@ public class SqLiteService : IDataAccessLayer
     
     public List<Domain.Models.Inventory> GetAllInventories(int customerId)
     {
-        var inventoryList = Query
-            .ReadManyAsync<Data_Access_Models.Inventory>($"SELECT * FROM Inventory WHERE CustomerId={customerId}")
-            .GetAwaiter()
-            .GetResult();
+	    var inventoryList = Query.ReadMany<Data_Access_Models.Inventory>($"SELECT * FROM Inventory WHERE CustomerId={customerId}");
 
         var domainInventoriesList = new List<Domain.Models.Inventory>();
         
@@ -57,9 +54,7 @@ public class SqLiteService : IDataAccessLayer
 
     public Domain.Models.Inventory? GetInventory(int inventoryId)
     {
-        var inventory = Query
-            .ReadFirstAsync<Data_Access_Models.Inventory>($"SELECT * FROM Inventory WHERE Id={inventoryId}").GetAwaiter()
-            .GetResult();
+	    var inventory = Query.ReadFirst<Data_Access_Models.Inventory>($"SELECT * FROM Inventory WHERE Id={inventoryId}");
 
         return inventory?.ConvertToDomainClass();
     }
@@ -85,10 +80,7 @@ public class SqLiteService : IDataAccessLayer
 
     public Domain.Models.StockItem? GetStockItem(int stockItemId)
     {
-        var stockItem = Query
-            .ReadFirstAsync<Data_Access_Models.StockItem>($"SELECT * FROM StockItem WHERE Id={stockItemId}")
-            .GetAwaiter()
-            .GetResult();
+	    var stockItem = Query.ReadFirst<Data_Access_Models.StockItem>($"SELECT * FROM StockItems WHERE Id={stockItemId}");
 
         return stockItem?.ConvertToDomain();
     }
@@ -100,8 +92,14 @@ public class SqLiteService : IDataAccessLayer
 
     public List<Domain.Models.StockItem> GetAllStockItems(int inventoryId)
     {
-        throw new NotImplementedException();
-    }
+	    var stockItems = Query.ReadMany<Data_Access_Models.StockItem>($"SELECT * FROM StockItems Where InventoryId={inventoryId}");
+
+	    var domainStockItemList = new List<Domain.Models.StockItem>();
+
+	    stockItems?.ForEach(stockItem => domainStockItemList.Add(stockItem.ConvertToDomain()!));
+
+	    return domainStockItemList;
+	}
 
     public Result UpdateStockItem(Domain.Models.StockItem stockItem)
     {
