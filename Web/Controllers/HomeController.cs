@@ -1,21 +1,18 @@
-using System.Diagnostics;
+using BLL.Models;
+using DAL_Factory;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models;
 
 namespace Web.Controllers;
 
-public class HomeController(ILogger<HomeController> logger) : BaseController
+public class HomeController : BaseController
 {
-    public ILogger<HomeController> Logger { get; } = logger;
-
-    public ActionResult Index()
+    public ActionResult Index(int? inventory = null)
     {
-        return View();
-    }
+        var customer = Customer.TryGetCustomer(int.Parse(HttpContext.Session.GetString("CustomerId")!), Factory.ServiceType.Sqlite).Value!;
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public ActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        ViewData["Inventory"] = inventory;
+
+        return View(new InventoriesViewModel(customer.GetInventories()));
     }
 }
