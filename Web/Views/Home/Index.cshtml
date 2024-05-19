@@ -6,37 +6,53 @@
 }
 
 <div class="d-flex flex-row">
-	<div class="d-flex flex-column col-3 justify-content-start gap-2 p-2 border-1 border-end overflow-hidden">
+	<div class="d-flex flex-column justify-content-start gap-2 col-3 p-2 border-1 border-end overflow-hidden">
+		<a class="btn btn-outline-success" asp-controller="Home" asp-action="Add">Add Inventory</a>
 		@foreach (var inv in Model.Inventories)
 		{
 			<form asp-area="" asp-controller="Home" asp-action="Index" method="get">
 				<input class="visually-hidden" type="number" name="inventory" value="@inv.Id"/>
-				<input class="btn text-dark p-1" type="submit" value="@inv.Name"/>
+				<input class="btn btn-outline-primary border-2 text-start w-100 p-1 @(inv.Id == inventory?.Id ? "active" : "")" type="submit" value="@inv.Name"/>
 			</form>
 		}
 	</div>
-	<div class="col-9 p-3">
+	<div class="d-flex flex-column gap-2 col-9 p-2">
 		@if (inventory is null)
 		{
 			<p>Select an inventory on the left.</p>
 		}
 		else
 		{
+			<div class="d-flex justify-content-end w-100">
+				<a class="btn btn-outline-success" asp-controller="Items" asp-action="Add">Add new Item</a>
+			</div>
 			@foreach (var item in inventory.GetStockItems())
 			{
 				<div class="card p-2">
-					<div class="d-flex flex-row justify-content-between gap-2">
-						<p class="card-title">@item.Name</p>
-						<p class="card-title">x@(item.Amount)</p>
+					<div class="card-title d-flex flex-row justify-content-between gap-2">
+						<div class="d-flex flex-column">
+							<span>@item.Name</span>
+							@if (!string.IsNullOrWhiteSpace(item.Barcode))
+							{
+								<span>Barcode: @item.Barcode</span>
+							}
+						</div>
+						<div class="d-flex flex-column border-start border-1 ps-2 col-5 col-md-4 col-lg-3">
+							<span>Amount: x@(item.Amount)</span>
+							<span>Price: @item.Price.ToString("C")</span>
+						</div>
 					</div>
-					<div class="card-body">
-
-					</div>
-					<div class="card-footer w-100">
-						<ol class="list-inline">
-							<a asp-area="" asp-controller="Home" asp-action="Details">Edit</a>
-							<a asp-area="" asp-controller="Home" asp-action="">Delete</a>
-						</ol>
+					<div class="card-footer d-flex justify-content-end w-100 px-2">
+						<div class="d-flex flex-row gap-2">
+							<form asp-area="" asp-controller="Items" asp-action="Index">
+								<input class="visually-hidden" type="number" name="itemId" value="@item.Id" />
+								<input class="btn btn-outline-primary" type="submit" value="Edit" />
+							</form>
+							<form asp-area="" asp-controller="Items" asp-action="Delete">
+								<input class="visually-hidden" type="number" name="itemId" value="@item.Id" />
+								<input class="btn btn-outline-danger" type="submit" value="Delete" />
+							</form>
+						</div>
 					</div>
 				</div>
 			}
