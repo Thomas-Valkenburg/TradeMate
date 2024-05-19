@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Diagnostics;
 using Web.Models;
 
 namespace Web.Controllers;
@@ -9,14 +9,9 @@ public abstract class BaseController : Controller
 {
     public override void OnActionExecuting(ActionExecutingContext context)
     {
-        if (HttpContext.Session.TryGetValue("CustomerId", out _))
-        {
-            if (context.Controller.GetType() == typeof(AccountController))
-            {
-                context.Result = RedirectToAction("Index", "Home");
-            }
-        }
-        else if (context.Controller.GetType() != typeof(AccountController))
+	    var customerId = HttpContext.Session.GetString("CustomerId");
+
+        if (string.IsNullOrWhiteSpace(customerId) && context.Controller.GetType() != typeof(AccountController))
         {
             context.Result = RedirectToAction("Index", "Account");
         }
