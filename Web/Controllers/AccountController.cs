@@ -10,6 +10,7 @@ public class AccountController : BaseController
 	    return RedirectToAction("Login");
     }
 
+	
     public ActionResult Login(string? errorMessage = null)
     {
 	    ViewData["LoginError"] = errorMessage;
@@ -22,7 +23,7 @@ public class AccountController : BaseController
     {
 	    var result = Account.TryLogin(username, password);
 
-	    if (!result.Success || result.Value is null)
+		if (!result.Success || result.Value is null)
 	    {
 		    return RedirectToAction("Login", routeValues: new
 		    {
@@ -51,7 +52,7 @@ public class AccountController : BaseController
 	    return RedirectToAction("Index");
     }
 
-    public IActionResult Logout()
+    public ActionResult Logout()
     {
 	    HttpContext.Session.Clear();
 
