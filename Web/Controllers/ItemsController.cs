@@ -1,12 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Web.Controllers
+namespace Web.Controllers;
+
+public class ItemsController : BaseController
 {
-	public class ItemsController : Controller
+	public ActionResult Index(int itemId)
 	{
-		public IActionResult Index()
-		{
-			return View();
-		}
+		return View();
+	}
+
+	[HttpPost]
+	public ActionResult Delete(int itemId)
+	{
+		return RedirectToAction("Index", "Home");
 	}
 }
