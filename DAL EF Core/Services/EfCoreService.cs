@@ -21,7 +21,7 @@ public class EfCoreService : IDataAccessLayer
         throw new NotImplementedException();
     }
 
-    public Result DeleteCustomer(int customerId)
+    public Result DeleteCustomer(Customer customer)
     {
         throw new NotImplementedException();
     }
@@ -31,7 +31,7 @@ public class EfCoreService : IDataAccessLayer
         throw new NotImplementedException();
     }
 
-    public Inventory? GetInventory(int inventoryId)
+    public Result<Inventory?> GetInventory(int inventoryId)
     {
         throw new NotImplementedException();
     }
@@ -46,7 +46,7 @@ public class EfCoreService : IDataAccessLayer
         throw new NotImplementedException();
     }
 
-    public Result DeleteInventory(int inventoryId)
+    public Result DeleteInventory(Inventory inventory)
     {
         throw new NotImplementedException();
     }
@@ -76,7 +76,7 @@ public class EfCoreService : IDataAccessLayer
         throw new NotImplementedException();
     }
 
-    public Result DeleteStockItem(int stockItemId)
+    public Result DeleteStockItem(StockItem stockItem)
     {
         throw new NotImplementedException();
     }
@@ -101,7 +101,7 @@ public class EfCoreService : IDataAccessLayer
         throw new NotImplementedException();
     }
 
-    public Result DeleteCategory(int categoryId)
+    public Result DeleteCategory(Category category)
     {
         throw new NotImplementedException();
     }

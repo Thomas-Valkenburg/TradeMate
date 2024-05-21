@@ -13,7 +13,7 @@ public interface IDataAccessLayer
 
     Result UpdateCustomer(Customer customer);
 
-    Result DeleteCustomer(int customerId);
+    Result DeleteCustomer(Customer customerId);
 
     #endregion
 
@@ -21,13 +21,13 @@ public interface IDataAccessLayer
 
     Result CreateInventory(Inventory inventory);
 
-    Inventory? GetInventory(int inventoryId);
+    Result<Inventory?> GetInventory(int inventoryId);
     
     List<Inventory> GetAllInventories(int customerId);
     
     Result UpdateInventory(Inventory inventory);
     
-    Result DeleteInventory(int inventoryId);
+    Result DeleteInventory(Inventory inventoryId);
 
     #endregion
 
@@ -43,7 +43,7 @@ public interface IDataAccessLayer
     
     Result UpdateStockItem(StockItem stockItem);
     
-    Result DeleteStockItem(int stockItemId);
+    Result DeleteStockItem(StockItem stockItemId);
 
     #endregion
 
@@ -57,7 +57,7 @@ public interface IDataAccessLayer
     
     Result UpdateCategory(Category category);
     
-    Result DeleteCategory(int categoryId);
+    Result DeleteCategory(Category categoryId);
 
     #endregion
 }

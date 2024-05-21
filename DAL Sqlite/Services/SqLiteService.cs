@@ -22,14 +22,9 @@ public class SqLiteService : IDataAccessLayer
         throw new NotImplementedException();
     }
 
-    public Result DeleteCustomer(int customerId)
+    public Result DeleteCustomer(Domain.Models.Customer customer)
     {
-        var result = GetCustomer(customerId);
-        if (!result.Success || result.Value is null) return result;
-
-		Query.Delete(result.Value);
-        
-        return Result.FromSuccess();
+		return Query.Delete(customer);
     }
 
     #endregion
@@ -52,11 +47,11 @@ public class SqLiteService : IDataAccessLayer
         return domainInventoriesList;
     }
 
-    public Domain.Models.Inventory? GetInventory(int inventoryId)
+    public Result<Domain.Models.Inventory?> GetInventory(int inventoryId)
     {
-	    var inventory = Query.ReadFirst<Data_Access_Models.Inventory>($"SELECT * FROM Inventory WHERE Id={inventoryId}");
+	    var inventory = Query.ReadFirst<Inventory>($"SELECT * FROM Inventories WHERE Id={inventoryId}");
 
-        return inventory?.ConvertToDomainClass();
+        return Result.FromSuccess(inventory?.ConvertToDomainClass());
     }
 
     public Result UpdateInventory(Domain.Models.Inventory inventory)
@@ -64,7 +59,7 @@ public class SqLiteService : IDataAccessLayer
         throw new NotImplementedException();
     }
 
-    public Result DeleteInventory(int inventoryId)
+    public Result DeleteInventory(Domain.Models.Inventory inventoryId)
     {
         throw new NotImplementedException();
     }
@@ -106,9 +101,9 @@ public class SqLiteService : IDataAccessLayer
         throw new NotImplementedException();
     }
 
-    public Result DeleteStockItem(int stockItemId)
+    public Result DeleteStockItem(Domain.Models.StockItem stockItem)
     {
-        throw new NotImplementedException();
+	    return Query.Delete(stockItem);
     }
 
     #endregion
@@ -150,7 +145,7 @@ public class SqLiteService : IDataAccessLayer
         throw new NotImplementedException();
     }
 
-    public Result DeleteCategory(int categoryId)
+    public Result DeleteCategory(Domain.Models.Category categoryId)
     {
         throw new NotImplementedException();
     }

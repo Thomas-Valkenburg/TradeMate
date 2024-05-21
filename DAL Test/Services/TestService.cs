@@ -34,12 +34,12 @@ public class TestService : IDataAccessLayer
         return Result.FromSuccess();
     }
 
-    public Result DeleteCustomer(int customerId)
+    public Result DeleteCustomer(Customer customer)
     {
-        _tempData.Customer.RemoveAll(x => x.Id == customerId);
-        
-        return Result.FromSuccess();
-    }
+	    _tempData.Customer.RemoveAll(x => x.Id == customer.Id);
+
+	    return Result.FromSuccess();
+	}
 
     public Result CreateInventory(Inventory inventory)
     {
@@ -50,7 +50,7 @@ public class TestService : IDataAccessLayer
         return Result.FromSuccess();
     }
 
-    public Inventory? GetInventory(int inventoryId)
+    public Result<Inventory?> GetInventory(int inventoryId)
     {
         Inventory? inventory = null;
         
@@ -61,7 +61,7 @@ public class TestService : IDataAccessLayer
             if (inventory is not null) inventory = inv;
         });
 
-        return inventory;
+        return Result.FromSuccess(inventory);
     }
 
     public List<Inventory> GetAllInventories(int customerId)
@@ -72,6 +72,11 @@ public class TestService : IDataAccessLayer
     public Result UpdateInventory(Inventory inventory)
     {
         return Result.FromSuccess();
+    }
+
+    public Result DeleteInventory(Inventory inventoryId)
+    {
+	    throw new NotImplementedException();
     }
 
     public Result DeleteInventory(int inventoryId)
@@ -162,6 +167,11 @@ public class TestService : IDataAccessLayer
         return Result.FromError(ErrorType.NotFound, $"No stockItem found with id: {stockItem.Id}", "StockItem");
     }
 
+    public Result DeleteStockItem(StockItem stockItemId)
+    {
+	    throw new NotImplementedException();
+    }
+
     public Result DeleteStockItem(int stockItemId)
     {
         foreach (var x in _tempData.Customer)
@@ -197,6 +207,11 @@ public class TestService : IDataAccessLayer
     public Result UpdateCategory(Category category)
     {
         return Result.FromSuccess();
+    }
+
+    public Result DeleteCategory(Category categoryId)
+    {
+	    throw new NotImplementedException();
     }
 
     public Result DeleteCategory(int categoryId)
