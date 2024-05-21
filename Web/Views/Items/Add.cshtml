@@ -1,0 +1,57 @@
+﻿@using System.Globalization
+
+@model (string name, int id)
+
+@{
+	ViewData["Title"] = "Add new item";
+}
+
+<div class="justify-content-center">
+	<form class="d-flex flex-column gap-2" asp-controller="Items" asp-action="Add" method="post">
+		<div class="form-floating visually-hidden">
+			<input id="InventoryId" class="form-control" type="number" name="inventoryId" value="@Model.id" placeholder="" readonly />
+			<label for="InventoryId" class="form-label">Inventory Id</label>
+		</div>
+		<div class="form-floating">
+			<input id="InventoryName" class="form-control" type="text" value="@Model.name" placeholder="" readonly />
+			<label for="InventoryName" class="form-label">Inventory Name</label>
+		</div>
+		<div class="d-flex flex-row gap-3 align-items-center">
+			<div class="form-floating col-auto flex-grow-1">
+				<input id="Name" class="form-control" type="text" name="name" placeholder="" aria-describedby="NameHelp" min="3" max="90" required />
+				<label for="Name" class="form-label">Name</label>
+			</div>
+			<div class="col-auto">
+				<span id="NameHelp" class="form-text">Test</span>
+			</div>
+		</div>
+		<div class="d-flex flex-row gap-3 align-items-center">
+			<div class="form-floating col-auto flex-grow-1">
+				<input id="Barcode" class="form-control" type="text" name="barcode" placeholder="" aria-describedby="BarcodeHelp" />
+				<label for="Barcode" class="form-label">Barcode</label>
+			</div>
+			<div>
+				<span id="BarcodeHelp" class="form-text">Test</span>
+			</div>
+		</div>
+		<div class="d-flex flex-row justify-content-between gap-3">
+			<div class="input-group flex-grow-1 w-auto">
+				<span class="input-group-text">@RegionInfo.CurrentRegion.CurrencySymbol</span>
+				<div class="form-floating">
+					<input id="Price" class="form-control" type="number" name="price" placeholder="" step=".01" min="0" required/>
+					<label for="Price" class="form-label">Price</label>
+				</div>
+			</div>
+			<div class="input-group flex-grow-1 w-auto">
+				<span class="input-group-text">123</span>
+				<div class="form-floating">
+					<input id="Amount" class="form-control" type="number" name="amount" placeholder="" step="1" min="0" required/>
+					<label for="Amount" class="form-label">Amount</label>
+				</div>
+			</div>
+		</div>
+		<div class="d-flex flex-row justify-content-center gap-2 w-100 mt-3">
+			<input class="btn btn-outline-danger col-3 col-md-2" type="submit" value="Create" />
+		</div>
+	</form>
+</div>
