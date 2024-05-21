@@ -1,4 +1,5 @@
-﻿@model Web.Models.InventoriesViewModel;
+﻿@using System.Globalization
+@model Web.Models.InventoriesViewModel;
 
 @{
     ViewData["Title"] = "Home";
@@ -7,7 +8,7 @@
 
 <div class="d-flex flex-row">
 	<div class="d-flex flex-column justify-content-start gap-2 col-3 p-2 border-1 border-end overflow-hidden">
-		<a class="btn btn-outline-success" asp-controller="Home" asp-action="Add">Add Inventory</a>
+		<a class="btn btn-outline-success" asp-controller="Home" asp-action="AddInventory">Create Inventory</a>
 		@foreach (var inv in Model.Inventories)
 		{
 			<form asp-area="" asp-controller="Home" asp-action="Index" method="get">
@@ -24,7 +25,10 @@
 		else
 		{
 			<div class="d-flex justify-content-end w-100">
-				<a class="btn btn-outline-success" asp-controller="Items" asp-action="Add">Add new Item</a>
+				<form asp-controller="Items" asp-action="Add" method="get">
+					<input class="visually-hidden" type="number" name="inventoryId" value="@inventory.Id" required />
+					<input class="btn btn-outline-success" type="submit" value="Add new Item"/>
+				</form>
 			</div>
 			@foreach (var item in inventory.GetStockItems())
 			{
@@ -46,11 +50,11 @@
 						<div class="d-flex flex-row gap-2">
 							<form asp-area="" asp-controller="Items" asp-action="Index">
 								<input class="visually-hidden" type="number" name="itemId" value="@item.Id" />
-								<input class="btn btn-outline-primary" type="submit" value="Edit" />
+								<input class="btn btn-sm btn-outline-primary" type="submit" value="Edit" />
 							</form>
 							<form asp-area="" asp-controller="Items" asp-action="Delete">
 								<input class="visually-hidden" type="number" name="itemId" value="@item.Id" />
-								<input class="btn btn-outline-danger" type="submit" value="Delete" />
+								<input class="btn btn-sm btn-outline-danger" type="submit" value="Delete" />
 							</form>
 						</div>
 					</div>
