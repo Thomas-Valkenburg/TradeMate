@@ -3,7 +3,7 @@ using Dapper.Contrib.Extensions;
 
 namespace DAL_Sqlite.Data_Access_Models;
 
-[Table("Inventory")]
+[Table("Inventories")]
 public class Inventory
 {
 	[Key]

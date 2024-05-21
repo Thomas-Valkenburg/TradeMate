@@ -1,9 +1,8 @@
-﻿using DAL_Sqlite.Services;
-using Dapper.Contrib.Extensions;
+﻿using Dapper.Contrib.Extensions;
 
 namespace DAL_Sqlite.Data_Access_Models;
 
-[Table("Customer")]
+[Table("Customers")]
 internal class Customer
 {
     [Key]

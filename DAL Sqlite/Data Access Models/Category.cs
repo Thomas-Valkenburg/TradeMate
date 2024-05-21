@@ -3,7 +3,7 @@ using Dapper.Contrib.Extensions;
 
 namespace DAL_Sqlite.Data_Access_Models;
 
-[Table("Category")]
+[Table("Categories")]
 internal class Category
 {
     [Key]
@@ -19,7 +19,7 @@ internal class Category
         {
             Id = Id,
             Name = Name,
-            Inventory = new SqLiteService().GetInventory(InventoryId)
+            Inventory = new SqLiteService().GetInventory(InventoryId).Value
         };
     }
 }
