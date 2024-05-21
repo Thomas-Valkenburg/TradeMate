@@ -6,6 +6,8 @@ namespace Web;
 
 public static class Program
 {
+	internal static readonly Factory.ServiceType ServiceType = Factory.ServiceType.Sqlite;
+
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
