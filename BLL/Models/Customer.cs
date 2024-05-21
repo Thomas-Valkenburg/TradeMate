@@ -19,7 +19,7 @@ public class Customer(Factory.ServiceType serviceType) : Domain.Models.Customer
 
         _service.GetAllInventories(Id).ForEach(inventory =>
         {
-            list.Add(Inventory.ConvertToBll(inventory, _service));
+            list.Add(Inventory.Convert(inventory, _service));
         });
 
         return list;

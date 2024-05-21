@@ -84,7 +84,7 @@ public class Inventory : Domain.Models.Inventory
         return Result.FromSuccess();
     }
 
-    internal static Inventory ConvertToBll(Domain.Models.Inventory data, IDataAccessLayer service) => new(service)
+    internal static Inventory Convert(Domain.Models.Inventory data, IDataAccessLayer service) => new(service)
     {
         Id = data.Id,
         Name = data.Name,
