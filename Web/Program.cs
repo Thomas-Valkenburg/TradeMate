@@ -1,3 +1,7 @@
+using DAL_Factory;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+
 namespace Web;
 
 public static class Program
@@ -12,6 +16,15 @@ public static class Program
 
         builder.Services.AddSession();
 
+        builder.Services.AddRequestLocalization(options =>
+        {
+	        var supportedCultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
+	        var defaultCulture    = new CultureInfo("en-US");
+
+	        options.SupportedCultures     = supportedCultures;
+	        options.DefaultRequestCulture = new RequestCulture(defaultCulture);
+        });
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -21,6 +34,8 @@ public static class Program
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
             app.UseHsts();
         }
+
+        app.UseRequestLocalization();
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();

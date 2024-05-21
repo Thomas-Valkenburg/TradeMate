@@ -39,7 +39,7 @@
 						</div>
 						<div class="d-flex flex-column border-start border-1 ps-2 col-5 col-md-4 col-lg-3">
 							<span>Amount: x@(item.Amount)</span>
-							<span>Price: @item.Price.ToString("C")</span>
+							<span>Price: @(Convert.ToDouble(item.Price).ToString("C", new CultureInfo($"{CultureInfo.CurrentCulture.TwoLetterISOLanguageName}-{RegionInfo.CurrentRegion.TwoLetterISORegionName}")))</span>
 						</div>
 					</div>
 					<div class="card-footer d-flex justify-content-end w-100 px-2">
