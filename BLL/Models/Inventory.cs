@@ -34,7 +34,7 @@ public class Inventory : Domain.Models.Inventory
     {
         Customer.Inventories.Remove(this);
         
-        return _service.DeleteInventory(Id);
+        return _service.DeleteInventory(this);
     }
 
     public List<StockItem> GetStockItems()
@@ -67,6 +67,16 @@ public class Inventory : Domain.Models.Inventory
         var result = _service.CreateStockItem(stockItem);
 
         return result;
+    }
+
+    public static Result<Inventory?> TryGetInventory(int inventoryId, Factory.ServiceType serviceType)
+    {
+	    var service = Factory.GetDataService(serviceType);
+	    var result = service.GetInventory(inventoryId);
+
+	    if (!result.Success || result.Value is null) return Result.FromError<Inventory?>(result.Error ?? ErrorType.Unknown, result.ErrorMessage, result.ErrorPropertyName);
+
+	    return Result.FromSuccess(Convert(result.Value, service))!;
     }
 
     internal Result CheckIfValid(string name) => CheckIfValid(name, Customer);

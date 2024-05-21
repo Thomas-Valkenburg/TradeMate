@@ -63,7 +63,7 @@ public class StockItem : Domain.Models.StockItem
     
     private Result Save() => _service.UpdateStockItem(this);
     
-    public Result Delete() => _service.DeleteStockItem(Id);
+    public Result Delete() => _service.DeleteStockItem(this);
 
     private Result CheckIfValid(string name) => CheckIfValid(name, Amount, Price);
     private Result CheckIfValid(int amount) => CheckIfValid(Name, amount, Price);
