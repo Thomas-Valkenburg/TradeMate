@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL Factory", "DAL Factory\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL EF Core", "DAL EF Core\DAL EF Core.csproj", "{0BA51F6D-0D79-449A-B4D2-FAE4C1E5760B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL Test", "DAL Test\DAL Test.csproj", "{5D745C7D-CDCB-4E57-AB5C-07D1AC246F98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL Test", "DAL Test\DAL Test.csproj", "{5D745C7D-CDCB-4E57-AB5C-07D1AC246F98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL Account Sqlite", "DAL Account Sqlite\DAL Account Sqlite.csproj", "{5F4A204F-B2C2-4E25-B2BC-F9BEA9B8A385}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL Account Sqlite", "DAL Account Sqlite\DAL Account Sqlite.csproj", "{5F4A204F-B2C2-4E25-B2BC-F9BEA9B8A385}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
