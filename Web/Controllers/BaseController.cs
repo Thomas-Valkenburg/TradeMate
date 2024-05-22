@@ -9,12 +9,15 @@ public abstract class BaseController : Controller
 {
     public override void OnActionExecuting(ActionExecutingContext context)
     {
-	    var customerId = HttpContext.Session.GetString("CustomerId");
+        var customerId = HttpContext.Session.GetString("CustomerId");
 
         if (string.IsNullOrWhiteSpace(customerId) && context.Controller.GetType() != typeof(AccountController))
         {
             context.Result = RedirectToAction("Index", "Account");
         }
+
+        if (Theme.GetActiveTheme(HttpContext) is null)
+            HttpContext.Session.SetString("data-bs-theme", nameof(Theme.Value.auto));
 
         base.OnActionExecuting(context);
     }
