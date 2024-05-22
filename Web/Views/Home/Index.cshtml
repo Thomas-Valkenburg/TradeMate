@@ -6,8 +6,8 @@
     var inventory = Model.Inventories.Find(x => x.Id == ViewData["Inventory"] as int?);
 }
 
-<div class="d-flex flex-row">
-	<div class="d-flex flex-column justify-content-start gap-2 col-3 p-2 border-1 border-end overflow-hidden">
+<div class="d-flex flex-column flex-md-row">
+	<div class="d-flex flex-column justify-content-start gap-2 col-md-3 p-2 overflow-hidden">
 		<a class="btn btn-outline-success" asp-controller="Inventory" asp-action="Add">Create Inventory</a>
 		@if (Model.Inventories.Count < 1)
 		{
@@ -26,11 +26,16 @@
 			}
 		}
 	</div>
-	<div class="d-flex flex-column gap-2 col-9 p-2">
+	<div class="vr d-none d-md-inline-block col-md-1"></div>
+	<hr class="d-md-none" />
+	<div class="d-flex flex-column flex-grow-1 gap-2 p-2">
 		@if (inventory is null)
 		{
-			<div class="text-center">
+			<div class="d-none d-md-block text-center">
 				Select an inventory on the left.
+			</div>
+			<div class="d-md-none text-center">
+				Select an inventory at the top.
 			</div>
 		}
 		else if (inventory.StockItems.Count < 1)
