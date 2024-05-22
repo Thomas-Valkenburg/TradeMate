@@ -5,8 +5,10 @@ using Web.Models;
 
 namespace Web.Controllers;
 
-public abstract class BaseController : Controller
+public abstract class BaseController(ILogger<BaseController> logger) : Controller
 {
+    public ILogger<BaseController> Logger { get; } = logger;
+
     public override void OnActionExecuting(ActionExecutingContext context)
     {
         var customerId = HttpContext.Session.GetString("CustomerId");

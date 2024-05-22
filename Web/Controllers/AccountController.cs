@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers;
 
-public class AccountController : BaseController
+public class AccountController(ILogger<AccountController> logger) : BaseController(logger)
 {
     public ActionResult Index()
     {

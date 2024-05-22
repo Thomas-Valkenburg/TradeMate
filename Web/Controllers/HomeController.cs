@@ -4,7 +4,7 @@ using Web.Models;
 
 namespace Web.Controllers;
 
-public class HomeController : BaseController
+public class HomeController(ILogger<HomeController> logger) : BaseController(logger)
 {
     [HttpGet]
     public ActionResult Index(int? inventory = null)

@@ -1,10 +1,10 @@
-﻿using System.Globalization;
-using BLL.Models;
+﻿using BLL.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace Web.Controllers;
 
-public class ItemsController : BaseController
+public class ItemsController(ILogger<ItemsController> logger) : BaseController(logger)
 {
 	public ActionResult Index(int itemId)
 	{

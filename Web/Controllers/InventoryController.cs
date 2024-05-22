@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers;
 
-public class InventoryController : Controller
+public class InventoryController(ILogger<InventoryController> logger) : BaseController(logger)
 {
     [HttpGet]
     public ActionResult Add()
