@@ -65,6 +65,16 @@ public class StockItem : Domain.Models.StockItem
     
     public Result Delete() => _service.DeleteStockItem(this);
 
+    public static Result<StockItem?> TryGetStockItem(int stockItemId, Factory.ServiceType serviceType)
+    {
+	    var service = Factory.GetDataService(serviceType);
+	    var result  = service.GetStockItem(stockItemId);
+
+	    if (!result.Success || result.Value is null) return Result.FromError<StockItem>(result.Error ?? ErrorType.Unknown, result.ErrorMessage, result.ErrorPropertyName);
+
+	    return Result.FromSuccess(Convert(result.Value, service))!;
+    }
+
     private Result CheckIfValid(string name) => CheckIfValid(name, Amount, Price);
     private Result CheckIfValid(int amount) => CheckIfValid(Name, amount, Price);
     private Result CheckIfValid(decimal price) => CheckIfValid(Name, Amount, price);
