@@ -74,14 +74,9 @@ public class TestService : IDataAccessLayer
         return Result.FromSuccess();
     }
 
-    public Result DeleteInventory(Inventory inventoryId)
+    public Result DeleteInventory(Inventory inventory)
     {
-	    throw new NotImplementedException();
-    }
-
-    public Result DeleteInventory(int inventoryId)
-    {
-        _tempData.Customer.ForEach(x => x.Inventories.RemoveAll(y => y.Id == inventoryId));
+        _tempData.Customer.ForEach(x => x.Inventories.RemoveAll(y => y.Id == inventory.Id));
         
         return Result.FromSuccess();
     }
@@ -99,7 +94,7 @@ public class TestService : IDataAccessLayer
         return Result.FromSuccess();
     }
 
-    public StockItem? GetStockItem(int stockItemId)
+    public Result<StockItem?> GetStockItem(int stockItemId)
     {
         StockItem? stockItem = null;
         
@@ -114,7 +109,7 @@ public class TestService : IDataAccessLayer
             });
         });
         
-        return stockItem;
+        return Result.FromSuccess(stockItem);
     }
 
     public StockItem? GetStockItemByBarcode(int inventoryId, string barcode)
@@ -167,18 +162,13 @@ public class TestService : IDataAccessLayer
         return Result.FromError(ErrorType.NotFound, $"No stockItem found with id: {stockItem.Id}", "StockItem");
     }
 
-    public Result DeleteStockItem(StockItem stockItemId)
-    {
-	    throw new NotImplementedException();
-    }
-
-    public Result DeleteStockItem(int stockItemId)
+    public Result DeleteStockItem(StockItem stockItem)
     {
         foreach (var x in _tempData.Customer)
         {
             foreach (var y in x.Inventories)
             {
-                foreach (var z in y.StockItems.Where(z => z.Id == stockItemId))
+                foreach (var z in y.StockItems.Where(z => z.Id == stockItem.Id))
                 {
                     y.StockItems.Remove(z);
                     return Result.FromSuccess();

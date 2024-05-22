@@ -35,7 +35,7 @@ public interface IDataAccessLayer
 
     Result CreateStockItem(StockItem stockItem);
     
-    StockItem? GetStockItem(int stockItemId);
+    Result<StockItem?> GetStockItem(int stockItemId);
 
     StockItem? GetStockItemByBarcode(int inventoryId, string barcode);
     

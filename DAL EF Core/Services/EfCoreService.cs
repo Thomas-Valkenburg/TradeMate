@@ -56,7 +56,7 @@ public class EfCoreService : IDataAccessLayer
         throw new NotImplementedException();
     }
 
-    public StockItem? GetStockItem(int stockItemId)
+    public Result<StockItem?> GetStockItem(int stockItemId)
     {
         throw new NotImplementedException();
     }

@@ -81,11 +81,11 @@ public class SqLiteService : IDataAccessLayer
 	    return Query.Insert(StockItem.ConvertFromDomain(stockItem));
     }
 
-    public Domain.Models.StockItem? GetStockItem(int stockItemId)
+    public Result<Domain.Models.StockItem?> GetStockItem(int stockItemId)
     {
 	    var stockItem = Query.ReadFirst<StockItem>($"SELECT * FROM StockItems WHERE (Id={stockItemId})");
 
-        return stockItem?.ConvertToDomain();
+        return Result.FromSuccess(stockItem?.ConvertToDomain());
     }
 
     public Domain.Models.StockItem? GetStockItemByBarcode(int inventoryId, string barcode)
