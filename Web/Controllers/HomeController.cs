@@ -18,18 +18,10 @@ public class HomeController : BaseController
     }
 
     [HttpGet]
-    public ActionResult AddInventory()
+    public ActionResult ChangeTheme(string redirectPage, Theme.Value theme)
     {
-	    return View();
-    }
+        Theme.SetActive(theme, HttpContext);
 
-    [HttpPost]
-    public ActionResult AddInventory(string name)
-    {
-	    var customer = Customer.TryGetCustomer(int.Parse(HttpContext.Session.GetString("CustomerId")!), Program.ServiceType).Value;
-
-	    var result = customer?.AddInventory(name);
-
-	    return RedirectToAction("Index", "Home", routeValues: $"result={result?.ErrorMessage}");
+        return Redirect(redirectPage);
     }
 }
