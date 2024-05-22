@@ -7,7 +7,7 @@
 }
 
 <div class="justify-content-center">
-	<form class="d-flex flex-column gap-2" asp-controller="Items" asp-action="Add" method="post">
+	<form class="d-flex flex-column gap-2 needs-validation" asp-controller="Items" asp-action="Add" method="post" novalidate="">
 		<div class="form-floating visually-hidden">
 			<input id="InventoryId" class="form-control" type="number" name="inventoryId" value="@Model.id" placeholder="" readonly />
 			<label for="InventoryId" class="form-label">Inventory Id</label>
@@ -18,27 +18,33 @@
 		</div>
 		<div class="d-flex flex-row gap-3 align-items-center">
 			<div class="form-floating col-auto flex-grow-1">
-				<input id="Name" class="form-control" type="text" name="name" placeholder="" aria-describedby="NameHelp" min="3" max="90" required />
+				<input id="Name" class="form-control" type="text" name="name" placeholder="" aria-describedby="NameHelp" min="3" max="90" required/>
 				<label for="Name" class="form-label">Name</label>
+				<div class="invalid-feedback">
+					Please fill in a valid name.
+				</div>
 			</div>
 			<div class="col-auto">
 				<span id="NameHelp" class="form-text">Test</span>
 			</div>
 		</div>
 		<div class="d-flex flex-row gap-3 align-items-center">
-			<div class="form-floating col-auto flex-grow-1">
-				<input id="Barcode" class="form-control" type="text" name="barcode" placeholder="" aria-describedby="BarcodeHelp" />
-				<label for="Barcode" class="form-label">Barcode</label>
+			<div class="input-group">
+				<span class="input-group-text">#</span>
+				<div class="form-floating col-auto flex-grow-1">
+					<input id="Barcode" class="form-control" type="text" name="barcode" placeholder="" aria-describedby="BarcodeHelp"/>
+					<label for="Barcode" class="form-label">Barcode</label>
+				</div>
 			</div>
 			<div>
-				<span id="BarcodeHelp" class="form-text">Test</span>
+				<span id="BarcodeHelp" class="form-text">Optional</span>
 			</div>
 		</div>
 		<div class="d-flex flex-row justify-content-between gap-3">
 			<div class="input-group flex-grow-1 w-auto">
-				<span class="input-group-text">@RegionInfo.CurrentRegion.CurrencySymbol</span>
+				<span id="PriceIcon" class="input-group-text">@RegionInfo.CurrentRegion.CurrencySymbol</span>
 				<div class="form-floating">
-					<input id="Price" class="form-control" type="number" name="price" placeholder="" step=".01" min="0" required/>
+					<input id="Price" class="form-control" type="number" name="price" placeholder="" step=".01" min="0" aria-describedby="PriceIcon" required/>
 					<label for="Price" class="form-label">Price</label>
 				</div>
 			</div>
@@ -55,3 +61,31 @@
 		</div>
 	</form>
 </div>
+
+@section Scripts
+{
+	<script type="text/javascript">
+		// Example starter JavaScript for disabling form submissions if there are invalid fields
+		(function() {
+			'use strict';
+
+			// Fetch all the forms we want to apply custom Bootstrap validation styles to
+			var forms = document.querySelectorAll('.needs-validation');
+
+			// Loop over them and prevent submission
+			Array.prototype.slice.call(forms)
+				.forEach(function(form) {
+					form.addEventListener('submit',
+						function(event) {
+							if (!form.checkValidity()) {
+								event.preventDefault();
+								event.stopPropagation();
+							}
+
+							form.classList.add('was-validated');
+						},
+						false);
+				});
+		})()
+	</script>
+}

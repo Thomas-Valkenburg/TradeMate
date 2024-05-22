@@ -27,14 +27,25 @@ public class ItemsController : BaseController
 	{
 		var inventory = Inventory.TryGetInventory(inventoryId, Program.ServiceType).Value;
 
-		inventory?.AddStockItem(name, barcode, amount, decimal.Parse(price, CultureInfo.InvariantCulture));
+		try
+		{
+			inventory?.AddStockItem(name, barcode, amount, decimal.Parse(price, CultureInfo.InvariantCulture));
+		}
+		catch (OverflowException)
+		{
+			inventory?.AddStockItem(name, barcode, amount, decimal.MaxValue);
+		}
 
 		return RedirectToAction("Index", "Home", new { inventory = inventoryId });
 	}
 
 	[HttpPost]
-	public ActionResult Delete(int itemId)
+	public ActionResult Delete(int inventoryId, int itemId)
 	{
-		return RedirectToAction("Index", "Home");
+		var item = StockItem.TryGetStockItem(itemId, Program.ServiceType).Value;
+
+		item?.Delete();
+
+		return RedirectToAction("Index", "Home", new { inventory = inventoryId });
 	}
 }
