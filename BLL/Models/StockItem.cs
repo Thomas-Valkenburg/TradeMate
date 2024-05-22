@@ -82,7 +82,7 @@ public class StockItem : Domain.Models.StockItem
         return Result.FromSuccess();
     }
 
-    internal static StockItem ConvertToBll(Domain.Models.StockItem stockItem, IDataAccessLayer service) => new(service)
+    internal static StockItem Convert(Domain.Models.StockItem stockItem, IDataAccessLayer service) => new(service)
     {
         Id = stockItem.Id,
         Name = stockItem.Name,

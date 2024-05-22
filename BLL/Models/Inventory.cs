@@ -43,7 +43,7 @@ public class Inventory : Domain.Models.Inventory
 
         _service.GetAllStockItems(Id).ForEach(stockItem =>
         {
-            list.Add(StockItem.ConvertToBll(stockItem, _service));
+            list.Add(StockItem.Convert(stockItem, _service));
         });
 
         return list;
