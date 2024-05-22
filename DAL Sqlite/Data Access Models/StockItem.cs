@@ -15,7 +15,7 @@ internal class StockItem
     
     public required int Amount { get; init; }
     
-    public required int Price { get; init; }
+    public required long Price { get; init; }
     
     public required int InventoryId { get; init; }
 
@@ -34,14 +34,29 @@ internal class StockItem
 
     internal static StockItem ConvertFromDomain(Domain.Models.StockItem stockItem)
     {
-	    return new StockItem
+	    try
 	    {
-            Id = stockItem.Id,
-            Name = stockItem.Name,
-			Barcode = stockItem.Barcode,
-            Amount = stockItem.Amount,
-            Price = (int)stockItem.Price * 100,
-            InventoryId = stockItem.Inventory!.Id
-	    };
+		    return new StockItem
+		    {
+			    Id          = stockItem.Id,
+			    Name        = stockItem.Name,
+			    Barcode     = stockItem.Barcode,
+			    Amount      = stockItem.Amount,
+			    Price       = (int) (stockItem.Price * 100),
+			    InventoryId = stockItem.Inventory!.Id
+		    };
+	    }
+	    catch (OverflowException)
+	    {
+		    return new StockItem
+		    {
+			    Id          = stockItem.Id,
+			    Name        = stockItem.Name,
+			    Barcode     = stockItem.Barcode,
+			    Amount      = stockItem.Amount,
+			    Price       = long.MaxValue,
+			    InventoryId = stockItem.Inventory!.Id
+		    };
+		}
     }
 }
