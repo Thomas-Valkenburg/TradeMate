@@ -43,7 +43,7 @@ public class Customer(Factory.ServiceType serviceType) : Domain.Models.Customer
 	{
 		var result = Factory.GetDataService(serviceType).GetCustomer(customerId);
 
-		if (!result.Success || result.Value is null) return Result.FromError<Customer>(result.Error ?? ErrorType.Duplicate, result.ErrorMessage, result.ErrorPropertyName);
+		if (!result.Success || result.Value is null) return Result.FromError<Customer>(result.Error ?? ErrorType.Unknown, result.ErrorMessage, result.ErrorPropertyName);
 
         return Result.FromSuccess(Convert(result.Value, serviceType))!;
 	}
