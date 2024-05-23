@@ -17,7 +17,7 @@ public abstract class BaseController : Controller
         }
 
         if (Theme.GetActiveTheme(HttpContext) is null)
-            HttpContext.Session.SetString("data-bs-theme", nameof(Theme.Value.auto));
+            HttpContext.Session.SetString("data-bs-theme", nameof(Theme.Value.Auto));
 
         base.OnActionExecuting(context);
     }
