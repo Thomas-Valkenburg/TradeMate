@@ -15,7 +15,7 @@
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
-	<script>setTheme("@(Context.Session.GetString("data-bs-theme") ?? "auto")")</script>
+	<script>setTheme("@((Context.Session.GetString("data-bs-theme") ?? "auto").ToLowerInvariant())")</script>
 
 	<svg xmlns="http://www.w3.org/2000/svg" class="d-none">
 		<symbol id="theme-auto-icon" viewBox="0 0 16 16">
@@ -57,7 +57,7 @@
 					<li class="dropdown nav-item">
 						<button class="d-flex align-items-center dropdown-toggle nav-link" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 							<svg class="my-1 active" style="fill: currentColor; height: 1rem; width: 1rem;">
-								<use href="@Theme.GetThemeIconPath(Theme.GetActiveTheme(Context) ?? Theme.Value.auto)" />
+								<use href="@Theme.GetThemeIconPath(Theme.GetActiveTheme(Context) ?? Theme.Value.Auto)" />
 							</svg>
 							<span class="ms-2 d-sm-none">Toggle theme</span>
 						</button>

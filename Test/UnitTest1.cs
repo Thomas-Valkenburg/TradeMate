@@ -30,6 +30,22 @@ public class Tests
     #region Test cases
 
     [Test]
+    public void Test05_GetCustomer()
+    {
+        var result = Customer.TryGetCustomer(1, Factory.ServiceType.Test);
+
+        Assert.That(result is { Success: true, Value: not null });
+    }
+
+    [Test]
+    public void Test06_GetCustomerFail()
+	{
+		var result = Customer.TryGetCustomer(0, Factory.ServiceType.Test);
+
+		Assert.That(result is { Success: false, Error: ErrorType.NotFound, Value: null });
+	}
+
+    [Test]
     public void Test10_CreateInventory()
     {
         var result = _validCustomer.AddInventory("Inventories Eindhoven");

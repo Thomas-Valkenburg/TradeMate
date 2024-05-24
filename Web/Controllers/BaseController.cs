@@ -19,7 +19,7 @@ public abstract class BaseController(ILogger<BaseController> logger) : Controlle
         }
 
         if (Theme.GetActiveTheme(HttpContext) is null)
-            HttpContext.Session.SetString("data-bs-theme", nameof(Theme.Value.auto));
+            HttpContext.Session.SetString("data-bs-theme", nameof(Theme.Value.Auto));
 
         base.OnActionExecuting(context);
     }

@@ -4,9 +4,9 @@ public static class Theme
 {
 	public enum Value
 	{
-		auto,
-		light,
-		dark
+		Auto,
+		Light,
+		Dark
 	}
 
 	public static Value? GetActiveTheme(HttpContext context)
@@ -29,9 +29,9 @@ public static class Theme
 	{
 		return theme switch
 		{
-			Value.auto  => "#theme-auto-icon",
-			Value.light => "#theme-light-icon",
-			Value.dark  => "#theme-dark-icon",
+			Value.Auto  => "#theme-auto-icon",
+			Value.Light => "#theme-light-icon",
+			Value.Dark  => "#theme-dark-icon",
 			_           => throw new ArgumentOutOfRangeException(nameof(theme), theme, null)
 		};
 	}
