@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Home";
     var inventory = Model.Inventories.Find(x => x.Id == ViewData["Inventory"] as int?);
+	var stockItems = inventory?.GetStockItems() ?? [];
 }
 
 <div class="d-flex flex-column flex-md-row">
@@ -19,10 +20,13 @@
 		{
 			@foreach (var inv in Model.Inventories)
 			{
-				<form asp-area="" asp-controller="Home" asp-action="Index" method="get">
-					<input class="visually-hidden" type="number" name="inventory" value="@inv.Id"/>
-					<input class="btn btn-outline-primary border-2 text-start w-100 p-1 @(inv.Id == inventory?.Id ? "active" : "")" type="submit" value="@inv.Name"/>
-				</form>
+				<div class="d-flex justify-content-between align-items-center btn btn-outline-primary border-2 p-0 w-100 @(inv.Id == inventory?.Id ? "active" : "")">
+					<a asp-area="" asp-controller="Home" asp-action="Index" asp-route-inventory="@inv.Id" class="flex-grow-1 btn text-start p-2 m-0">@inv.Name</a>
+					@if (inv.Id == inventory?.Id)
+					{
+						<a asp-area="" asp-controller="Inventory" asp-action="Edit" asp-route-inventoryId="@inv.Id" class="flex-grow-0 p-2 m-0">Edit</a>
+					}
+				</div>
 			}
 		}
 	</div>
@@ -38,7 +42,7 @@
 				Select an inventory at the top.
 			</div>
 		}
-		else if (inventory.StockItems.Count < 1)
+		else if (stockItems.Count < 1)
 		{
 			<div class="d-flex justify-content-end w-100">
 				<form asp-controller="Items" asp-action="Add" method="get">
@@ -58,7 +62,7 @@
 					<input class="btn btn-outline-success" type="submit" value="Add new Item"/>
 				</form>
 			</div>
-			@foreach (var item in inventory.GetStockItems())
+			@foreach (var item in stockItems)
 			{
 				<div class="card p-2">
 					<div class="card-title d-flex flex-row justify-content-between gap-2">
