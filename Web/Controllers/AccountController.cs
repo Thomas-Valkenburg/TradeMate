@@ -9,12 +9,15 @@ namespace Web.Controllers;
 
 public class AccountController(ILogger<AccountController> logger) : BaseController(logger)
 {
+	[AllowAnonymous]
+	[HttpGet]
     public ActionResult Index()
     {
 	    return RedirectToAction("Login");
     }
 
-	
+	[AllowAnonymous]
+	[HttpGet]
     public ActionResult Login(string? errorMessage = null)
     {
 	    ViewData["LoginError"] = errorMessage;
@@ -22,8 +25,9 @@ public class AccountController(ILogger<AccountController> logger) : BaseControll
 	    return View();
 	}
 
-    [HttpPost]
-    public async Task<ActionResult> Login(string username, string password)
+	[AllowAnonymous]
+	[HttpPost]
+	public async Task<ActionResult> Login(string username, string password)
     {
 	    var result = Account.TryLogin(username, password);
 
@@ -45,11 +49,14 @@ public class AccountController(ILogger<AccountController> logger) : BaseControll
 		return RedirectToAction("Index", "Home");
     }
 
+	[AllowAnonymous]
+	[HttpGet]
     public ActionResult Signup()
     {
 	    return View();
     }
 
+	[AllowAnonymous]
     [HttpPost]
     public ActionResult Signup(string username, string email, string password)
     {
@@ -59,9 +66,11 @@ public class AccountController(ILogger<AccountController> logger) : BaseControll
     }
 
 	[Authorize]
+	[HttpPost]
     public ActionResult Logout()
     {
 	    HttpContext.Session.Clear();
+		HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
 	    return RedirectToAction("Index", "Home");
     }
