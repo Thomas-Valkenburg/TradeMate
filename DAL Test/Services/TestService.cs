@@ -1,10 +1,11 @@
 ﻿using DAL_Test.Data;
+using Domain;
 using Domain.Models;
 using Interfaces;
 
 namespace DAL_Test.Services;
 
-public class TestService : IDal
+public class TestService : IDataAccessLayer
 {
     private readonly TempData _tempData = new();
     
@@ -15,9 +16,11 @@ public class TestService : IDal
         return Result.FromSuccess();
     }
 
-    public Customer? GetCustomer(int customerId)
+    public Result<Customer?> GetCustomer(int customerId)
     {
-        return _tempData.Customer.Find(x => x.Id == customerId);
+	    var customer = _tempData.Customer.Find(x => x.Id == customerId);
+
+		return (customer is null ? Result.FromError<Customer>(ErrorType.NotFound, "", "")! : Result.FromSuccess(customer))!;
     }
 
     public Result UpdateCustomer(Customer customer)
@@ -33,12 +36,12 @@ public class TestService : IDal
         return Result.FromSuccess();
     }
 
-    public Result DeleteCustomer(int customerId)
+    public Result DeleteCustomer(Customer customer)
     {
-        _tempData.Customer.RemoveAll(x => x.Id == customerId);
-        
-        return Result.FromSuccess();
-    }
+	    _tempData.Customer.RemoveAll(x => x.Id == customer.Id);
+
+	    return Result.FromSuccess();
+	}
 
     public Result CreateInventory(Inventory inventory)
     {
@@ -49,7 +52,7 @@ public class TestService : IDal
         return Result.FromSuccess();
     }
 
-    public Inventory? GetInventory(int inventoryId)
+    public Result<Inventory?> GetInventory(int inventoryId)
     {
         Inventory? inventory = null;
         
@@ -60,7 +63,7 @@ public class TestService : IDal
             if (inventory is not null) inventory = inv;
         });
 
-        return inventory;
+        return Result.FromSuccess(inventory);
     }
 
     public List<Inventory> GetAllInventories(int customerId)
@@ -73,9 +76,9 @@ public class TestService : IDal
         return Result.FromSuccess();
     }
 
-    public Result DeleteInventory(int inventoryId)
+    public Result DeleteInventory(Inventory inventory)
     {
-        _tempData.Customer.ForEach(x => x.Inventories.RemoveAll(y => y.Id == inventoryId));
+        _tempData.Customer.ForEach(x => x.Inventories.RemoveAll(y => y.Id == inventory.Id));
         
         return Result.FromSuccess();
     }
@@ -93,7 +96,7 @@ public class TestService : IDal
         return Result.FromSuccess();
     }
 
-    public StockItem? GetStockItem(int stockItemId)
+    public Result<StockItem?> GetStockItem(int stockItemId)
     {
         StockItem? stockItem = null;
         
@@ -108,7 +111,7 @@ public class TestService : IDal
             });
         });
         
-        return stockItem;
+        return Result.FromSuccess(stockItem);
     }
 
     public StockItem? GetStockItemByBarcode(int inventoryId, string barcode)
@@ -161,13 +164,13 @@ public class TestService : IDal
         return Result.FromError(ErrorType.NotFound, $"No stockItem found with id: {stockItem.Id}", "StockItem");
     }
 
-    public Result DeleteStockItem(int stockItemId)
+    public Result DeleteStockItem(StockItem stockItem)
     {
         foreach (var x in _tempData.Customer)
         {
             foreach (var y in x.Inventories)
             {
-                foreach (var z in y.StockItems.Where(z => z.Id == stockItemId))
+                foreach (var z in y.StockItems.Where(z => z.Id == stockItem.Id))
                 {
                     y.StockItems.Remove(z);
                     return Result.FromSuccess();
@@ -196,6 +199,11 @@ public class TestService : IDal
     public Result UpdateCategory(Category category)
     {
         return Result.FromSuccess();
+    }
+
+    public Result DeleteCategory(Category categoryId)
+    {
+	    throw new NotImplementedException();
     }
 
     public Result DeleteCategory(int categoryId)

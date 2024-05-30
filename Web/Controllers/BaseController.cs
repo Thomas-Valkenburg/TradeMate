@@ -1,31 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Diagnostics;
+using Web.Models;
 
 namespace Web.Controllers;
 
-public abstract class BaseController : Controller
+public abstract class BaseController(ILogger<BaseController> logger) : Controller
 {
+    public ILogger<BaseController> Logger { get; } = logger;
+
     public override void OnActionExecuting(ActionExecutingContext context)
     {
-        if (HttpContext.Session.TryGetValue("username", out _))
+        var customerId = HttpContext.Session.GetString("CustomerId");
+
+        if (string.IsNullOrWhiteSpace(customerId) && context.Controller.GetType() != typeof(AccountController))
         {
-            if (context.Controller.GetType() == typeof(LoginController))
-            {
-                context.Result = RedirectToAction("Index", "Home");
-            }
+            context.Result = RedirectToAction("Index", "Account");
         }
-        else if (context.Controller.GetType() != typeof(LoginController))
-        {
-            context.Result = RedirectToAction("Index", "Login");
-        }
+
+        if (Theme.GetActiveTheme(HttpContext) is null)
+            HttpContext.Session.SetString("data-bs-theme", nameof(Theme.Value.Auto));
 
         base.OnActionExecuting(context);
     }
 
-    public IActionResult Logout()
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public ActionResult Error()
     {
-        HttpContext.Session.Clear();
-
-        return RedirectToAction("Index", "Home");
+	    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

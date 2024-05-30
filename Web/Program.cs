@@ -1,7 +1,13 @@
+using DAL_Factory;
+using Microsoft.AspNetCore.Localization;
+using System.Globalization;
+
 namespace Web;
 
 public static class Program
 {
+	internal static readonly Factory.ServiceType ServiceType = Factory.ServiceType.Sqlite;
+
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +17,21 @@ public static class Program
         builder.Services.AddControllersWithViews();
 
         builder.Services.AddSession();
+
+        builder.Services.AddRequestLocalization(options =>
+        {
+	        var supportedCultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
+	        var defaultCulture    = new CultureInfo("en-US");
+
+	        options.SupportedCultures     = supportedCultures;
+	        options.DefaultRequestCulture = new RequestCulture(defaultCulture);
+        });
+
+        builder.Services.AddAuthentication()
+        .AddCookie(options =>
+        {
+            options.LoginPath = "/Account/Login";
+        });
 
         var app = builder.Build();
 
@@ -22,11 +43,14 @@ public static class Program
             app.UseHsts();
         }
 
+        app.UseRequestLocalization();
+
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 
         app.UseRouting();
 
+        app.UseAuthentication();
         app.UseAuthorization();
         app.UseSession();
 

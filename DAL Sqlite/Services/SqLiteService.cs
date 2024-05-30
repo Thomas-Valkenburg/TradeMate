@@ -1,19 +1,21 @@
-﻿using Interfaces;
+﻿using DAL_Sqlite.Data_Access_Models;
+using Domain;
+using Interfaces;
 
 namespace DAL_Sqlite.Services;
 
-public class SqLiteService : IDal
+public class SqLiteService : IDataAccessLayer
 {
     #region Customer
 
     public Result CreateCustomer(Domain.Models.Customer customer) => Query
-        .Insert(Data_Access_Models.Customer.ConvertToDataAccess(customer));
+        .Insert(Customer.ConvertToDataAccess(customer));
     
-    public Domain.Models.Customer? GetCustomer(int customerId)
+    public Result<Domain.Models.Customer?> GetCustomer(int customerId)
     {
-        var customer = Query.ReadFirst<Data_Access_Models.Customer>($"SELECT * FROM Customer WHERE Id={customerId}");
+        var customer = Query.ReadFirst<Customer>($"SELECT * FROM Customers WHERE Id={customerId}");
 
-        return customer?.ConvertToDomain();
+        return Result.FromSuccess(customer?.ConvertToDomain());
     }
 
     public Result UpdateCustomer(Domain.Models.Customer customer)
@@ -21,14 +23,9 @@ public class SqLiteService : IDal
         throw new NotImplementedException();
     }
 
-    public Result DeleteCustomer(int customerId)
+    public Result DeleteCustomer(Domain.Models.Customer customer)
     {
-        var customer = GetCustomer(customerId);
-        if (customer == null) return Result.FromError(ErrorType.NotFound, "", "Customer");
-
-        Query.Delete(customer);
-        
-        return Result.FromSuccess();
+		return Query.Delete(customer);
     }
 
     #endregion
@@ -37,15 +34,19 @@ public class SqLiteService : IDal
 
     public Result CreateInventory(Domain.Models.Inventory inventory)
     {
-        throw new NotImplementedException();
+	    var inv = new Inventory
+	    {
+            Id = inventory.Id,
+            Name = inventory.Name,
+            CustomerId = inventory.Customer.Id
+	    };
+
+	    return Query.Insert(inv);
     }
     
     public List<Domain.Models.Inventory> GetAllInventories(int customerId)
     {
-        var inventoryList = Query
-            .ReadManyAsync<Data_Access_Models.Inventory>($"SELECT * FROM Inventory WHERE CustomerId={customerId}")
-            .GetAwaiter()
-            .GetResult();
+	    var inventoryList = Query.ReadMany<Inventory>($"SELECT * FROM Inventories WHERE CustomerId={customerId}");
 
         var domainInventoriesList = new List<Domain.Models.Inventory>();
         
@@ -54,13 +55,11 @@ public class SqLiteService : IDal
         return domainInventoriesList;
     }
 
-    public Domain.Models.Inventory? GetInventory(int inventoryId)
+    public Result<Domain.Models.Inventory?> GetInventory(int inventoryId)
     {
-        var inventory = Query
-            .ReadFirstAsync<Data_Access_Models.Inventory>($"SELECT * FROM Inventory WHERE Id={inventoryId}").GetAwaiter()
-            .GetResult();
+	    var inventory = Query.ReadFirst<Inventory>($"SELECT * FROM Inventories WHERE Id={inventoryId}");
 
-        return inventory?.ConvertToDomainClass();
+        return Result.FromSuccess(inventory?.ConvertToDomainClass());
     }
 
     public Result UpdateInventory(Domain.Models.Inventory inventory)
@@ -68,7 +67,7 @@ public class SqLiteService : IDal
         throw new NotImplementedException();
     }
 
-    public Result DeleteInventory(int inventoryId)
+    public Result DeleteInventory(Domain.Models.Inventory inventoryId)
     {
         throw new NotImplementedException();
     }
@@ -79,37 +78,42 @@ public class SqLiteService : IDal
 
     public Result CreateStockItem(Domain.Models.StockItem stockItem)
     {
-        throw new NotImplementedException();
+	    return Query.Insert(StockItem.ConvertFromDomain(stockItem));
     }
 
-    public Domain.Models.StockItem? GetStockItem(int stockItemId)
+    public Result<Domain.Models.StockItem?> GetStockItem(int stockItemId)
     {
-        var stockItem = Query
-            .ReadFirstAsync<Data_Access_Models.StockItem>($"SELECT * FROM StockItem WHERE Id={stockItemId}")
-            .GetAwaiter()
-            .GetResult();
+	    var stockItem = Query.ReadFirst<StockItem>($"SELECT * FROM StockItems WHERE (Id={stockItemId})");
 
-        return stockItem?.ConvertToDomain();
+        return Result.FromSuccess(stockItem?.ConvertToDomain());
     }
 
     public Domain.Models.StockItem? GetStockItemByBarcode(int inventoryId, string barcode)
     {
-        throw new NotImplementedException();
+	    var stockItem = Query.ReadFirst<StockItem>($"SELECT * from StockItems WHERE (InventoryId={inventoryId}, Barcode={barcode})");
+
+        return stockItem?.ConvertToDomain();
     }
 
     public List<Domain.Models.StockItem> GetAllStockItems(int inventoryId)
     {
-        throw new NotImplementedException();
-    }
+	    var stockItems = Query.ReadMany<StockItem>($"SELECT * FROM StockItems Where (InventoryId={inventoryId})");
+
+	    var domainStockItemList = new List<Domain.Models.StockItem>();
+
+	    stockItems?.ForEach(stockItem => domainStockItemList.Add(stockItem.ConvertToDomain()));
+
+	    return domainStockItemList;
+	}
 
     public Result UpdateStockItem(Domain.Models.StockItem stockItem)
     {
-        throw new NotImplementedException();
-    }
+	    return Query.Update(stockItem);
+	}
 
-    public Result DeleteStockItem(int stockItemId)
+    public Result DeleteStockItem(Domain.Models.StockItem stockItem)
     {
-        throw new NotImplementedException();
+	    return Query.Delete(stockItem);
     }
 
     #endregion
@@ -124,7 +128,7 @@ public class SqLiteService : IDal
     public Domain.Models.Category? GetCategory(int categoryId)
     {
         var category = Query
-            .ReadFirstAsync<Data_Access_Models.Category>($"SELECT * FROM Category WHERE Id={categoryId}").GetAwaiter()
+            .ReadFirstAsync<Category>($"SELECT * FROM Categories WHERE Id={categoryId}").GetAwaiter()
             .GetResult();
 
         return category?.ConvertToDomain();
@@ -133,7 +137,7 @@ public class SqLiteService : IDal
     public List<Domain.Models.Category> GetAllCategories(int inventoryId)
     {
         var categoryList = Query
-            .ReadManyAsync<Data_Access_Models.Category>($"SELECT * FROM Category WHERE InventoryId={inventoryId}")
+            .ReadManyAsync<Category>($"SELECT * FROM Categories WHERE InventoryId={inventoryId}")
             .GetAwaiter().GetResult();
 
         if (categoryList is null) return [];
@@ -142,7 +146,7 @@ public class SqLiteService : IDal
         {
             Id = input.Id,
             Name = input.Name,
-            Inventory = GetInventory(input.InventoryId)
+            Inventory = GetInventory(input.InventoryId).Value
         });
     }
 
@@ -151,7 +155,7 @@ public class SqLiteService : IDal
         throw new NotImplementedException();
     }
 
-    public Result DeleteCategory(int categoryId)
+    public Result DeleteCategory(Domain.Models.Category categoryId)
     {
         throw new NotImplementedException();
     }

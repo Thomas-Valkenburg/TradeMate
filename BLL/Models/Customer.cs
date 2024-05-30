@@ -1,27 +1,14 @@
 ﻿using DAL_Factory;
+using Domain;
 using Interfaces;
 
 namespace BLL.Models;
 
 public class Customer(Factory.ServiceType serviceType) : Domain.Models.Customer
 {
-    private readonly IDal _service = Factory.GetService(serviceType);
-
-    public Result ChangeName(string name)
-    {
-        Name = name;
-        
-        return SaveCustomer();
-    }
-
-    public Result ChangeEmail(string email)
-    {
-        Email = email;
-        
-        return SaveCustomer();
-    }
+    private readonly IDataAccessLayer _service = Factory.GetDataService(serviceType);
     
-    public Result SaveCustomer()
+    public Result Save()
     {
         return _service.CreateCustomer(this);
     }
@@ -32,7 +19,7 @@ public class Customer(Factory.ServiceType serviceType) : Domain.Models.Customer
 
         _service.GetAllInventories(Id).ForEach(inventory =>
         {
-            list.Add(Models.Inventory.ConvertToBll(inventory, _service));
+            list.Add(Inventory.Convert(inventory, _service));
         });
 
         return list;
@@ -51,4 +38,21 @@ public class Customer(Factory.ServiceType serviceType) : Domain.Models.Customer
 
         return _service.CreateInventory(inventory);
     }
+
+	public static Result<Customer?> TryGetCustomer(int customerId, Factory.ServiceType serviceType)
+	{
+		var result = Factory.GetDataService(serviceType).GetCustomer(customerId);
+
+		if (!result.Success || result.Value is null) return Result.FromError<Customer>(result.Error ?? ErrorType.Unknown, result.ErrorMessage, result.ErrorPropertyName);
+
+        return Result.FromSuccess(Convert(result.Value, serviceType))!;
+	}
+
+	private static Customer Convert(Domain.Models.Customer customer, Factory.ServiceType serviceType)
+	{
+		return new Customer(serviceType)
+		{
+			Id = customer.Id
+		};
+	}
 }

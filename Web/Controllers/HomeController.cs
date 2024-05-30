@@ -1,21 +1,30 @@
-using System.Diagnostics;
+using BLL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models;
 
 namespace Web.Controllers;
 
-public class HomeController(ILogger<HomeController> logger) : BaseController
+[Authorize]
+public class HomeController(ILogger<HomeController> logger) : BaseController(logger)
 {
-    public ILogger<HomeController> Logger { get; } = logger;
-
-    public ActionResult Index()
+    [HttpGet]
+    public ActionResult Index(int? inventory = null)
     {
-        return View();
+        var customer = Customer.TryGetCustomer(int.Parse(HttpContext.Session.GetString("CustomerId")!), Program.ServiceType).Value!;
+
+        ViewData["Inventory"] = inventory;
+
+        return View(new InventoriesViewModel(customer.GetInventories()));
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public ActionResult Error()
+    [HttpGet]
+    public ActionResult ChangeTheme(Theme.Value theme)
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        Theme.SetActive(theme, HttpContext);
+
+        if (string.IsNullOrWhiteSpace(Request.Headers.Referer)) return RedirectToAction("Index", "Home");
+
+        return Redirect(Request.Headers.Referer.ToString());
     }
 }

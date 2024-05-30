@@ -8,10 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DAL Account Sqlite\DAL Account Sqlite.csproj" />
     <ProjectReference Include="..\DAL EF Core\DAL EF Core.csproj" />
     <ProjectReference Include="..\DAL Sqlite\DAL Sqlite.csproj" />
     <ProjectReference Include="..\DAL Test\DAL Test.csproj" />
-    <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Interfaces\Interfaces.csproj" />
   </ItemGroup>
 

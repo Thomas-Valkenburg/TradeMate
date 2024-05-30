@@ -1,16 +1,17 @@
-﻿using Domain.Models;
+﻿using Domain;
+using Domain.Models;
 using Interfaces;
 
 namespace DAL_EF_Core.Services;
 
-public class EfCoreService : IDal
+public class EfCoreService : IDataAccessLayer
 {
     public Result CreateCustomer(Customer customer)
     {
         throw new NotImplementedException();
     }
 
-    public Customer? GetCustomer(int customerId)
+    public Result<Customer?> GetCustomer(int customerId)
     {
         throw new NotImplementedException();
     }
@@ -20,7 +21,7 @@ public class EfCoreService : IDal
         throw new NotImplementedException();
     }
 
-    public Result DeleteCustomer(int customerId)
+    public Result DeleteCustomer(Customer customer)
     {
         throw new NotImplementedException();
     }
@@ -30,7 +31,7 @@ public class EfCoreService : IDal
         throw new NotImplementedException();
     }
 
-    public Inventory? GetInventory(int inventoryId)
+    public Result<Inventory?> GetInventory(int inventoryId)
     {
         throw new NotImplementedException();
     }
@@ -45,7 +46,7 @@ public class EfCoreService : IDal
         throw new NotImplementedException();
     }
 
-    public Result DeleteInventory(int inventoryId)
+    public Result DeleteInventory(Inventory inventory)
     {
         throw new NotImplementedException();
     }
@@ -55,7 +56,7 @@ public class EfCoreService : IDal
         throw new NotImplementedException();
     }
 
-    public StockItem? GetStockItem(int stockItemId)
+    public Result<StockItem?> GetStockItem(int stockItemId)
     {
         throw new NotImplementedException();
     }
@@ -75,7 +76,7 @@ public class EfCoreService : IDal
         throw new NotImplementedException();
     }
 
-    public Result DeleteStockItem(int stockItemId)
+    public Result DeleteStockItem(StockItem stockItem)
     {
         throw new NotImplementedException();
     }
@@ -100,7 +101,7 @@ public class EfCoreService : IDal
         throw new NotImplementedException();
     }
 
-    public Result DeleteCategory(int categoryId)
+    public Result DeleteCategory(Category category)
     {
         throw new NotImplementedException();
     }

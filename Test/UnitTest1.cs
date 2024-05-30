@@ -1,6 +1,6 @@
 using BLL.Models;
 using DAL_Factory;
-using Interfaces;
+using Domain;
 
 namespace Test;
 
@@ -15,23 +15,35 @@ public class Tests
     {
         _validCustomer = new Customer(Factory.ServiceType.Test)
         {
-            Id = 1,
-            Name = "User 1",
-            Email = "user1@trademate.com"
+            Id = 1
         };
 
         _invalidCustomer = new Customer(Factory.ServiceType.Test)
         {
-            Id = 2,
-            Name = "User 2",
-            Email = "user2@trademate.com"
+            Id = 2
         };
 
-        _validCustomer.SaveCustomer();
-        _invalidCustomer.SaveCustomer();
+        _validCustomer.Save();
+        _invalidCustomer.Save();
     }
 
     #region Test cases
+
+    [Test]
+    public void Test05_GetCustomer()
+    {
+        var result = Customer.TryGetCustomer(1, Factory.ServiceType.Test);
+
+        Assert.That(result is { Success: true, Value: not null });
+    }
+
+    [Test]
+    public void Test06_GetCustomerFail()
+	{
+		var result = Customer.TryGetCustomer(0, Factory.ServiceType.Test);
+
+		Assert.That(result is { Success: false, Error: ErrorType.NotFound, Value: null });
+	}
 
     [Test]
     public void Test10_CreateInventory()
@@ -229,7 +241,7 @@ public class Tests
         {
             foreach (var value in Enum.GetValues(typeof(Factory.ServiceType)))
             {
-                Factory.GetService((Factory.ServiceType)value);
+                Factory.GetDataService((Factory.ServiceType)value);
             }
         });
     }
@@ -239,7 +251,7 @@ public class Tests
     {
         Assert.Throws<ArgumentOutOfRangeException>(() =>
         {
-            Factory.GetService((Factory.ServiceType)(-1));
+            Factory.GetDataService((Factory.ServiceType)(-1));
         });
     }
 

@@ -1,4 +1,5 @@
 ﻿using DAL_Factory;
+using Domain;
 using Interfaces;
 
 namespace BLL.Models;
@@ -7,15 +8,15 @@ public class Inventory : Domain.Models.Inventory
 {
     public Inventory(Factory.ServiceType serviceType)
     {
-        _service = Factory.GetService(serviceType);
+        _service = Factory.GetDataService(serviceType);
     }
 
-    internal Inventory(IDal service)
+    internal Inventory(IDataAccessLayer service)
     {
         _service = service;
     }
 
-    private readonly IDal _service;
+    private readonly IDataAccessLayer _service;
     
     public Result ChangeName(string name)
     {
@@ -33,7 +34,7 @@ public class Inventory : Domain.Models.Inventory
     {
         Customer.Inventories.Remove(this);
         
-        return _service.DeleteInventory(Id);
+        return _service.DeleteInventory(this);
     }
 
     public List<StockItem> GetStockItems()
@@ -42,7 +43,7 @@ public class Inventory : Domain.Models.Inventory
 
         _service.GetAllStockItems(Id).ForEach(stockItem =>
         {
-            list.Add(StockItem.ConvertToBll(stockItem, _service));
+            list.Add(StockItem.Convert(stockItem, _service));
         });
 
         return list;
@@ -68,6 +69,16 @@ public class Inventory : Domain.Models.Inventory
         return result;
     }
 
+    public static Result<Inventory?> TryGetInventory(int inventoryId, Factory.ServiceType serviceType)
+    {
+	    var service = Factory.GetDataService(serviceType);
+	    var result = service.GetInventory(inventoryId);
+
+	    if (!result.Success || result.Value is null) return Result.FromError<Inventory?>(result.Error ?? ErrorType.Unknown, result.ErrorMessage, result.ErrorPropertyName);
+
+	    return Result.FromSuccess(Convert(result.Value, service))!;
+    }
+
     internal Result CheckIfValid(string name) => CheckIfValid(name, Customer);
     
     internal static Result CheckIfValid(Inventory inventory) => CheckIfValid(inventory.Name, inventory.Customer);
@@ -83,7 +94,7 @@ public class Inventory : Domain.Models.Inventory
         return Result.FromSuccess();
     }
 
-    internal static Inventory ConvertToBll(Domain.Models.Inventory data, IDal service) => new(service)
+    internal static Inventory Convert(Domain.Models.Inventory data, IDataAccessLayer service) => new(service)
     {
         Id = data.Id,
         Name = data.Name,

@@ -1,18 +1,19 @@
 ﻿using DAL_Factory;
+using Domain;
 using Interfaces;
 
 namespace BLL.Models;
 
 public class StockItem : Domain.Models.StockItem
 {
-    private readonly IDal _service;
+    private readonly IDataAccessLayer _service;
     
     public StockItem(Factory.ServiceType serviceType)
     {
-        _service = Factory.GetService(serviceType);
+        _service = Factory.GetDataService(serviceType);
     }
 
-    public StockItem(IDal service)
+    public StockItem(IDataAccessLayer service)
     {
         _service = service;
     }
@@ -62,7 +63,17 @@ public class StockItem : Domain.Models.StockItem
     
     private Result Save() => _service.UpdateStockItem(this);
     
-    public Result Delete() => _service.DeleteStockItem(Id);
+    public Result Delete() => _service.DeleteStockItem(this);
+
+    public static Result<StockItem?> TryGetStockItem(int stockItemId, Factory.ServiceType serviceType)
+    {
+	    var service = Factory.GetDataService(serviceType);
+	    var result  = service.GetStockItem(stockItemId);
+
+	    if (!result.Success || result.Value is null) return Result.FromError<StockItem>(result.Error ?? ErrorType.Unknown, result.ErrorMessage, result.ErrorPropertyName);
+
+	    return Result.FromSuccess(Convert(result.Value, service))!;
+    }
 
     private Result CheckIfValid(string name) => CheckIfValid(name, Amount, Price);
     private Result CheckIfValid(int amount) => CheckIfValid(Name, amount, Price);
@@ -81,7 +92,7 @@ public class StockItem : Domain.Models.StockItem
         return Result.FromSuccess();
     }
 
-    internal static StockItem ConvertToBll(Domain.Models.StockItem stockItem, IDal service) => new(service)
+    internal static StockItem Convert(Domain.Models.StockItem stockItem, IDataAccessLayer service) => new(service)
     {
         Id = stockItem.Id,
         Name = stockItem.Name,

@@ -1,0 +1,109 @@
+﻿@using System.Globalization
+
+@model (string name, int id)
+
+@{
+	ViewData["Title"] = "Add new item";
+}
+
+<div class="justify-content-center">
+	@* ReSharper disable once UnknownCssClass *@
+	<form class="d-flex flex-column gap-2 needs-validation" asp-controller="Items" asp-action="Add" method="post" novalidate>
+		<div class="form-floating visually-hidden">
+			<input id="InventoryId" class="form-control" type="number" name="inventoryId" value="@Model.id" placeholder="" readonly />
+			<label for="InventoryId" class="form-label">Inventory Id</label>
+		</div>
+		<div class="form-floating">
+			<input id="InventoryName" class="form-control" type="text" value="@Model.name" placeholder="" readonly />
+			<label for="InventoryName" class="form-label">Inventory Name</label>
+		</div>
+		<div class="d-flex flex-row gap-3 align-items-center">
+			<div class="form-floating col-auto flex-grow-1">
+				<input id="Name" class="form-control" type="text" name="name" placeholder="" aria-describedby="NameHelp" min="3" max="90" required/>
+				<label for="Name" class="form-label">Name</label>
+				<div class="invalid-feedback">
+					Please fill in a valid name.
+				</div>
+			</div>
+			<div class="col-auto">
+				<span id="NameHelp" class="form-text">Test</span>
+			</div>
+		</div>
+		<div class="d-flex flex-row gap-3 align-items-center">
+			<div class="input-group">
+				<span id="BarcodeIcon" class="input-group-text justify-content-center">#</span>
+				<div class="form-floating col-auto flex-grow-1">
+					<input id="Barcode" class="form-control" type="text" name="barcode" placeholder="" aria-describedby="BarcodeIcon BarcodeHelp"/>
+					<label for="Barcode" class="form-label">Barcode</label>
+				</div>
+			</div>
+			<div>
+				<span id="BarcodeHelp" class="form-text">Optional</span>
+			</div>
+		</div>
+		<div class="d-flex flex-column flex-sm-row justify-content-between gap-2 gap-sm-3">
+			<div class="input-group flex-grow-1 w-auto">
+				<span id="PriceIcon" class="input-group-text justify-content-center">@RegionInfo.CurrentRegion.CurrencySymbol</span>
+				<div class="form-floating">
+					<input id="Price" class="form-control" type="number" name="price" placeholder="" step=".01" min="0" aria-describedby="PriceIcon" required/>
+					<label for="Price" class="form-label">Price</label>
+				</div>
+			</div>
+			<div class="input-group flex-grow-1 w-auto">
+				<span class="input-group-text justify-content-center">123</span>
+				<div class="form-floating">
+					<input id="Amount" class="form-control" type="number" name="amount" placeholder="" step="1" min="0" required/>
+					<label for="Amount" class="form-label">Amount</label>
+				</div>
+			</div>
+		</div>
+		<div class="d-flex flex-row justify-content-center gap-2 w-100 mt-3">
+			<input class="btn btn-outline-success col-3 col-md-2" type="submit" value="Create" />
+		</div>
+	</form>
+</div>
+
+@section Scripts
+{
+	<script type="text/javascript">
+	// Example starter JavaScript for disabling form submissions if there are invalid fields
+	(function() {
+		'use strict';
+
+		// Fetch all the forms we want to apply custom Bootstrap validation styles to
+		const forms = document.querySelectorAll('.needs-validation');
+
+		// Loop over them and prevent submission
+		Array.prototype.slice.call(forms)
+			.forEach(function(form) {
+				form.addEventListener('submit',
+					function(event) {
+						if (!form.checkValidity()) {
+							event.preventDefault();
+							event.stopPropagation();
+						}
+
+						form.classList.add('was-validated');
+					},
+					false);
+			});
+	})();
+
+	(function() {
+		const inputGroupSymbols = document.querySelectorAll(".input-group-text");
+
+		let maxWidth = 0;
+
+		inputGroupSymbols.forEach(function(item) {
+			console.log(`${item.scrollWidth}`);
+			if (item.scrollWidth > maxWidth) maxWidth = item.scrollWidth;
+		});
+
+		console.log(maxWidth);
+
+		inputGroupSymbols.forEach(item => {
+			item.style.width = `${maxWidth}px`;
+		});
+})();
+	</script>
+}

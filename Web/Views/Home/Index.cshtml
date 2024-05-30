@@ -1,8 +1,94 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using System.Globalization
+@model Web.Models.InventoriesViewModel;
+
+@{
+    ViewData["Title"] = "Home";
+    var inventory = Model.Inventories.Find(x => x.Id == ViewData["Inventory"] as int?);
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="d-flex flex-column flex-md-row">
+	<div class="d-flex flex-column justify-content-start gap-2 col-md-3 p-2 overflow-hidden">
+		<a class="btn btn-outline-success" asp-controller="Inventory" asp-action="Add">Create Inventory</a>
+		@if (Model.Inventories.Count < 1)
+		{
+			<div class="text-center">
+				No inventories found.
+			</div>
+		}
+		else
+		{
+			@foreach (var inv in Model.Inventories)
+			{
+				<form asp-area="" asp-controller="Home" asp-action="Index" method="get">
+					<input class="visually-hidden" type="number" name="inventory" value="@inv.Id"/>
+					<input class="btn btn-outline-primary border-2 text-start w-100 p-1 @(inv.Id == inventory?.Id ? "active" : "")" type="submit" value="@inv.Name"/>
+				</form>
+			}
+		}
+	</div>
+	<div class="vr d-none d-md-inline-block col-md-1"></div>
+	<hr class="d-md-none" />
+	<div class="d-flex flex-column flex-grow-1 gap-2 p-2">
+		@if (inventory is null)
+		{
+			<div class="d-none d-md-block text-center">
+				Select an inventory on the left.
+			</div>
+			<div class="d-md-none text-center">
+				Select an inventory at the top.
+			</div>
+		}
+		else if (inventory.StockItems.Count < 1)
+		{
+			<div class="d-flex justify-content-end w-100">
+				<form asp-controller="Items" asp-action="Add" method="get">
+					<input class="visually-hidden" type="number" name="inventoryId" value="@inventory.Id" required />
+					<input class="btn btn-outline-success" type="submit" value="Add new Item" />
+				</form>
+			</div>
+			<div class="text-center">
+				No items found.
+			</div>
+		}
+		else
+		{
+			<div class="d-flex justify-content-end w-100">
+				<form asp-controller="Items" asp-action="Add" method="get">
+					<input class="visually-hidden" type="number" name="inventoryId" value="@inventory.Id" required />
+					<input class="btn btn-outline-success" type="submit" value="Add new Item"/>
+				</form>
+			</div>
+			@foreach (var item in inventory.GetStockItems())
+			{
+				<div class="card p-2">
+					<div class="card-title d-flex flex-row justify-content-between gap-2">
+						<div class="d-flex flex-column">
+							<span>@item.Name</span>
+							@if (!string.IsNullOrWhiteSpace(item.Barcode))
+							{
+								<span>Barcode: @item.Barcode</span>
+							}
+						</div>
+						<div class="d-flex flex-column border-start border-1 ps-2 col-5 col-md-4 col-lg-3">
+							<span>Amount: x@(item.Amount)</span>
+							<span>Price: @(Convert.ToDouble(item.Price).ToString("C", new CultureInfo($"{CultureInfo.CurrentCulture.TwoLetterISOLanguageName}-{RegionInfo.CurrentRegion.TwoLetterISORegionName}")))</span>
+						</div>
+					</div>
+					<div class="card-footer d-flex justify-content-end w-100 px-2">
+						<div class="d-flex flex-row gap-2">
+							<form asp-area="" asp-controller="Items" asp-action="Index">
+								<input class="visually-hidden" type="number" name="itemId" value="@item.Id" />
+								<input class="btn btn-sm btn-outline-primary" type="submit" value="Edit" />
+							</form>
+							<form asp-area="" asp-controller="Items" asp-action="Delete">
+								<input type="number" class="visually-hidden" name="inventoryId" value="@inventory.Id" />
+								<input type="number" class="visually-hidden" name="itemId" value="@item.Id" />
+								<input type="submit" class="btn btn-sm btn-outline-danger" value="Delete" />
+							</form>
+						</div>
+					</div>
+				</div>
+			}
+		}
+	</div>
 </div>
