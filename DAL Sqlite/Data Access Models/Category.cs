@@ -13,7 +13,7 @@ internal class Category
 
     public required int InventoryId { get; init; }
 
-    internal Domain.Models.Category? ConvertToDomain()
+    internal Domain.Models.Category ConvertToDomain()
     {
         return new Domain.Models.Category
         {

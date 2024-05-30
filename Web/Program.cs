@@ -1,7 +1,6 @@
 using DAL_Factory;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Web;
 
@@ -28,9 +27,7 @@ public static class Program
 	        options.DefaultRequestCulture = new RequestCulture(defaultCulture);
         });
 
-        builder.Services.AddAuthentication(options =>
-        {
-        })
+        builder.Services.AddAuthentication()
         .AddCookie(options =>
         {
             options.LoginPath = "/Account/Login";

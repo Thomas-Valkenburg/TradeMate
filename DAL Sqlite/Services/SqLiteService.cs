@@ -101,7 +101,7 @@ public class SqLiteService : IDataAccessLayer
 
 	    var domainStockItemList = new List<Domain.Models.StockItem>();
 
-	    stockItems?.ForEach(stockItem => domainStockItemList.Add(stockItem.ConvertToDomain()!));
+	    stockItems?.ForEach(stockItem => domainStockItemList.Add(stockItem.ConvertToDomain()));
 
 	    return domainStockItemList;
 	}

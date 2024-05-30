@@ -70,8 +70,8 @@ public class AccountController(ILogger<AccountController> logger) : BaseControll
 	{
 		var claims = new List<Claim>
 		{
-			new Claim(ClaimsIdentity.DefaultNameClaimType, username),
-			new Claim(ClaimsIdentity.DefaultRoleClaimType, "user")
+			new(ClaimsIdentity.DefaultNameClaimType, username),
+			new(ClaimsIdentity.DefaultRoleClaimType, "user")
 		};
 
 		var identity = new ClaimsIdentity(claims, "ApplicationCookie");
