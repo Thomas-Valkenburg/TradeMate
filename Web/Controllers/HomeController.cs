@@ -19,10 +19,12 @@ public class HomeController(ILogger<HomeController> logger) : BaseController(log
     }
 
     [HttpGet]
-    public ActionResult ChangeTheme(string redirectPage, Theme.Value theme)
+    public ActionResult ChangeTheme(Theme.Value theme)
     {
         Theme.SetActive(theme, HttpContext);
 
-        return Redirect(redirectPage);
+        if (string.IsNullOrWhiteSpace(Request.Headers.Referer)) return RedirectToAction("Index", "Home");
+
+        return Redirect(Request.Headers.Referer.ToString());
     }
 }
