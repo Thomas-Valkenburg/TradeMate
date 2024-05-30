@@ -8,6 +8,12 @@ namespace Web.Controllers;
 public class InventoryController(ILogger<InventoryController> logger) : BaseController(logger)
 {
     [HttpGet]
+	public ActionResult Index(int inventoryId)
+	{
+		return View();
+	}
+
+	[HttpGet]
     public ActionResult Add()
     {
         return View();
