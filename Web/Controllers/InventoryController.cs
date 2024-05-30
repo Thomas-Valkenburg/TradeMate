@@ -1,8 +1,10 @@
 ﻿using BLL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers;
 
+[Authorize]
 public class InventoryController(ILogger<InventoryController> logger) : BaseController(logger)
 {
     [HttpGet]

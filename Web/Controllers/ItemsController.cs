@@ -1,9 +1,11 @@
 ﻿using BLL.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Globalization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers;
 
+[Authorize]
 public class ItemsController(ILogger<ItemsController> logger) : BaseController(logger)
 {
 	public ActionResult Index(int itemId)

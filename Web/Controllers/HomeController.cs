@@ -1,9 +1,11 @@
 using BLL.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models;
 
 namespace Web.Controllers;
 
+[Authorize]
 public class HomeController(ILogger<HomeController> logger) : BaseController(logger)
 {
     [HttpGet]

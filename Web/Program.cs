@@ -1,6 +1,7 @@
 using DAL_Factory;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Web;
 
@@ -27,6 +28,14 @@ public static class Program
 	        options.DefaultRequestCulture = new RequestCulture(defaultCulture);
         });
 
+        builder.Services.AddAuthentication(options =>
+        {
+        })
+        .AddCookie(options =>
+        {
+            options.LoginPath = "/Account/Login";
+        });
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -44,6 +53,7 @@ public static class Program
 
         app.UseRouting();
 
+        app.UseAuthentication();
         app.UseAuthorization();
         app.UseSession();
 

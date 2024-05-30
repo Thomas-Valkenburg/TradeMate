@@ -10,7 +10,7 @@
 			<p>@ViewData["LoginError"]</p>
 		</div>
 	}
-	<form action="@Url.Action("LoginPost")" class="d-flex flex-column gap-2" method="post">
+	<form action="@Url.Action("Login")" class="d-flex flex-column gap-2" method="post">
 		@Html.AntiForgeryToken()
 		<div class="form-floating">
 			<input id="username" type="text" class="form-control" name="username" placeholder="" required />

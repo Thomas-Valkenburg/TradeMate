@@ -1,4 +1,8 @@
-﻿using BLL.Models;
+﻿using System.Security.Claims;
+using BLL.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers;
@@ -19,7 +23,7 @@ public class AccountController(ILogger<AccountController> logger) : BaseControll
 	}
 
     [HttpPost]
-    public ActionResult LoginPost(string username, string password)
+    public async Task<ActionResult> Login(string username, string password)
     {
 	    var result = Account.TryLogin(username, password);
 
@@ -30,6 +34,8 @@ public class AccountController(ILogger<AccountController> logger) : BaseControll
                 errorMessage = result.ErrorMessage
 		    });
 	    }
+
+		await Authenticate(result.Value.Username);
 
 		HttpContext.Session.SetString("AccountId", result.Value.AccountId.ToString());
 		HttpContext.Session.SetString("AccountUsername", result.Value.Username);
@@ -45,17 +51,31 @@ public class AccountController(ILogger<AccountController> logger) : BaseControll
     }
 
     [HttpPost]
-    public ActionResult SignupPost(string username, string email, string password)
+    public ActionResult Signup(string username, string email, string password)
     {
 	    Account.CreateAccount(username, password, email);
 
 	    return RedirectToAction("Index");
     }
 
+	[Authorize]
     public ActionResult Logout()
     {
 	    HttpContext.Session.Clear();
 
 	    return RedirectToAction("Index", "Home");
     }
+
+	private async Task Authenticate(string username)
+	{
+		var claims = new List<Claim>
+		{
+			new Claim(ClaimsIdentity.DefaultNameClaimType, username),
+			new Claim(ClaimsIdentity.DefaultRoleClaimType, "user")
+		};
+
+		var identity = new ClaimsIdentity(claims, "ApplicationCookie");
+
+		await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+	}
 }
