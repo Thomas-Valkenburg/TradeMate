@@ -3,14 +3,14 @@
 	Layout = "_SimpleLayout";
 }
 
-﻿<div>
+﻿<div class="d-flex justify-content-center">
 	@if (ViewData["LoginError"] is not null)
 	{
 		<div>
 			<p>@ViewData["LoginError"]</p>
 		</div>
 	}
-	<form action="@Url.Action("Login")" class="d-flex flex-column gap-2" method="post">
+	<form action="@Url.Action("Login")" class="d-flex flex-column gap-2 col-12 col-lg-8" method="post">
 		@Html.AntiForgeryToken()
 		<div class="form-floating">
 			<input id="username" type="text" class="form-control" name="username" placeholder="" required />
