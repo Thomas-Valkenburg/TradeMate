@@ -11,13 +11,6 @@ public abstract class BaseController(ILogger<BaseController> logger) : Controlle
 
     public override void OnActionExecuting(ActionExecutingContext context)
     {
-        var customerId = HttpContext.Session.GetString("CustomerId");
-
-        if (string.IsNullOrWhiteSpace(customerId) && context.Controller.GetType() != typeof(AccountController))
-        {
-            context.Result = RedirectToAction("Index", "Account");
-        }
-
         if (Theme.GetActiveTheme(HttpContext) is null)
             HttpContext.Session.SetString("data-bs-theme", nameof(Theme.Value.Auto));
 
