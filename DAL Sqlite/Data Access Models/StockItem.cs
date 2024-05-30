@@ -21,14 +21,9 @@ internal class StockItem
 
     internal Domain.Models.StockItem ConvertToDomain()
     {
-        return new Domain.Models.StockItem
+        return new Domain.Models.StockItem(Barcode, Name, Amount, (decimal) Price / 100, new SqLiteService().GetInventory(InventoryId).Value)
         {
-            Id = Id,
-            Name = Name,
-            Barcode = Barcode,
-            Amount = Amount,
-            Price = Price / 100m,
-            Inventory = new SqLiteService().GetInventory(InventoryId).Value
+            Id = Id
         };
     }
 

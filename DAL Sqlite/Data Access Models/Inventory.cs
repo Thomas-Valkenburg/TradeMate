@@ -19,12 +19,10 @@ public class Inventory
 
         if (customer.Value == null) return null;
 
-        return new Domain.Models.Inventory
-        {
-            Id = Id,
-            Name = Name,
-            Customer = customer.Value
-        };
+        return new Domain.Models.Inventory(Name , customer.Value)
+		{
+			Id = Id
+		};
     }
 
     internal static List<Domain.Models.Inventory>? ConvertToDomainClass(List<Inventory> inventories)
@@ -39,11 +37,9 @@ public class Inventory
 
         inventories.ForEach(inventory =>
         {
-            inventoryList.Add(new Domain.Models.Inventory
+            inventoryList.Add(new Domain.Models.Inventory(inventory.Name, customer.Value)
             {
-                Id = inventory.Id,
-                Name = inventory.Name,
-                Customer = customer.Value
+                Id = inventory.Id
             });
         });
 

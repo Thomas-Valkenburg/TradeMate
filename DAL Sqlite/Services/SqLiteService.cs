@@ -142,12 +142,10 @@ public class SqLiteService : IDataAccessLayer
 
         if (categoryList is null) return [];
 
-        return categoryList.ConvertAll(input => new Domain.Models.Category
-        {
-            Id = input.Id,
-            Name = input.Name,
-            Inventory = GetInventory(input.InventoryId).Value
-        });
+        return categoryList.ConvertAll(input => new Domain.Models.Category(input.Name, GetInventory(input.InventoryId).Value)
+		{
+			Id = input.Id
+		});
     }
 
     public Result UpdateCategory(Domain.Models.Category category)

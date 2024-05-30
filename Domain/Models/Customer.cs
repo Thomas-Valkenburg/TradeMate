@@ -2,7 +2,11 @@
 
 public class Customer
 {
-    public int Id { get; init; }
+	public Customer()
+	{
+	}
 
-    public List<Inventory> Inventories { get; init; } = [];
+	public int Id { get; init; }
+
+	public List<Inventory> Inventories { get; init; } = [];
 }

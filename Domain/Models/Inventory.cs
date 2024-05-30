@@ -2,11 +2,21 @@
 
 public class Inventory
 {
+    public Inventory()
+	{
+	}
+
+    public Inventory(string name, Customer customer)
+	{
+		Name = name;
+		Customer = customer;
+	}
+
     public int Id { get; init; }
 
-    public required string Name { get; set; }
+    public string Name { get; protected set; }
 
-    public required Customer Customer { get; init; }
+    public Customer Customer { get; init; }
 
     public List<StockItem> StockItems { get; init; } = [];
 

@@ -27,11 +27,7 @@ public class Customer(Factory.ServiceType serviceType) : Domain.Models.Customer
 
     public Result AddInventory(string name)
     {
-        var inventory = new Inventory(_service)
-        {
-            Name = name,
-            Customer = this
-        };
+	    var inventory = new Inventory(name, this, _service);
 
         var result = Inventory.CheckIfValid(inventory);
         if (!result.Success) return result;

@@ -2,11 +2,21 @@
 
 public class Category
 {
+    public Category()
+    {
+    }
+
+    public Category(string name, Inventory inventory)
+    {
+	    Name = name;
+	    Inventory = inventory;
+    }
+
     public int Id { get; init; }
 
-    public required string Name { get; set; }
+    public string Name { get; protected set; }
 
-    public required Inventory? Inventory { get; init; }
+    public Inventory Inventory { get; init; }
 
     public List<StockItem> StockItems { get; init; } = [];
 }

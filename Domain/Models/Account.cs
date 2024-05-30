@@ -4,17 +4,30 @@ namespace Domain.Models;
 
 public class Account
 {
+	public Account()
+	{
+	}
+
+	public Account(string username, string password, string email, int customerId)
+	{
+		Username = username;
+		Password = password;
+		Email = email;
+		CreationDate = DateTime.UtcNow;
+		CustomerId = customerId;
+	}
+
 	[Computed]
 	public int AccountId { get; init; }
 
 	[ExplicitKey]
-	public required string Username { get; set; }
+	public string Username { get; init; }
 
-	public required string Password { get; set; }
+	public string Password { get; protected set; }
 	
-	public required string Email { get; set; }
+	public string Email { get; protected set; }
 	
-	public required DateTime CreationDate { get; init; }
+	public DateTime CreationDate { get; init; }
 	
-	public required int CustomerId { get; init; }
+	public int CustomerId { get; init; }
 }

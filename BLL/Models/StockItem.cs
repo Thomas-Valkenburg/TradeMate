@@ -8,17 +8,47 @@ public class StockItem : Domain.Models.StockItem
 {
     private readonly IDataAccessLayer _service;
     
-    public StockItem(Factory.ServiceType serviceType)
+    public StockItem(string barcode, string name, int amount, decimal price, Inventory inventory, Factory.ServiceType serviceType)
     {
+        Barcode = barcode;
+        Name = name;
+        Amount = amount;
+        Price = price;
+        Inventory = inventory;
         _service = Factory.GetDataService(serviceType);
     }
 
-    public StockItem(IDataAccessLayer service)
+    public StockItem(string barcode, string name, int amount, decimal price, Inventory inventory, IDataAccessLayer service)
     {
-        _service = service;
+	    Barcode = barcode;
+	    Name = name;
+	    Amount = amount;
+	    Price = price;
+	    Inventory = inventory;
+		_service = service;
     }
 
-    public Result ChangeName(string newName)
+    public StockItem(string barcode, string name, int amount, decimal price, Domain.Models.Inventory inventory, Factory.ServiceType serviceType)
+    {
+	    Barcode = barcode;
+	    Name = name;
+	    Amount = amount;
+	    Price = price;
+	    Inventory = inventory;
+	    _service = Factory.GetDataService(serviceType);
+    }
+
+    public StockItem(string barcode, string name, int amount, decimal price, Domain.Models.Inventory inventory, IDataAccessLayer service)
+    {
+	    Barcode = barcode;
+	    Name = name;
+	    Amount = amount;
+	    Price = price;
+	    Inventory = inventory;
+	    _service = service;
+    }
+
+	public Result ChangeName(string newName)
     {
         var result = CheckIfValid(newName);
 
@@ -92,13 +122,8 @@ public class StockItem : Domain.Models.StockItem
         return Result.FromSuccess();
     }
 
-    internal static StockItem Convert(Domain.Models.StockItem stockItem, IDataAccessLayer service) => new(service)
+    internal static StockItem Convert(Domain.Models.StockItem stockItem, IDataAccessLayer service) => new(stockItem.Name, stockItem.Barcode, stockItem.Amount, stockItem.Price, stockItem.Inventory, service)
     {
-        Id = stockItem.Id,
-        Name = stockItem.Name,
-        Barcode = stockItem.Barcode,
-        Amount = stockItem.Amount,
-        Price = stockItem.Price,
-        Inventory = stockItem.Inventory
+        Id = stockItem.Id
     };
 }

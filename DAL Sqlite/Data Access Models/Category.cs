@@ -15,11 +15,9 @@ internal class Category
 
     internal Domain.Models.Category ConvertToDomain()
     {
-        return new Domain.Models.Category
+        return new Domain.Models.Category(Name, new SqLiteService().GetInventory(InventoryId).Value)
         {
-            Id = Id,
-            Name = Name,
-            Inventory = new SqLiteService().GetInventory(InventoryId).Value
+            Id = Id
         };
     }
 }

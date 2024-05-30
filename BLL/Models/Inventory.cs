@@ -6,17 +6,35 @@ namespace BLL.Models;
 
 public class Inventory : Domain.Models.Inventory
 {
-    public Inventory(Factory.ServiceType serviceType)
+    public Inventory(string name, Customer customer, Factory.ServiceType serviceType)
     {
+        Name = name;
+        Customer = customer;
         _service = Factory.GetDataService(serviceType);
     }
 
-    internal Inventory(IDataAccessLayer service)
+    internal Inventory(string name, Customer customer, IDataAccessLayer service)
     {
+        Name = name;
+        Customer = customer;
         _service = service;
     }
 
-    private readonly IDataAccessLayer _service;
+    public Inventory(string name, Domain.Models.Customer customer, Factory.ServiceType serviceType)
+    {
+	    Name = name;
+	    Customer = customer;
+	    _service = Factory.GetDataService(serviceType);
+    }
+
+    internal Inventory(string name, Domain.Models.Customer customer, IDataAccessLayer service)
+    {
+	    Name = name;
+	    Customer = customer;
+	    _service = service;
+    }
+
+	private readonly IDataAccessLayer _service;
     
     public Result ChangeName(string name)
     {
@@ -51,14 +69,7 @@ public class Inventory : Domain.Models.Inventory
 
     public Result AddStockItem(string name, string barcode, int amount, decimal price)
     {
-        var stockItem = new StockItem(_service)
-        {
-            Name = name,
-            Barcode = barcode,
-            Amount = amount,
-            Price = price,
-            Inventory = this
-        };
+	    var stockItem = new StockItem(name, barcode, amount, price, this, _service);
 
         var valid = StockItem.CheckIfValid(stockItem);
         
@@ -94,11 +105,9 @@ public class Inventory : Domain.Models.Inventory
         return Result.FromSuccess();
     }
 
-    internal static Inventory Convert(Domain.Models.Inventory data, IDataAccessLayer service) => new(service)
+    internal static Inventory Convert(Domain.Models.Inventory data, IDataAccessLayer service) => new(data.Name, data.Customer, service)
     {
         Id = data.Id,
-        Name = data.Name,
-        Customer = data.Customer,
         Categories = data.Categories,
         StockItems = data.StockItems
     };
