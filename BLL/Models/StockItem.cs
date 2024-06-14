@@ -8,7 +8,7 @@ public class StockItem : Domain.Models.StockItem
 {
     private readonly IDataAccessLayer _service;
     
-    public StockItem(string barcode, string name, int amount, decimal price, Inventory inventory, Factory.ServiceType serviceType)
+    public StockItem(string name, string barcode, int amount, decimal price, Inventory inventory, Factory.ServiceType serviceType)
     {
         Barcode = barcode;
         Name = name;
@@ -18,7 +18,7 @@ public class StockItem : Domain.Models.StockItem
         _service = Factory.GetDataService(serviceType);
     }
 
-    public StockItem(string barcode, string name, int amount, decimal price, Inventory inventory, IDataAccessLayer service)
+    public StockItem(string name, string barcode, int amount, decimal price, Inventory inventory, IDataAccessLayer service)
     {
 	    Barcode = barcode;
 	    Name = name;
@@ -28,7 +28,7 @@ public class StockItem : Domain.Models.StockItem
 		_service = service;
     }
 
-    public StockItem(string barcode, string name, int amount, decimal price, Domain.Models.Inventory inventory, Factory.ServiceType serviceType)
+    public StockItem(string name, string barcode, int amount, decimal price, Domain.Models.Inventory inventory, Factory.ServiceType serviceType)
     {
 	    Barcode = barcode;
 	    Name = name;
@@ -38,7 +38,7 @@ public class StockItem : Domain.Models.StockItem
 	    _service = Factory.GetDataService(serviceType);
     }
 
-    public StockItem(string barcode, string name, int amount, decimal price, Domain.Models.Inventory inventory, IDataAccessLayer service)
+    public StockItem(string name, string barcode, int amount, decimal price, Domain.Models.Inventory inventory, IDataAccessLayer service)
     {
 	    Barcode = barcode;
 	    Name = name;
