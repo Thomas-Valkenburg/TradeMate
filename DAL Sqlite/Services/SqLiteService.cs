@@ -64,12 +64,12 @@ public class SqLiteService : IDataAccessLayer
 
     public Result UpdateInventory(Domain.Models.Inventory inventory)
     {
-        throw new NotImplementedException();
+	    return Query.Update(Inventory.ConvertToDataAccess(inventory));
     }
 
-    public Result DeleteInventory(Domain.Models.Inventory inventoryId)
+    public Result DeleteInventory(Domain.Models.Inventory inventory)
     {
-        throw new NotImplementedException();
+        return Query.Delete(Inventory.ConvertToDataAccess(inventory));
     }
 
     #endregion
