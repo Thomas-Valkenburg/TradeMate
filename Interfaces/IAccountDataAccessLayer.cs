@@ -7,7 +7,7 @@ public interface IAccountDataAccessLayer
 {
 	public Result CreateAccount(Account account);
 	
-	public Result<Account?> ReadAccount(string username, string password);
+	public Result<Account?> ReadAccount(string username);
 
 	public Result UpdateAccount(Account account);
 	

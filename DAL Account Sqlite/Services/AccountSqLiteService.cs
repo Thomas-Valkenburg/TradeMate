@@ -7,7 +7,7 @@ public class AccountSqLiteService : IAccountDataAccessLayer
 {
 	public Result CreateAccount(Domain.Models.Account account) => Query.Insert(account);
 
-	public Result<Domain.Models.Account?> ReadAccount(string username, string password)
+	public Result<Domain.Models.Account?> ReadAccount(string username)
 	{
 		var account = Query.ReadFirst<Domain.Models.Account>(username);
 
