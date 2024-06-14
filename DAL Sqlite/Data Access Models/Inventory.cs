@@ -45,4 +45,14 @@ public class Inventory
 
         return inventoryList;
     }
+
+    internal static Inventory ConvertToDataAccess(Domain.Models.Inventory inventory)
+    {
+	    return new Inventory
+	    {
+		    Id = inventory.Id,
+            Name = inventory.Name,
+            CustomerId = inventory.Customer.Id
+	    };
+    }
 }
