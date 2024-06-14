@@ -18,7 +18,7 @@ public class AccountController(ILogger<AccountController> logger) : BaseControll
 
 	[AllowAnonymous]
 	[HttpGet]
-    public ActionResult Login(string? errorMessage = null)
+    public ActionResult Login(string errorMessage)
     {
 	    ViewData["LoginError"] = errorMessage;
 
@@ -32,19 +32,14 @@ public class AccountController(ILogger<AccountController> logger) : BaseControll
 	    var result = Account.TryLogin(username, password);
 
 		if (!result.Success || result.Value is null)
-	    {
-		    return RedirectToAction("Login", routeValues: new
-		    {
-                errorMessage = result.ErrorMessage
-		    });
-	    }
+		{
+			return RedirectToAction("Login", "Account", new RouteValueDictionary
+			{
+				{ "errorMessage", string.IsNullOrWhiteSpace(result.ErrorMessage) ? "Username or password incorrect" : result.ErrorMessage }
+			});
+		}
 
 		await Authenticate(result.Value.Username);
-
-		HttpContext.Session.SetString("AccountId", result.Value.AccountId.ToString());
-		HttpContext.Session.SetString("AccountUsername", result.Value.Username);
-	    HttpContext.Session.SetString("AccountEmail", result.Value.Email);
-		HttpContext.Session.SetString("CustomerId", result.Value.CustomerId.ToString());
 
 		return RedirectToAction("Index", "Home");
     }
@@ -66,13 +61,12 @@ public class AccountController(ILogger<AccountController> logger) : BaseControll
     }
 
 	[Authorize]
-	[HttpPost]
     public ActionResult Logout()
     {
 	    HttpContext.Session.Clear();
 		HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-	    return RedirectToAction("Index", "Home");
+	    return RedirectToAction("Login", "Account");
     }
 
 	private async Task Authenticate(string username)

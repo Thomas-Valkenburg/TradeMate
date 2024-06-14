@@ -24,7 +24,7 @@
 					<a asp-area="" asp-controller="Home" asp-action="Index" asp-route-inventory="@inv.Id" class="flex-grow-1 btn text-start p-2 m-0">@inv.Name</a>
 					@if (inv.Id == inventory?.Id)
 					{
-						<a asp-area="" asp-controller="Inventory" asp-action="Edit" asp-route-inventoryId="@inv.Id" class="flex-grow-0 p-2 m-0">Edit</a>
+						<a asp-area="" asp-controller="Inventory" asp-action="Index" asp-route-inventoryId="@inv.Id" class="flex-grow-0 p-2 m-0">Edit</a>
 					}
 				</div>
 			}
