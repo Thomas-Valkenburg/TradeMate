@@ -1,2 +1,19 @@
-﻿@{
+﻿@model Domain.Models.Inventory
+
+@{
 }
+
+<div class="d-flex flex-column gap-4">
+	<form asp-area="" asp-controller="Inventory" asp-action="Delete" asp-route-inventoryId="@Model.Id">
+		<input class="btn btn-outline-danger col-4 col-md-3 float-end" type="submit" value="Delete" />
+	</form>
+	<form class="d-flex flex-column gap-2" asp-area="" asp-controller="Inventory" asp-action="Update" asp-route-inventoryId="@Model.Id" method="post">
+		<div class="form-floating">
+			<input id="inputName" class="form-control" type="text" name="Name" value="@Model.Name" required/>
+			<label for="inputName">Name</label>
+		</div>
+		<div class="d-flex justify-content-center">
+			<input class="btn btn-outline-warning col-4 col-md-3" type="submit" value="Rename"/>
+		</div>
+	</form>
+</div>

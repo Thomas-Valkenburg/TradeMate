@@ -10,7 +10,7 @@ public class InventoryController(ILogger<InventoryController> logger) : BaseCont
 	[HttpGet]
 	public ActionResult Index(int inventoryId)
 	{
-		return View();
+		return View(Inventory.TryGetInventory(inventoryId, Program.ServiceType).Value);
 	}
 
 	[HttpGet]
@@ -46,7 +46,7 @@ public class InventoryController(ILogger<InventoryController> logger) : BaseCont
 	}
 
     [HttpPost]
-    public ActionResult Remove(int inventoryId)
+    public ActionResult Delete(int inventoryId)
 	{
 		var inventory = Inventory.TryGetInventory(inventoryId, Program.ServiceType).Value;
 
