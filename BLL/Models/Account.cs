@@ -42,9 +42,20 @@ public class Account : Domain.Models.Account
 
 	public static Result<Account?> TryLogin(string username, string password)
 	{
-		var result = Factory.GetAccountService().ReadAccount(username, password);
+		var result = Factory.GetAccountService().ReadAccount(username);
 
-		if (!result.Success || result.Value is null) return Result.FromError<Account>((ErrorType)result.Error!, result.ErrorMessage, result.ErrorPropertyName);
+		if (!result.Success || result.Value is null || result.Value.Password != password) 
+			return Result.FromError<Account>(result.Error ?? ErrorType.Unknown, result.ErrorMessage, result.ErrorPropertyName);
+
+		return Result.FromSuccess(Convert(result.Value, Factory.ServiceType.Sqlite))!;
+	}
+
+	public static Result<Account?> TryGetAccount(string username)
+	{
+		var result = Factory.GetAccountService().ReadAccount(username);
+
+		if (!result.Success || result.Value is null) 
+			return Result.FromError<Account>((ErrorType)result.Error!, result.ErrorMessage, result.ErrorPropertyName);
 
 		return Result.FromSuccess(Convert(result.Value, Factory.ServiceType.Sqlite))!;
 	}
